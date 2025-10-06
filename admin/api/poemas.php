@@ -20,13 +20,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     $db = getDatabase()->getConnection();
     $method = $_SERVER['REQUEST_METHOD'];
+    
+    // Obtener ID de la URL - múltiples métodos
+    $id = null;
+    
+    // Método 1: Desde pathParts (para URLs como /admin/api/poemas.php/1)
     $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $pathParts = explode('/', trim($path, '/'));
-    
-    // Obtener ID si está presente en la URL
-    $id = null;
     if (count($pathParts) >= 3 && is_numeric($pathParts[2])) {
         $id = intval($pathParts[2]);
+    }
+    
+    // Método 2: Desde parámetro GET (para URLs como /admin/api/poemas.php?id=1)
+    if (!$id && isset($_GET['id']) && is_numeric($_GET['id'])) {
+        $id = intval($_GET['id']);
+    }
+    
+    // Método 3: Desde el final de la URL (para URLs como /poemas.php/1)
+    if (!$id) {
+        $scriptName = basename($_SERVER['SCRIPT_NAME']);
+        $pathAfterScript = str_replace('/' . $scriptName, '', $path);
+        $pathAfterScript = trim($pathAfterScript, '/');
+        if (is_numeric($pathAfterScript)) {
+            $id = intval($pathAfterScript);
+        }
     }
 
     switch ($method) {

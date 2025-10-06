@@ -529,26 +529,50 @@ if (!in_array($section, $validSections)) {
         }
 
         // Editar elemento
-        function editItem(id) {
+        async function editItem(id) {
             currentEditingId = id;
             document.getElementById('modal-title').textContent = `Editar ${currentSection.charAt(0).toUpperCase() + currentSection.slice(1)}`;
-            loadModalForm(id);
+            
+            // Para poemas, obtener datos completos desde la API
+            if (currentSection === 'poemas') {
+                try {
+                    const response = await fetch(`api/${currentSection}.php?id=${id}`);
+                    const result = await response.json();
+                    if (result.success) {
+                        loadModalForm(id, result.data);
+                    } else {
+                        showError('Error al cargar datos del poema: ' + result.message);
+                        return;
+                    }
+                } catch (error) {
+                    showError('Error de conexión al cargar datos: ' + error.message);
+                    return;
+                }
+            } else {
+                loadModalForm(id);
+            }
+            
             document.getElementById('modal').classList.remove('hidden');
         }
 
         // Cargar formulario del modal
-        async function loadModalForm(id = null) {
+        async function loadModalForm(id = null, itemData = null) {
             const modalContent = document.getElementById('modal-content');
             
             if (id) {
-                // Cargar datos del elemento a editar
-                const item = currentData.find(item => item.id === id);
+                // Usar datos proporcionados o buscar en currentData
+                const item = itemData || currentData.find(item => item.id === id);
                 if (item) {
                     modalContent.innerHTML = generateFormHTML(item);
+                    // Cargar opciones y luego seleccionar valores actuales
+                    await loadSelectOptions();
+                    setTimeout(() => selectCurrentValues(item), 200);
                 }
             } else {
                 // Formulario vacío para crear
                 modalContent.innerHTML = generateFormHTML();
+                // Cargar opciones para el formulario nuevo
+                await loadSelectOptions();
             }
         }
 
@@ -683,7 +707,7 @@ if (!in_array($section, $validSections)) {
                 }
 
                 const url = currentEditingId ? 
-                    `api/${currentSection}.php/${currentEditingId}` : 
+                    `api/${currentSection}.php?id=${currentEditingId}` : 
                     `api/${currentSection}.php`;
                 
                 const method = currentEditingId ? 'PUT' : 'POST';
@@ -721,7 +745,7 @@ if (!in_array($section, $validSections)) {
         // Confirmar eliminación
         async function confirmDelete() {
             try {
-                const response = await fetch(`api/${currentSection}.php/${deleteId}`, {
+                const response = await fetch(`api/${currentSection}.php?id=${deleteId}`, {
                     method: 'DELETE'
                 });
 
@@ -782,29 +806,78 @@ if (!in_array($section, $validSections)) {
                 // Cargar autores
                 const autoresResponse = await fetch('api/autores.php');
                 const autoresData = await autoresResponse.json();
+                
                 if (autoresData.success) {
                     const autorSelect = document.getElementById('autor-select');
-                    autorSelect.innerHTML = '<option value="">Seleccionar autor...</option>' +
-                        autoresData.data.map(autor => `<option value="${autor.id}">${autor.nombre}</option>`).join('');
+                    if (autorSelect) {
+                        autorSelect.innerHTML = '<option value="">Seleccionar autor...</option>' +
+                            autoresData.data.map(autor => `<option value="${autor.id}">${autor.nombre}</option>`).join('');
+                    }
                 }
 
                 // Cargar categorías
                 const categoriasResponse = await fetch('api/categorias.php');
                 const categoriasData = await categoriasResponse.json();
+                
                 if (categoriasData.success) {
                     const categoriaSelect = document.getElementById('categoria-select');
-                    categoriaSelect.innerHTML = '<option value="">Seleccionar categoría...</option>' +
-                        categoriasData.data.map(cat => `<option value="${cat.id}">${cat.icono} ${cat.nombre}</option>`).join('');
+                    if (categoriaSelect) {
+                        categoriaSelect.innerHTML = '<option value="">Seleccionar categoría...</option>' +
+                            categoriasData.data.map(cat => `<option value="${cat.id}">${cat.icono} ${cat.nombre}</option>`).join('');
+                    }
                 }
 
                 // Cargar etiquetas
                 const etiquetasResponse = await fetch('api/etiquetas.php');
                 const etiquetasData = await etiquetasResponse.json();
+                
                 if (etiquetasData.success) {
                     const etiquetasSelect = document.getElementById('etiquetas-select');
-                    etiquetasSelect.innerHTML = etiquetasData.data.map(etiqueta => 
-                        `<option value="${etiqueta.id}">${etiqueta.nombre}</option>`
-                    ).join('');
+                    if (etiquetasSelect) {
+                        etiquetasSelect.innerHTML = etiquetasData.data.map(etiqueta => 
+                            `<option value="${etiqueta.id}">${etiqueta.nombre}</option>`
+                        ).join('');
+                    }
+                }
+            }
+        }
+
+        // Seleccionar valores actuales en los selects
+        function selectCurrentValues(item) {
+            if (currentSection === 'poemas') {
+                // Seleccionar autor
+                const autorSelect = document.getElementById('autor-select');
+                if (autorSelect && item.autor_id) {
+                    autorSelect.value = item.autor_id;
+                }
+
+                // Seleccionar categoría
+                const categoriaSelect = document.getElementById('categoria-select');
+                if (categoriaSelect && item.categoria_id) {
+                    categoriaSelect.value = item.categoria_id;
+                }
+
+                // Seleccionar etiquetas
+                const etiquetasSelect = document.getElementById('etiquetas-select');
+                if (etiquetasSelect && item.etiquetas) {
+                    // Limpiar selecciones previas
+                    Array.from(etiquetasSelect.options).forEach(option => {
+                        option.selected = false;
+                    });
+                    
+                    // Seleccionar etiquetas actuales
+                    if (Array.isArray(item.etiquetas)) {
+                        item.etiquetas.forEach(etiqueta => {
+                            // Manejar tanto objetos {id, nombre} como strings
+                            const etiquetaId = typeof etiqueta === 'object' ? etiqueta.id : etiqueta;
+                            const option = Array.from(etiquetasSelect.options).find(opt => 
+                                opt.value == etiquetaId
+                            );
+                            if (option) {
+                                option.selected = true;
+                            }
+                        });
+                    }
                 }
             }
         }
