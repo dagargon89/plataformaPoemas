@@ -612,7 +612,7 @@
                 const routes = {
                     'tarjetas': 'tarjetas-poemas.html',
                     'lista': 'lista-scroll.html',
-                    'libro': 'libro-tradicional.html'
+                    'libro': window.innerWidth <= 768 ? 'libro-movil.html' : 'libro-tradicional.html'
                 };
                 
                 if (routes[view]) {

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vista Libro Móvil - Sistema de Poemas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde': {
+                            'oliva': '#636B2F',
+                            'salvia': '#8FBC8F',
+                            'bosque': '#556B2F',
+                            'muy-claro': '#F0F4E8',
+                        },
+                        'tierra': {
+                            'siena': '#A0522D',
+                            'claro': '#D2B48C',
+                            'oscuro': '#8B4513',
+                            'muy-claro': '#F5F5DC',
+                        },
+                        'dorado': {
+                            'antiguo': '#B8860B',
+                            'claro': '#DAA520',
+                            'oscuro': '#8B6914',
+                            'suave': '#F0E68C',
+                        },
+                        'gris': {
+                            'pizarra': '#708090',
+                            'claro': '#A9A9A9',
+                            'oscuro': '#2F4F4F',
+                        },
+                        'crema': {
+                            'natural': '#F5F5DC',
+                            'blanco': '#F8F8FF',
+                            'roto': '#F5F5F0',
+                        }
+                    },
+                    fontFamily: {
+                        'dosis': ['Dosis', 'sans-serif'],
+                        'crimson': ['Crimson Text', 'serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                        'libre': ['Libre Baskerville', 'serif'],
+                    },
+                    animation: {
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos específicos para móviles */
+        .mobile-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            padding: 0.5rem;
+        }
+        
+        .mobile-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .mobile-nav-btn {
+            flex: 1;
+            margin: 0 0.25rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .mobile-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .mobile-nav-btn:not(:disabled):active {
+            transform: scale(0.95);
+        }
+        
+        .mobile-poem-card {
+            background: linear-gradient(135deg, #FEFCF7 0%, #F5F1E8 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .mobile-poem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #636B2F, #B8860B);
+            border-radius: 16px 16px 0 0;
+        }
+        
+        .mobile-poem-content {
+            line-height: 1.8;
+            font-size: 1rem;
+            color: #2d3748;
+        }
+        
+        .mobile-poem-content div {
+            margin-bottom: 0.75rem;
+        }
+        
+        .mobile-poem-content div:last-child {
+            margin-bottom: 0;
+        }
+        
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 40;
+            padding: 1rem;
+        }
+        
+        .mobile-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .mobile-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #636B2F, #B8860B);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .mobile-search {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 60;
+            padding: 1rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-search.active {
+            transform: translateY(0);
+        }
+        
+        .mobile-search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .mobile-search-input:focus {
+            border-color: #636B2F;
+        }
+        
+        .mobile-fab {
+            position: fixed;
+            bottom: 80px;
+            right: 1rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #636B2F, #B8860B);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 45;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-fab:active {
+            transform: scale(0.9);
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            bottom: 80px;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 44;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .mobile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .mobile-menu-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .mobile-menu-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Partículas decorativas más sutiles para móviles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #FFB6C1, #FFC0CB, #FFE4E1);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 12s infinite linear;
+        }
+        
+        .particle:nth-child(1) { width: 3px; height: 3px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 4px; height: 4px; left: 30%; animation-delay: 3s; }
+        .particle:nth-child(3) { width: 2px; height: 2px; left: 50%; animation-delay: 6s; }
+        .particle:nth-child(4) { width: 3px; height: 3px; left: 70%; animation-delay: 9s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 90%; animation-delay: 12s; }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Corazones flotantes más sutiles */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #FFB6C1;
+            font-size: 16px;
+            animation: floatHeart 8s infinite linear;
+            opacity: 0.4;
+        }
+        
+        .heart:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 50%; animation-delay: 3s; }
+        .heart:nth-child(3) { left: 80%; animation-delay: 6s; }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* Efectos de luz más sutiles */
+        .romantic-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: romanticPulse 6s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        @keyframes romanticPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.4;
+            }
+        }
+        
+        /* Mejoras para dispositivos muy pequeños */
+        @media (max-width: 480px) {
+            .mobile-poem-card {
+                padding: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .mobile-nav-btn {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .mobile-content {
+                padding: 0.75rem;
+            }
+        }
+        
+        /* Optimización para pantallas altas */
+        @media (min-height: 800px) {
+            .mobile-poem-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-crema-blanco via-crema-natural to-verde-muy-claro font-libre">
+    <!-- Elementos decorativos de fondo -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="floating-hearts">
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">💗</div>
+    </div>
+    
+    <div class="romantic-glow"></div>
+
+    <!-- Header móvil -->
+    <div class="mobile-header">
+        <div class="flex items-center justify-between">
+            <button onclick="window.location.href='index.html'" 
+                    class="flex items-center space-x-2 text-verde-oliva hover:text-verde-bosque transition-colors">
+                <span class="text-xl">←</span>
+                <span class="font-playfair font-medium">Volver</span>
+            </button>
+            
+            <div class="text-center flex-1">
+                <h1 class="text-lg font-dosis font-bold text-verde-bosque">
+                    Vista Libro
+                </h1>
+                <div class="text-xs text-gray-600">
+                    <span id="current-poem-index">1</span> de <span id="total-poems">0</span>
+                </div>
+            </div>
+            
+            <button id="search-toggle" class="text-verde-oliva hover:text-verde-bosque transition-colors">
+                <span class="text-xl">🔍</span>
+            </button>
+        </div>
+        
+        <!-- Barra de progreso -->
+        <div class="mobile-progress">
+            <div id="progress-bar" class="mobile-progress-bar" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Búsqueda móvil -->
+    <div id="mobile-search" class="mobile-search">
+        <div class="flex items-center space-x-2">
+            <input type="text" id="mobile-search-input" placeholder="Buscar poemas..." 
+                   class="mobile-search-input flex-1">
+            <button id="search-close" class="text-gray-500 hover:text-gray-700 text-xl">
+                ✕
+            </button>
+        </div>
+        <div id="search-results" class="text-sm text-gray-600 mt-2 hidden">
+            <!-- Resultados de búsqueda -->
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="mobile-page">
+        <!-- Loading State -->
+        <div id="loading-state" class="mobile-content flex items-center justify-center min-h-[400px]">
+            <div class="text-center">
+                <div class="w-12 h-12 border-4 border-verde-oliva border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-verde-oliva font-playfair">Cargando poemas...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="mobile-content hidden text-center py-12">
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 max-w-sm mx-auto">
+                <div class="text-4xl mb-4">📚</div>
+                <h2 class="text-xl font-dosis font-bold text-verde-bosque mb-4">
+                    Error al cargar poemas
+                </h2>
+                <p class="text-gray-600 mb-6 text-sm">
+                    No se pudieron cargar los poemas. Por favor, intenta nuevamente.
+                </p>
+                <button onclick="loadPoemas()" 
+                        class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                    Reintentar
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido de poemas -->
+        <div id="poems-container" class="mobile-content hidden">
+            <!-- Los poemas se cargarán aquí -->
+        </div>
+
+        <!-- Estado vacío -->
+        <div id="empty-state" class="mobile-content hidden flex items-center justify-center min-h-[400px]">
+            <div class="text-center">
+                <div class="text-4xl mb-4">📚</div>
+                <h2 class="text-xl font-dosis font-bold text-verde-bosque mb-4">
+                    No hay poemas disponibles
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Agrega algunos poemas desde el panel de administración
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAB (Floating Action Button) -->
+    <button id="mobile-fab" class="mobile-fab">
+        ⋯
+    </button>
+
+    <!-- Menú FAB -->
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="mobile-menu-item" onclick="goToFirstPoem()">
+            <span>⏮️</span>
+            <span>Primero</span>
+        </div>
+        <div class="mobile-menu-item" onclick="goToLastPoem()">
+            <span>Último</span>
+            <span>⏭️</span>
+        </div>
+        <div class="mobile-menu-item" onclick="toggleSearch()">
+            <span>🔍</span>
+            <span>Buscar</span>
+        </div>
+        <div class="mobile-menu-item" onclick="window.location.href='index.html'">
+            <span>🏠</span>
+            <span>Inicio</span>
+        </div>
+    </div>
+
+    <!-- Navegación inferior -->
+    <div class="mobile-nav">
+        <div class="mobile-nav-buttons">
+            <button id="prev-poem" class="mobile-nav-btn bg-verde-oliva text-white disabled:bg-gray-300">
+                ← Anterior
+            </button>
+            
+            <div class="flex flex-col items-center text-xs text-gray-600 px-2">
+                <div class="font-semibold" id="current-poem-title">Cargando...</div>
+                <div class="text-xs opacity-75" id="poem-author"></div>
+            </div>
+            
+            <button id="next-poem" class="mobile-nav-btn bg-verde-oliva text-white disabled:bg-gray-300">
+                Siguiente →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        class MobileBookView {
+            constructor() {
+                this.poemas = [];
+                this.filteredPoemas = [];
+                this.currentIndex = 0;
+                this.isLoading = false;
+                this.searchTerm = '';
+                this.showMenu = false;
+                this.showSearch = false;
+                
+                this.init();
+            }
+
+            async init() {
+                await this.loadPoemas();
+                this.setupEventListeners();
+                this.setupSwipeGestures();
+            }
+
+            async loadPoemas() {
+                try {
+                    this.showLoading();
+                    
+                    const response = await fetch('admin/api/poemas.php');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.poemas = result.data;
+                        this.filteredPoemas = [...this.poemas];
+                        this.renderPoems();
+                        this.hideLoading();
+                    } else {
+                        throw new Error(result.message || 'Error al cargar poemas');
+                    }
+                } catch (error) {
+                    console.error('Error loading poems:', error);
+                    this.showError();
+                }
+            }
+
+            showLoading() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('poems-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poems-container').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showError() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poems-container').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showEmpty() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poems-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.remove('hidden');
+            }
+
+            renderPoems() {
+                if (this.filteredPoemas.length === 0) {
+                    if (this.searchTerm) {
+                        this.showNoSearchResults();
+                    } else {
+                        this.showEmpty();
+                    }
+                    return;
+                }
+
+                const container = document.getElementById('poems-container');
+                container.innerHTML = '';
+
+                // Mostrar solo el poema actual
+                const currentPoem = this.filteredPoemas[this.currentIndex];
+                if (currentPoem) {
+                    const poemElement = this.createPoemElement(currentPoem);
+                    container.appendChild(poemElement);
+                }
+
+                this.updateNavigation();
+                this.updateProgress();
+            }
+
+            createPoemElement(poema) {
+                const poemDiv = document.createElement('div');
+                poemDiv.className = 'mobile-poem-card animate-fade-in';
+                
+                poemDiv.innerHTML = `
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xl">${poema.categoria_icono || '📝'}</span>
+                                <span class="text-xs font-semibold text-verde-oliva bg-verde-muy-claro px-2 py-1 rounded-full">
+                                    ${poema.categoria_nombre}
+                                </span>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                ${poema.tiempo_lectura} min
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-xl font-playfair font-bold text-verde-bosque mb-3 leading-tight">
+                            ${poema.titulo}
+                        </h2>
+                        
+                        <div class="flex items-center space-x-3 text-sm text-gray-600 mb-4">
+                            <span class="flex items-center space-x-1">
+                                <span>✍️</span>
+                                <span class="font-medium">${poema.autor_nombre}</span>
+                            </span>
+                            <span class="text-xs text-gray-400">•</span>
+                            <span class="text-xs">
+                                ${new Date(poema.fecha_creacion).toLocaleDateString('es-ES')}
+                            </span>
+                        </div>
+                    </div>
+
+                    ${poema.extracto ? `
+                        <div class="mb-6 p-3 bg-verde-muy-claro rounded-lg border-l-4 border-verde-oliva">
+                            <p class="text-gray-700 italic text-sm leading-relaxed">
+                                "${poema.extracto}"
+                            </p>
+                        </div>
+                    ` : ''}
+
+                    <div class="mobile-poem-content">
+                        ${this.formatPoemContent(poema.contenido)}
+                    </div>
+
+                    ${poema.etiquetas && poema.etiquetas.length > 0 ? `
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <div class="flex flex-wrap gap-2">
+                                ${poema.etiquetas.map(etiqueta => `
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                        #${etiqueta}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+                
+                return poemDiv;
+            }
+
+            formatPoemContent(content) {
+                return content
+                    .split('\n')
+                    .map(line => {
+                        if (line.trim() === '') {
+                            return '<div class="mb-4"></div>';
+                        }
+                        return `<div class="mb-3 leading-relaxed text-gray-800">${line}</div>`;
+                    })
+                    .join('');
+            }
+
+            updateNavigation() {
+                const totalPoems = this.filteredPoemas.length;
+                const currentPoem = this.filteredPoemas[this.currentIndex];
+                
+                document.getElementById('current-poem-index').textContent = this.currentIndex + 1;
+                document.getElementById('total-poems').textContent = totalPoems;
+                
+                if (currentPoem) {
+                    document.getElementById('current-poem-title').textContent = currentPoem.titulo;
+                    document.getElementById('poem-author').textContent = currentPoem.autor_nombre;
+                }
+                
+                // Actualizar botones
+                document.getElementById('prev-poem').disabled = this.currentIndex === 0;
+                document.getElementById('next-poem').disabled = this.currentIndex >= totalPoems - 1;
+            }
+
+            updateProgress() {
+                const progress = ((this.currentIndex + 1) / this.filteredPoemas.length) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            }
+
+            nextPoem() {
+                if (this.currentIndex < this.filteredPoemas.length - 1) {
+                    this.currentIndex++;
+                    this.renderPoems();
+                    this.scrollToTop();
+                }
+            }
+
+            prevPoem() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.renderPoems();
+                    this.scrollToTop();
+                }
+            }
+
+            goToFirstPoem() {
+                if (this.filteredPoemas.length > 0) {
+                    this.currentIndex = 0;
+                    this.renderPoems();
+                    this.scrollToTop();
+                }
+                this.toggleMenu();
+            }
+
+            goToLastPoem() {
+                if (this.filteredPoemas.length > 0) {
+                    this.currentIndex = this.filteredPoemas.length - 1;
+                    this.renderPoems();
+                    this.scrollToTop();
+                }
+                this.toggleMenu();
+            }
+
+            scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            searchPoems() {
+                const searchInput = document.getElementById('mobile-search-input');
+                this.searchTerm = searchInput.value.toLowerCase().trim();
+                
+                if (this.searchTerm === '') {
+                    this.filteredPoemas = [...this.poemas];
+                    document.getElementById('search-results').classList.add('hidden');
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.titulo.toLowerCase().includes(this.searchTerm) ||
+                        poema.autor_nombre.toLowerCase().includes(this.searchTerm) ||
+                        poema.contenido.toLowerCase().includes(this.searchTerm) ||
+                        poema.categoria_nombre.toLowerCase().includes(this.searchTerm) ||
+                        (poema.etiquetas && poema.etiquetas.some(etiqueta => 
+                            etiqueta.toLowerCase().includes(this.searchTerm)
+                        ))
+                    );
+                    
+                    // Mostrar resultados
+                    const resultsDiv = document.getElementById('search-results');
+                    resultsDiv.textContent = `${this.filteredPoemas.length} resultado${this.filteredPoemas.length !== 1 ? 's' : ''}`;
+                    resultsDiv.classList.remove('hidden');
+                }
+                
+                this.currentIndex = 0; // Volver al primer poema
+                this.renderPoems();
+            }
+
+            showNoSearchResults() {
+                const container = document.getElementById('poems-container');
+                container.innerHTML = `
+                    <div class="mobile-poem-card text-center animate-fade-in">
+                        <div class="text-4xl mb-4">🔍</div>
+                        <h2 class="text-xl font-playfair font-bold text-verde-bosque mb-4">
+                            No se encontraron resultados
+                        </h2>
+                        <p class="text-gray-600 mb-4">
+                            No hay poemas que coincidan con "<span class="font-semibold text-verde-oliva">${this.searchTerm}</span>"
+                        </p>
+                        <button onclick="mobileBookView.clearSearch()" 
+                                class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                            Limpiar búsqueda
+                        </button>
+                    </div>
+                `;
+            }
+
+            clearSearch() {
+                document.getElementById('mobile-search-input').value = '';
+                this.searchTerm = '';
+                this.filteredPoemas = [...this.poemas];
+                this.currentIndex = 0;
+                this.renderPoems();
+                document.getElementById('search-results').classList.add('hidden');
+            }
+
+            toggleMenu() {
+                this.showMenu = !this.showMenu;
+                const menu = document.getElementById('mobile-menu');
+                
+                if (this.showMenu) {
+                    menu.classList.add('active');
+                } else {
+                    menu.classList.remove('active');
+                }
+            }
+
+            toggleSearch() {
+                this.showSearch = !this.showSearch;
+                const search = document.getElementById('mobile-search');
+                
+                if (this.showSearch) {
+                    search.classList.add('active');
+                    document.getElementById('mobile-search-input').focus();
+                } else {
+                    search.classList.remove('active');
+                    document.getElementById('mobile-search-input').blur();
+                }
+                this.toggleMenu();
+            }
+
+            setupEventListeners() {
+                // Navegación
+                document.getElementById('prev-poem').addEventListener('click', () => {
+                    this.prevPoem();
+                });
+                
+                document.getElementById('next-poem').addEventListener('click', () => {
+                    this.nextPoem();
+                });
+
+                // FAB y menú
+                document.getElementById('mobile-fab').addEventListener('click', () => {
+                    this.toggleMenu();
+                });
+
+                // Búsqueda
+                document.getElementById('search-toggle').addEventListener('click', () => {
+                    this.toggleSearch();
+                });
+
+                document.getElementById('search-close').addEventListener('click', () => {
+                    this.showSearch = false;
+                    document.getElementById('mobile-search').classList.remove('active');
+                });
+
+                document.getElementById('mobile-search-input').addEventListener('input', () => {
+                    this.searchPoems();
+                });
+
+                // Navegación con teclado
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevPoem();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextPoem();
+                    } else if (e.key === 'Home') {
+                        this.goToFirstPoem();
+                    } else if (e.key === 'End') {
+                        this.goToLastPoem();
+                    } else if (e.key === 'Escape') {
+                        if (this.showMenu) {
+                            this.toggleMenu();
+                        }
+                        if (this.showSearch) {
+                            this.showSearch = false;
+                            document.getElementById('mobile-search').classList.remove('active');
+                        }
+                    }
+                });
+
+                // Cerrar menú al hacer clic fuera
+                document.addEventListener('click', (e) => {
+                    const fab = document.getElementById('mobile-fab');
+                    const menu = document.getElementById('mobile-menu');
+                    
+                    if (this.showMenu && !fab.contains(e.target) && !menu.contains(e.target)) {
+                        this.toggleMenu();
+                    }
+                });
+            }
+
+            setupSwipeGestures() {
+                let startX = 0;
+                let startY = 0;
+                let endX = 0;
+                let endY = 0;
+
+                document.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    endY = e.changedTouches[0].clientY;
+                    
+                    const deltaX = endX - startX;
+                    const deltaY = endY - startY;
+                    
+                    // Verificar que sea un swipe horizontal y no vertical
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                        if (deltaX > 0) {
+                            // Swipe derecha - poema anterior
+                            this.prevPoem();
+                        } else {
+                            // Swipe izquierda - poema siguiente
+                            this.nextPoem();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Funciones globales
+        let mobileBookView;
+
+        function loadPoemas() {
+            mobileBookView = new MobileBookView();
+        }
+
+        function goToFirstPoem() {
+            mobileBookView.goToFirstPoem();
+        }
+
+        function goToLastPoem() {
+            mobileBookView.goToLastPoem();
+        }
+
+        function toggleSearch() {
+            mobileBookView.toggleSearch();
+        }
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPoemas();
+        });
+    </script>
+</body>
+</html>
