@@ -77,19 +77,213 @@
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #F8F8FF 0%, #F5F5DC 50%, #F0E68C 100%);
+            position: relative;
+            overflow: hidden;
         }
+        
+        /* Partículas románticas flotantes */
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #FFB6C1, #FFC0CB, #FFE4E1);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatParticle 8s infinite linear;
+        }
+        
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 3s; }
+        .particle:nth-child(6) { width: 7px; height: 7px; left: 60%; animation-delay: 5s; }
+        .particle:nth-child(7) { width: 3px; height: 3px; left: 70%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-delay: 4.5s; }
+        .particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 1.5s; }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Corazones flotantes */
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #FFB6C1;
+            font-size: 20px;
+            animation: floatHeart 6s infinite linear;
+            opacity: 0.7;
+        }
+        
+        .heart:nth-child(1) { left: 15%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 35%; animation-delay: 2s; }
+        .heart:nth-child(3) { left: 55%; animation-delay: 4s; }
+        .heart:nth-child(4) { left: 75%; animation-delay: 1s; }
+        .heart:nth-child(5) { left: 85%; animation-delay: 3s; }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* Efectos de luz romántica */
+        .romantic-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: romanticPulse 4s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        @keyframes romanticPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+        
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
         .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(99, 107, 47, 0.15);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
+        
         .decorative-element {
             background: linear-gradient(45deg, #8FBC8F, #B8860B);
             border-radius: 50%;
             filter: blur(1px);
             opacity: 0.3;
+        }
+        
+        /* Cita poética flotante */
+        .poetic-quote {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 25px 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            border: 2px solid rgba(255, 182, 193, 0.4);
+            max-width: 700px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInQuote 2s ease-out 1.5s forwards;
+            z-index: 2;
+            margin: 0 auto;
+        }
+        
+        .poetic-quote p {
+            font-style: italic;
+            color: #8B4513;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .poetic-quote .author {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #A0522D;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeInQuote {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        /* Efecto de brillo en el título */
+        .title-glow {
+            text-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from {
+                text-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(139, 69, 19, 0.6), 0 0 40px rgba(255, 182, 193, 0.3);
+            }
         }
     </style>
 </head>
@@ -99,6 +293,31 @@
         <div class="decorative-element absolute top-20 right-20 w-32 h-32 animate-float"></div>
         <div class="decorative-element absolute bottom-32 left-16 w-24 h-24 animate-float" style="animation-delay: 1s;"></div>
         <div class="decorative-element absolute top-1/2 left-10 w-16 h-16 animate-float" style="animation-delay: 2s;"></div>
+        
+        <!-- Efecto de luz romántica -->
+        <div class="romantic-glow"></div>
+        
+        <!-- Partículas flotantes -->
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Corazones flotantes -->
+        <div class="floating-hearts">
+            <div class="heart">💕</div>
+            <div class="heart">💖</div>
+            <div class="heart">💗</div>
+            <div class="heart">💝</div>
+            <div class="heart">💘</div>
+        </div>
     </div>
 
     <!-- Navbar -->
@@ -109,82 +328,88 @@
 
     <!-- Contenido Principal -->
     <main class="min-h-screen relative z-10">
-        <div class="container mx-auto px-4 py-12">
+        <div class="container mx-auto px-6 py-16">
             <!-- Header principal mejorado -->
-            <div class="text-center mb-16 animate-fade-in">
-                <div class="mb-6">
-                    <h1 class="text-5xl md:text-6xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-6 leading-tight">
-                        Sistema de Poemas Dinámico
+            <div class="text-center mb-20 animate-fade-in">
+                <div class="mb-8">
+                    <h1 class="text-6xl md:text-7xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-8 leading-tight title-glow">
+                        Para Ti, Mi Poesía
                     </h1>
-                    <div class="w-24 h-1 bg-gradient-to-r from-tierra-siena to-dorado-antiguo mx-auto rounded-full mb-6"></div>
+                    <div class="w-32 h-1.5 bg-gradient-to-r from-tierra-siena to-dorado-antiguo mx-auto rounded-full mb-8"></div>
                 </div>
-                <p class="text-xl md:text-2xl text-verde-oliva font-light max-w-3xl mx-auto leading-relaxed">
-                    Sumérgete en el mundo de la poesía a través de diferentes experiencias visuales únicas
+                <p class="text-2xl md:text-3xl text-verde-oliva font-light max-w-4xl mx-auto leading-relaxed mb-12">
+                    Donde cada verso es un susurro de amor, cada palabra un latido del corazón
                 </p>
+                
+                <!-- Cita poética romántica -->
+                <div class="poetic-quote">
+                    <p>"En tus ojos veo el universo completo, en tu sonrisa la poesía más bella"</p>
+                    <div class="author">- Para ti, con amor eterno</div>
+                </div>
             </div>
             
             <!-- Selector de Vistas mejorado -->
-            <div class="max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">
                     <!-- Vista Tarjetas -->
                     <div class="group animate-slide-up" style="animation-delay: 0.1s;">
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('tarjetas')">
-                            <div class="text-center">
-                                <div class="w-16 h-16 mb-6 group-hover:animate-pulse-soft flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="text-center flex flex-col h-full">
+                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-2xl font-dosis font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Tarjetas
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Poemas en tarjetas interactivas con efectos 3D y animaciones suaves que crean una experiencia envolvente
+                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                    Cada poema es una carta de amor que puedes voltear, descubrir y atesorar en tu corazón
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-verde-salvia to-tierra-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1.5 bg-gradient-to-r from-verde-salvia to-tierra-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Vista Lista -->
                     <div class="group animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('lista')">
-                            <div class="text-center">
-                                <div class="w-16 h-16 mb-6 group-hover:animate-pulse-soft flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="text-center flex flex-col h-full">
+                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-2xl font-dosis font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Lista
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Lista elegante de poemas con scroll suave, animaciones fluidas y navegación intuitiva
+                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                    Un paseo por el jardín de las palabras, donde cada verso florece como una rosa
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-tierra-claro to-dorado-suave rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1.5 bg-gradient-to-r from-tierra-claro to-dorado-suave rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Vista Libro -->
                     <div class="group animate-slide-up" style="animation-delay: 0.3s;">
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('libro')">
-                            <div class="text-center">
-                                <div class="w-16 h-16 mb-6 group-hover:animate-pulse-soft flex items-center justify-center">
-                                    <svg class="w-12 h-12 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="text-center flex flex-col h-full">
+                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                                     </svg>
                                 </div>
-                                <h3 class="text-2xl font-dosis font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Libro
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-6">
-                                    Simulación realista de libro tradicional con volteo de páginas y efectos de papel auténticos
+                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                    Como un diario íntimo de amor, donde cada página guarda secretos del alma
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-dorado-suave to-verde-salvia rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1.5 bg-gradient-to-r from-dorado-suave to-verde-salvia rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
