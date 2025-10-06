@@ -309,6 +309,53 @@
         .page-number {
             font-variant-numeric: oldstyle-nums;
         }
+
+        /* Estilos para navegación avanzada */
+        .search-highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .thumbnail-active {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .navigation-fade-in {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efecto de búsqueda */
+        .search-results-count {
+            background: linear-gradient(135deg, #8FBC8F, #B8860B);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Animación de miniaturas */
+        .thumbnail-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .thumbnail-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-papel-claro via-papel-medio to-verde-muy-claro font-libre min-h-screen">
@@ -408,27 +455,98 @@
         <!-- Book Container -->
         <div id="book-container" class="hidden book-container max-w-6xl mx-auto">
             <!-- Controles de navegación -->
-            <div class="flex items-center justify-between mb-8">
-                <button id="prev-page" 
-                        class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
-                    <span class="text-xl">←</span>
-                    <span>Anterior</span>
-                </button>
-                
-                <div class="text-center">
-                    <div class="text-sm text-verde-oliva font-semibold">
-                        Página <span id="current-page">1</span> de <span id="total-pages">1</span>
+            <div class="space-y-4 mb-8">
+                <!-- Navegación principal -->
+                <div class="flex items-center justify-between">
+                    <button id="prev-page" 
+                            class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
+                        <span class="text-xl">←</span>
+                        <span>Anterior</span>
+                    </button>
+                    
+                    <div class="text-center">
+                        <div class="text-sm text-verde-oliva font-semibold">
+                            Página <span id="current-page">1</span> de <span id="total-pages">1</span>
+                        </div>
+                        <div class="text-xs text-gray-600 mt-1">
+                            <span id="current-poem-title">Cargando...</span>
+                        </div>
                     </div>
-                    <div class="text-xs text-gray-600 mt-1">
-                        <span id="current-poem-title">Cargando...</span>
+                    
+                    <button id="next-page" 
+                            class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
+                        <span>Siguiente</span>
+                        <span class="text-xl">→</span>
+                    </button>
+                </div>
+
+                <!-- Navegación avanzada (solo si hay muchos poemas) -->
+                <div id="advanced-navigation" class="hidden">
+                    <div class="bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/30">
+                        <div class="flex flex-wrap items-center justify-center gap-4">
+                            <!-- Búsqueda rápida -->
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-verde-oliva font-medium">🔍</span>
+                                <input type="text" id="poem-search" 
+                                       placeholder="Buscar poema..." 
+                                       class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-verde-oliva focus:border-transparent w-48">
+                                <div id="search-results-count" class="search-results-count hidden">
+                                    <!-- Contador de resultados -->
+                                </div>
+                            </div>
+
+                            <!-- Salto a página -->
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-verde-oliva font-medium">📄</span>
+                                <input type="number" id="page-jump" 
+                                       placeholder="Página" 
+                                       min="1" 
+                                       class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-verde-oliva focus:border-transparent w-20">
+                                <button id="go-to-page" 
+                                        class="px-3 py-2 bg-verde-oliva text-white text-sm rounded-lg hover:bg-verde-bosque transition-colors">
+                                    Ir
+                                </button>
+                            </div>
+
+                            <!-- Navegación rápida -->
+                            <div class="flex items-center space-x-2">
+                                <button id="first-page" 
+                                        class="px-3 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition-colors">
+                                    ⏮️ Primera
+                                </button>
+                                <button id="last-page" 
+                                        class="px-3 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition-colors">
+                                    Última ⏭️
+                                </button>
+                            </div>
+
+                            <!-- Vista de miniaturas -->
+                            <button id="toggle-thumbnails" 
+                                    class="px-3 py-2 bg-dorado-antiguo text-white text-sm rounded-lg hover:bg-dorado-oscuro transition-colors">
+                                🖼️ Miniaturas
+                            </button>
+                        </div>
                     </div>
                 </div>
-                
-                <button id="next-page" 
-                        class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
-                    <span>Siguiente</span>
-                    <span class="text-xl">→</span>
-                </button>
+
+                <!-- Vista de miniaturas -->
+                <div id="thumbnails-view" class="hidden">
+                    <div class="bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/30">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-dosis font-bold text-verde-bosque">Vista de Miniaturas</h3>
+                            <button id="close-thumbnails" 
+                                    class="text-gray-500 hover:text-gray-700 text-xl">
+                                ✕
+                            </button>
+                        </div>
+                        <div id="thumbnails-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-h-60 overflow-y-auto">
+                            <!-- Miniaturas se cargarán aquí -->
+                        </div>
+                        <div class="mt-3 text-center text-sm text-gray-600">
+                            Haz clic en una miniatura para ir a esa página
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Book Pages Container -->
@@ -492,9 +610,12 @@
         class BookView {
             constructor() {
                 this.poemas = [];
+                this.filteredPoemas = [];
                 this.currentPageIndex = 0;
                 this.poemasPerPage = 2; // 2 poemas por página (uno en cada lado)
                 this.isLoading = false;
+                this.searchTerm = '';
+                this.showThumbnails = false;
                 
                 this.init();
             }
@@ -513,6 +634,7 @@
                     
                     if (result.success) {
                         this.poemas = result.data;
+                        this.filteredPoemas = [...this.poemas];
                         this.renderBook();
                         this.hideLoading();
                     } else {
@@ -543,8 +665,12 @@
             }
 
             renderBook() {
-                if (this.poemas.length === 0) {
-                    this.showEmptyState();
+                if (this.filteredPoemas.length === 0) {
+                    if (this.searchTerm) {
+                        this.showNoSearchResults();
+                    } else {
+                        this.showEmptyState();
+                    }
                     return;
                 }
 
@@ -552,6 +678,7 @@
                 this.renderCurrentPages();
                 this.updatePoemInfo();
                 this.renderPoemSelector();
+                this.toggleAdvancedNavigation();
             }
 
             showEmptyState() {
@@ -587,10 +714,43 @@
                 `;
             }
 
+            showNoSearchResults() {
+                const leftContent = document.getElementById('left-content');
+                const rightContent = document.getElementById('right-content');
+                
+                leftContent.innerHTML = `
+                    <div class="text-center h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-6xl mb-6">🔍</div>
+                        <h2 class="text-3xl font-playfair font-bold text-verde-oscuro mb-4 text-shadow">
+                            No se encontraron resultados
+                        </h2>
+                        <p class="text-gray-600 text-lg leading-relaxed mb-4">
+                            No hay poemas que coincidan con "<span class="font-semibold text-verde-oliva">${this.searchTerm}</span>"
+                        </p>
+                        <button onclick="document.getElementById('poem-search').value=''; bookView.searchPoems();" 
+                                class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                            Limpiar búsqueda
+                        </button>
+                    </div>
+                `;
+                
+                rightContent.innerHTML = `
+                    <div class="text-center h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-4xl mb-4 opacity-30">📄</div>
+                        <p class="text-gray-400 italic text-lg">
+                            Intenta con otros términos
+                        </p>
+                        <div class="text-xs text-gray-300 page-number mt-4">
+                            ${this.getPageNumber('right')}
+                        </div>
+                    </div>
+                `;
+            }
+
             renderCurrentPages() {
                 const startIndex = this.currentPageIndex * this.poemasPerPage;
-                const endIndex = Math.min(startIndex + this.poemasPerPage, this.poemas.length);
-                const currentPoemas = this.poemas.slice(startIndex, endIndex);
+                const endIndex = Math.min(startIndex + this.poemasPerPage, this.filteredPoemas.length);
+                const currentPoemas = this.filteredPoemas.slice(startIndex, endIndex);
 
                 // Renderizar página izquierda
                 if (currentPoemas[0]) {
@@ -712,7 +872,7 @@
             }
 
             updateNavigation() {
-                const totalPages = Math.ceil(this.poemas.length / this.poemasPerPage);
+                const totalPages = Math.ceil(this.filteredPoemas.length / this.poemasPerPage);
                 const currentPage = this.currentPageIndex + 1;
                 
                 document.getElementById('current-page').textContent = currentPage;
@@ -725,7 +885,7 @@
                 nextButton.disabled = this.currentPageIndex >= totalPages - 1;
                 
                 // Actualizar título del poema actual
-                const currentPoemas = this.poemas.slice(
+                const currentPoemas = this.filteredPoemas.slice(
                     this.currentPageIndex * this.poemasPerPage,
                     (this.currentPageIndex + 1) * this.poemasPerPage
                 );
@@ -737,7 +897,7 @@
             }
 
             updatePoemInfo() {
-                const currentPoemas = this.poemas.slice(
+                const currentPoemas = this.filteredPoemas.slice(
                     this.currentPageIndex * this.poemasPerPage,
                     (this.currentPageIndex + 1) * this.poemasPerPage
                 );
@@ -767,14 +927,14 @@
                 const selectorDiv = document.getElementById('poem-selector');
                 const listDiv = document.getElementById('poem-list');
                 
-                if (this.poemas.length <= 4) {
+                if (this.filteredPoemas.length <= 4) {
                     selectorDiv.classList.add('hidden');
                     return;
                 }
                 
                 selectorDiv.classList.remove('hidden');
                 
-                listDiv.innerHTML = this.poemas.map((poema, index) => {
+                listDiv.innerHTML = this.filteredPoemas.map((poema, index) => {
                     const pageIndex = Math.floor(index / this.poemasPerPage);
                     const isActive = pageIndex === this.currentPageIndex;
                     
@@ -793,7 +953,7 @@
             }
 
             goToPage(pageIndex) {
-                if (pageIndex < 0 || pageIndex >= Math.ceil(this.poemas.length / this.poemasPerPage)) {
+                if (pageIndex < 0 || pageIndex >= Math.ceil(this.filteredPoemas.length / this.poemasPerPage)) {
                     return;
                 }
                 
@@ -817,6 +977,100 @@
                 }, 800);
             }
 
+            // Nuevos métodos para navegación avanzada
+            toggleAdvancedNavigation() {
+                const advancedNav = document.getElementById('advanced-navigation');
+                if (this.poemas.length > 8) { // Mostrar navegación avanzada si hay más de 8 poemas
+                    advancedNav.classList.remove('hidden');
+                } else {
+                    advancedNav.classList.add('hidden');
+                }
+            }
+
+            searchPoems() {
+                const searchInput = document.getElementById('poem-search');
+                const resultsCount = document.getElementById('search-results-count');
+                this.searchTerm = searchInput.value.toLowerCase().trim();
+                
+                if (this.searchTerm === '') {
+                    this.filteredPoemas = [...this.poemas];
+                    resultsCount.classList.add('hidden');
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.titulo.toLowerCase().includes(this.searchTerm) ||
+                        poema.autor_nombre.toLowerCase().includes(this.searchTerm) ||
+                        poema.contenido.toLowerCase().includes(this.searchTerm) ||
+                        poema.categoria_nombre.toLowerCase().includes(this.searchTerm) ||
+                        (poema.etiquetas && poema.etiquetas.some(etiqueta => 
+                            etiqueta.toLowerCase().includes(this.searchTerm)
+                        ))
+                    );
+                    
+                    // Mostrar contador de resultados
+                    resultsCount.textContent = `${this.filteredPoemas.length} resultado${this.filteredPoemas.length !== 1 ? 's' : ''}`;
+                    resultsCount.classList.remove('hidden');
+                }
+                
+                this.currentPageIndex = 0; // Volver a la primera página
+                this.renderBook();
+            }
+
+            goToSpecificPage() {
+                const pageInput = document.getElementById('page-jump');
+                const pageNumber = parseInt(pageInput.value);
+                const totalPages = Math.ceil(this.filteredPoemas.length / this.poemasPerPage);
+                
+                if (pageNumber >= 1 && pageNumber <= totalPages) {
+                    this.goToPage(pageNumber - 1);
+                    pageInput.value = '';
+                } else {
+                    alert(`Por favor ingresa un número de página válido (1-${totalPages})`);
+                }
+            }
+
+            goToFirstPage() {
+                this.goToPage(0);
+            }
+
+            goToLastPage() {
+                const totalPages = Math.ceil(this.filteredPoemas.length / this.poemasPerPage);
+                this.goToPage(totalPages - 1);
+            }
+
+            toggleThumbnails() {
+                this.showThumbnails = !this.showThumbnails;
+                const thumbnailsView = document.getElementById('thumbnails-view');
+                
+                if (this.showThumbnails) {
+                    thumbnailsView.classList.remove('hidden');
+                    this.renderThumbnails();
+                } else {
+                    thumbnailsView.classList.add('hidden');
+                }
+            }
+
+            renderThumbnails() {
+                const thumbnailsGrid = document.getElementById('thumbnails-grid');
+                
+                thumbnailsGrid.innerHTML = this.filteredPoemas.map((poema, index) => {
+                    const pageIndex = Math.floor(index / this.poemasPerPage);
+                    const isActive = pageIndex === this.currentPageIndex;
+                    
+                    return `
+                        <button onclick="bookView.goToPage(${pageIndex})"
+                                class="thumbnail-button p-3 text-center rounded-lg transition-all ${
+                                    isActive 
+                                        ? 'bg-verde-principal text-white shadow-lg thumbnail-active' 
+                                        : 'bg-white/60 hover:bg-white/80 hover:shadow-md'
+                                }">
+                            <div class="text-2xl mb-2">${poema.categoria_icono || '📝'}</div>
+                            <div class="text-xs font-semibold truncate">${poema.titulo}</div>
+                            <div class="text-xs opacity-75 truncate">${poema.autor_nombre}</div>
+                        </button>
+                    `;
+                }).join('');
+            }
+
             setupEventListeners() {
                 document.getElementById('prev-page').addEventListener('click', () => {
                     if (this.currentPageIndex > 0) {
@@ -825,10 +1079,45 @@
                 });
                 
                 document.getElementById('next-page').addEventListener('click', () => {
-                    const totalPages = Math.ceil(this.poemas.length / this.poemasPerPage);
+                    const totalPages = Math.ceil(this.filteredPoemas.length / this.poemasPerPage);
                     if (this.currentPageIndex < totalPages - 1) {
                         this.goToPage(this.currentPageIndex + 1);
                     }
+                });
+
+                // Búsqueda
+                document.getElementById('poem-search').addEventListener('input', () => {
+                    this.searchPoems();
+                });
+
+                // Salto a página
+                document.getElementById('go-to-page').addEventListener('click', () => {
+                    this.goToSpecificPage();
+                });
+
+                document.getElementById('page-jump').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.goToSpecificPage();
+                    }
+                });
+
+                // Navegación rápida
+                document.getElementById('first-page').addEventListener('click', () => {
+                    this.goToFirstPage();
+                });
+
+                document.getElementById('last-page').addEventListener('click', () => {
+                    this.goToLastPage();
+                });
+
+                // Miniaturas
+                document.getElementById('toggle-thumbnails').addEventListener('click', () => {
+                    this.toggleThumbnails();
+                });
+
+                document.getElementById('close-thumbnails').addEventListener('click', () => {
+                    this.showThumbnails = false;
+                    document.getElementById('thumbnails-view').classList.add('hidden');
                 });
                 
                 // Navegación con teclado
@@ -837,6 +1126,15 @@
                         document.getElementById('prev-page').click();
                     } else if (e.key === 'ArrowRight') {
                         document.getElementById('next-page').click();
+                    } else if (e.key === 'Home') {
+                        this.goToFirstPage();
+                    } else if (e.key === 'End') {
+                        this.goToLastPage();
+                    } else if (e.key === 'Escape') {
+                        if (this.showThumbnails) {
+                            this.showThumbnails = false;
+                            document.getElementById('thumbnails-view').classList.add('hidden');
+                        }
                     }
                 });
             }
