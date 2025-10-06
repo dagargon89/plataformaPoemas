@@ -2,7 +2,7 @@
  * Componente selector de temas
  * Permite cambiar temas desde la interfaz de usuario
  */
-export class ThemeSelectorComponent extends BaseComponent {
+class ThemeSelectorComponent extends BaseComponent {
     constructor(elementId, options = {}) {
         super(elementId, options);
         this.themeService = window.themeService;
@@ -378,3 +378,6 @@ if (!document.querySelector('#theme-selector-styles')) {
     styleElement.innerHTML = themeSelectorStyles;
     document.head.appendChild(styleElement);
 }
+
+// Hacer la clase disponible globalmente
+window.ThemeSelectorComponent = ThemeSelectorComponent;

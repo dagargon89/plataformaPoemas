@@ -2,7 +2,7 @@
  * Servicio de gestión de temas dinámicos
  * Permite cambiar colores y estilos en tiempo real
  */
-export class ThemeService {
+class ThemeService {
     constructor() {
         this.currentTheme = 'default';
         this.themes = this.initializeThemes();
@@ -349,8 +349,8 @@ export class ThemeService {
     }
 }
 
-// Crear instancia global del servicio
-export const themeService = new ThemeService();
+// Hacer la clase disponible globalmente
+window.ThemeService = ThemeService;
 
-// Exportar para uso global
-window.themeService = themeService;
+// Crear instancia global del servicio
+window.themeService = new ThemeService();

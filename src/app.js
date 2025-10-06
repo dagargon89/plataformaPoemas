@@ -2,17 +2,9 @@
  * Aplicación principal del Sistema de Poemas
  * Punto de entrada y coordinador principal
  */
-import { AppConfig } from './config/app-config.js';
-import { router } from './services/RouterService.js';
-import { HomePage } from './pages/HomePage.js';
-import { NavbarComponent } from './components/NavbarComponent.js';
-import { FooterComponent } from './components/FooterComponent.js';
-import { ThemeService } from './services/ThemeService.js';
-import { ThemeSelectorComponent } from './components/ThemeSelectorComponent.js';
-
-export class App {
+class App {
     constructor() {
-        this.config = AppConfig;
+        this.config = window.AppConfig || {};
         this.currentPage = null;
         this.components = new Map();
         this.isInitialized = false;
@@ -48,7 +40,7 @@ export class App {
      */
     initializeThemeService() {
         console.log('🎨 Inicializando servicio de temas...');
-        this.themeService = window.themeService || new ThemeService();
+        this.themeService = window.themeService || new window.ThemeService();
         console.log('✅ Servicio de temas inicializado');
     }
 
@@ -84,19 +76,19 @@ export class App {
         console.log('🔧 Inicializando componentes...');
         
         // Inicializar Navbar
-        const navbar = new NavbarComponent('navbar', {
+        const navbar = new window.NavbarComponent('navbar', {
             debug: this.config.debug || false
         });
         this.components.set('navbar', navbar);
         
         // Inicializar Footer
-        const footer = new FooterComponent('footer', {
+        const footer = new window.FooterComponent('footer', {
             debug: this.config.debug || false
         });
         this.components.set('footer', footer);
 
         // Inicializar Selector de Temas
-        const themeSelector = new ThemeSelectorComponent('theme-selector', {
+        const themeSelector = new window.ThemeSelectorComponent('theme-selector', {
             debug: this.config.debug || false,
             compact: true,
             showDescription: false
@@ -110,7 +102,7 @@ export class App {
      * Carga la página actual
      */
     async loadCurrentPage() {
-        const currentRoute = router.getCurrentRoute();
+        const currentRoute = window.router.getCurrentRoute();
         
         if (currentRoute) {
             await this.loadPage(currentRoute);
@@ -137,7 +129,7 @@ export class App {
             
             switch (route.name) {
                 case 'index':
-                    pageClass = HomePage;
+                    pageClass = window.HomePage;
                     break;
                 case 'tarjetas':
                     // pageClass = TarjetasPage; // Se implementará después

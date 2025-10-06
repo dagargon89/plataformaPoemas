@@ -2,7 +2,7 @@
  * Página principal del sistema
  * Extiende BasePage para manejar la página de inicio
  */
-export class HomePage extends BasePage {
+class HomePage extends BasePage {
     constructor(options = {}) {
         super(options);
         this.stats = null;
@@ -211,3 +211,6 @@ export class HomePage extends BasePage {
         }
     }
 }
+
+// Hacer la clase disponible globalmente
+window.HomePage = HomePage;

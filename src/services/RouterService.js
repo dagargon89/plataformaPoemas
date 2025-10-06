@@ -2,7 +2,7 @@
  * Servicio de enrutamiento
  * Maneja la navegación y el estado de la aplicación
  */
-export class RouterService {
+class RouterService {
     constructor() {
         this.routes = new Map();
         this.currentRoute = null;
@@ -215,5 +215,8 @@ export class RouterService {
     }
 }
 
+// Hacer la clase disponible globalmente
+window.RouterService = RouterService;
+
 // Instancia singleton del router
-export const router = new RouterService();
+window.router = new RouterService();

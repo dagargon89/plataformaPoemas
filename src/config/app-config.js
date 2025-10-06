@@ -1,74 +1,87 @@
 /**
- * Configuración principal de la aplicación
+ * Configuración de la aplicación
+ * Contiene todas las configuraciones globales del sistema
  */
-export const AppConfig = {
+const AppConfig = {
     // Configuración general
-    appName: 'Sistema de Poemas Dinámico',
+    debug: false,
     version: '1.0.0',
+    name: 'Sistema de Poemas Dinámico',
     
-    // Rutas de la API
+    // Configuración de la API
     api: {
         baseUrl: '/admin/api',
         endpoints: {
             poemas: '/poemas.php',
-            autores: '/autores.php',
             categorias: '/categorias.php',
-            etiquetas: '/etiquetas.php'
-        }
-    },
-    
-    // Configuración de vistas
-    views: {
-        tarjetas: 'tarjetas-poemas.html',
-        lista: 'lista-scroll.html',
-        libro: 'libro-tradicional.html'
-    },
-    
-    // Configuración de estilos
-    theme: {
-        colors: {
-            verde: {
-                principal: '#636B2F',
-                claro: '#8B9A4A',
-                oscuro: '#4A5220',
-                muyClaro: '#F0F4E8'
-            },
-            rosa: {
-                principal: '#E89EB8',
-                claro: '#F2C4D1',
-                oscuro: '#D67A9A',
-                muyClaro: '#FDF2F8'
-            },
-            amarillo: {
-                claro: '#FDF4E3',
-                medio: '#F9E6B3',
-                dorado: '#F4D03F',
-                intenso: '#D4AC0D'
-            }
+            autores: '/autores.php',
+            etiquetas: '/etiquetas.php',
+            test: '/test.php'
         },
-        fonts: {
-            primary: 'Crimson Text',
-            heading: 'Playfair Display'
+        timeout: 10000
+    },
+    
+    // Configuración de temas
+    themes: {
+        default: 'default',
+        storageKey: 'poemas_theme',
+        transitionDuration: 300
+    },
+    
+    // Configuración de componentes
+    components: {
+        navbar: {
+            autoRender: true,
+            showMobileMenu: false
+        },
+        footer: {
+            autoRender: true,
+            showAdminLink: true
+        },
+        themeSelector: {
+            autoRender: true,
+            compact: true,
+            showDescription: false
         }
+    },
+    
+    // Configuración de páginas
+    pages: {
+        home: {
+            autoLoad: true,
+            showStats: true,
+            cacheData: true
+        }
+    },
+    
+    // Configuración de almacenamiento
+    storage: {
+        prefix: 'plataforma_poemas_',
+        maxSize: 5 * 1024 * 1024, // 5MB
+        compression: false
     },
     
     // Configuración de animaciones
     animations: {
-        duration: {
-            fast: '0.2s',
-            normal: '0.3s',
-            slow: '0.5s'
-        },
+        enabled: true,
+        duration: 300,
         easing: 'ease-in-out'
     },
     
-    // Configuración de storage
-    storage: {
-        prefix: 'poemas_',
-        keys: {
-            currentView: 'current_view',
-            userPreferences: 'user_preferences',
-            lastReadPoem: 'last_read_poem'
-        }
+    // Configuración de errores
+    errors: {
+        showInConsole: true,
+        showToUser: false,
+        logToServer: false
+    },
+    
+    // Configuración de desarrollo
+    development: {
+        hotReload: false,
+        mockData: false,
+        verboseLogging: false
     }
 };
+
+// Hacer la configuración disponible globalmente
+window.AppConfig = AppConfig;

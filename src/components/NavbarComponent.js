@@ -2,7 +2,7 @@
  * Componente de navegación
  * Extiende BaseComponent para manejar la barra de navegación
  */
-export class NavbarComponent extends BaseComponent {
+class NavbarComponent extends BaseComponent {
     constructor(elementId, options = {}) {
         super(elementId, options);
         this.currentView = this.getCurrentView();
@@ -188,3 +188,6 @@ export class NavbarComponent extends BaseComponent {
         this.render();
     }
 }
+
+// Hacer la clase disponible globalmente
+window.NavbarComponent = NavbarComponent;

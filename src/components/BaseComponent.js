@@ -2,7 +2,7 @@
  * Clase base para todos los componentes
  * Implementa el patrón MVC para componentes reutilizables
  */
-export class BaseComponent {
+class BaseComponent {
     constructor(elementId, options = {}) {
         this.elementId = elementId;
         this.element = document.getElementById(elementId);
@@ -172,3 +172,6 @@ export class BaseComponent {
         return template.innerHTML;
     }
 }
+
+// Hacer la clase disponible globalmente
+window.BaseComponent = BaseComponent;

@@ -2,7 +2,7 @@
  * Clase base para todas las páginas
  * Implementa el patrón MVC para páginas
  */
-export class BasePage {
+class BasePage {
     constructor(options = {}) {
         this.options = { ...this.defaultOptions, ...options };
         this.components = new Map();
@@ -293,3 +293,6 @@ export class BasePage {
         }
     }
 }
+
+// Hacer la clase disponible globalmente
+window.BasePage = BasePage;

@@ -233,12 +233,12 @@
             position: relative;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
-            padding: 25px 35px;
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
             border: 2px solid rgba(255, 182, 193, 0.4);
-            max-width: 700px;
-            width: 90%;
+            max-width: 600px;
+            width: 95%;
             text-align: center;
             opacity: 0;
             animation: fadeInQuote 2s ease-out 1.5s forwards;
@@ -249,8 +249,8 @@
         .poetic-quote p {
             font-style: italic;
             color: #8B4513;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.4;
             margin: 0;
         }
         
@@ -286,11 +286,103 @@
                 text-shadow: 0 0 30px rgba(139, 69, 19, 0.6), 0 0 40px rgba(255, 182, 193, 0.3);
             }
         }
+        
+        /* Mejoras específicas para móviles */
+        @media (max-width: 640px) {
+            .card-hover {
+                min-height: 280px;
+                margin-bottom: 1rem;
+            }
+            
+            .card-hover:hover {
+                transform: translateY(-8px) scale(1.01);
+            }
+            
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .poetic-quote {
+                padding: 20px 25px;
+                margin: 0 1rem;
+            }
+            
+            .poetic-quote p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Mejoras para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .card-hover {
+                min-height: 260px;
+                padding: 1rem !important;
+            }
+            
+            .poetic-quote {
+                padding: 15px 20px;
+            }
+            
+            .poetic-quote p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Asegurar visibilidad de las tarjetas */
+        .card-hover {
+            position: relative;
+            z-index: 10;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: flex !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 2px solid #636B2F !important;
+            min-height: 300px !important;
+        }
+        
+        /* Asegurar que el scroll funcione */
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 100%;
+            position: relative;
+        }
+        
+        html {
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        /* Asegurar que el contenido no se corte en móviles */
+        @media (max-width: 640px) {
+            main {
+                min-height: auto !important;
+                padding-bottom: 3rem !important;
+            }
+            
+            .container {
+                padding-bottom: 2rem !important;
+            }
+        }
+        
+        /* Asegurar que el contenido principal sea visible */
+        main {
+            position: relative;
+            z-index: 20;
+        }
+        
+        /* Asegurar que las tarjetas no estén ocultas */
+        .grid {
+            position: relative;
+            z-index: 30;
+        }
     </style>
 </head>
 <body class="gradient-bg font-crimson min-h-screen">
     <!-- Elementos decorativos de fondo -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="fixed inset-0 overflow-hidden pointer-events-none" style="z-index: 1;">
         <div class="decorative-element absolute top-20 right-20 w-32 h-32 animate-float"></div>
         <div class="decorative-element absolute bottom-32 left-16 w-24 h-24 animate-float" style="animation-delay: 1s;"></div>
         <div class="decorative-element absolute top-1/2 left-10 w-16 h-16 animate-float" style="animation-delay: 2s;"></div>
@@ -328,17 +420,17 @@
     <div id="theme-selector" class="fixed top-4 left-4 z-50"></div>
 
     <!-- Contenido Principal -->
-    <main class="min-h-screen relative z-10">
-        <div class="container mx-auto px-6 py-16">
+    <main class="relative z-20" style="min-height: 100vh; padding-bottom: 2rem;">
+        <div class="container mx-auto px-4 py-8 sm:px-6 sm:py-16">
             <!-- Header principal mejorado -->
-            <div class="text-center mb-20 animate-fade-in">
-                <div class="mb-8">
-                    <h1 class="text-6xl md:text-7xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-8 leading-tight title-glow">
+            <div class="text-center mb-8 sm:mb-12 md:mb-20 animate-fade-in">
+                <div class="mb-4 sm:mb-6 md:mb-8">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-4 sm:mb-6 md:mb-8 leading-tight title-glow px-2">
                         Para Ti, Mi Poesía
                     </h1>
-                    <div class="w-32 h-1.5 bg-gradient-to-r from-tierra-siena to-dorado-antiguo mx-auto rounded-full mb-8"></div>
+                    <div class="w-24 sm:w-32 h-1 sm:h-1.5 bg-gradient-to-r from-tierra-siena to-dorado-antiguo mx-auto rounded-full mb-4 sm:mb-6 md:mb-8"></div>
                 </div>
-                <p class="text-2xl md:text-3xl text-verde-oliva font-light max-w-4xl mx-auto leading-relaxed mb-12">
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-verde-oliva font-light max-w-4xl mx-auto leading-relaxed mb-4 sm:mb-6 md:mb-8 lg:mb-12 px-2">
                     Donde cada verso es un susurro de amor, cada palabra un latido del corazón
                 </p>
                 
@@ -350,22 +442,22 @@
             </div>
             
             <!-- Selector de Vistas mejorado -->
-            <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">
+            <div class="max-w-7xl mx-auto relative z-30">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-16 px-2 sm:px-4 lg:px-0">
                     <!-- Vista Tarjetas -->
                     <div class="group animate-slide-up" style="animation-delay: 0.1s;">
-                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('tarjetas')">
                             <div class="text-center flex flex-col h-full">
-                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
-                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-12 h-12 sm:w-14 sm:h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-2xl sm:text-3xl font-dosis font-bold text-verde-bosque mb-4 sm:mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Tarjetas
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                <p class="text-gray-600 leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg flex-grow">
                                     Cada poema es una carta de amor que puedes voltear, descubrir y atesorar en tu corazón
                                 </p>
                                 <div class="w-full h-1.5 bg-gradient-to-r from-verde-salvia to-tierra-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -375,18 +467,18 @@
 
                     <!-- Vista Lista -->
                     <div class="group animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('lista')">
                             <div class="text-center flex flex-col h-full">
-                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
-                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-12 h-12 sm:w-14 sm:h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-2xl sm:text-3xl font-dosis font-bold text-verde-bosque mb-4 sm:mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Lista
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                <p class="text-gray-600 leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg flex-grow">
                                     Un paseo por el jardín de las palabras, donde cada verso florece como una rosa
                                 </p>
                                 <div class="w-full h-1.5 bg-gradient-to-r from-tierra-claro to-dorado-suave rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -396,18 +488,18 @@
 
                     <!-- Vista Libro -->
                     <div class="group animate-slide-up" style="animation-delay: 0.3s;">
-                        <div class="bg-white/85 backdrop-blur-sm rounded-3xl shadow-2xl p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
+                        <div class="bg-white/85 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 card-hover cursor-pointer border border-white/30 h-full flex flex-col"
                              onclick="navigateToView('libro')">
                             <div class="text-center flex flex-col h-full">
-                                <div class="w-20 h-20 mb-8 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
-                                    <svg class="w-14 h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 group-hover:animate-pulse-soft flex items-center justify-center mx-auto">
+                                    <svg class="w-12 h-12 sm:w-14 sm:h-14 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                                     </svg>
                                 </div>
-                                <h3 class="text-3xl font-dosis font-bold text-verde-bosque mb-6 group-hover:text-tierra-siena transition-colors">
+                                <h3 class="text-2xl sm:text-3xl font-dosis font-bold text-verde-bosque mb-4 sm:mb-6 group-hover:text-tierra-siena transition-colors">
                                     Vista Libro
                                 </h3>
-                                <p class="text-gray-600 leading-relaxed mb-8 text-lg flex-grow">
+                                <p class="text-gray-600 leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg flex-grow">
                                     Como un diario íntimo de amor, donde cada página guarda secretos del alma
                                 </p>
                                 <div class="w-full h-1.5 bg-gradient-to-r from-dorado-suave to-verde-salvia rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -424,16 +516,26 @@
     <footer id="footer" class="bg-gradient-to-r from-verde-bosque to-verde-oliva text-white py-12 relative z-10"></footer>
 
     <!-- Scripts -->
+    <!-- Configuración -->
+    <script src="src/config/app-config.js"></script>
+    
+    <!-- Servicios base -->
+    <script src="src/services/StateService.js"></script>
+    <script src="src/services/StorageService.js"></script>
+    <script src="src/services/ThemeService.js"></script>
+    <script src="src/services/RouterService.js"></script>
+    
+    <!-- Componentes base -->
     <script src="src/components/BaseComponent.js"></script>
     <script src="src/components/NavbarComponent.js"></script>
     <script src="src/components/FooterComponent.js"></script>
     <script src="src/components/ThemeSelectorComponent.js"></script>
-    <script src="src/services/RouterService.js"></script>
-    <script src="src/services/StateService.js"></script>
-    <script src="src/services/StorageService.js"></script>
-    <script src="src/services/ThemeService.js"></script>
+    
+    <!-- Páginas -->
     <script src="src/pages/BasePage.js"></script>
     <script src="src/pages/HomePage.js"></script>
+    
+    <!-- Aplicación principal -->
     <script src="src/app.js"></script>
 
     <script>
@@ -467,6 +569,20 @@
                 document.body.style.opacity = '1';
                 document.body.style.transform = 'translateY(0)';
             }, 100);
+            
+            // Debug: Verificar que las tarjetas estén visibles
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card-hover');
+                console.log('Tarjetas encontradas:', cards.length);
+                cards.forEach((card, index) => {
+                    console.log(`Tarjeta ${index + 1}:`, {
+                        visible: card.offsetParent !== null,
+                        opacity: window.getComputedStyle(card).opacity,
+                        zIndex: window.getComputedStyle(card).zIndex,
+                        display: window.getComputedStyle(card).display
+                    });
+                });
+            }, 1000);
         });
     </script>
 </body>

@@ -2,7 +2,7 @@
  * Componente de pie de página
  * Extiende BaseComponent para manejar el footer
  */
-export class FooterComponent extends BaseComponent {
+class FooterComponent extends BaseComponent {
     constructor(elementId, options = {}) {
         super(elementId, options);
     }
@@ -146,3 +146,6 @@ export class FooterComponent extends BaseComponent {
         this.log(`Añadiendo enlace personalizado: ${text} -> ${href}`);
     }
 }
+
+// Hacer la clase disponible globalmente
+window.FooterComponent = FooterComponent;
