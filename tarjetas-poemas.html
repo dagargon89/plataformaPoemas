@@ -269,27 +269,42 @@
                                id="search-input"
                                placeholder="Buscar poemas, autores o contenido..."
                                class="w-full px-4 py-3 pl-12 bg-white/80 border border-white/30 rounded-xl focus:outline-none focus:border-verde-oliva transition-all duration-300 search-focus">
-                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+                        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
                 </div>
 
                 <!-- Filtros -->
                 <div class="flex flex-wrap gap-3">
-                    <button class="filter-btn active px-4 py-2 rounded-lg transition-all duration-300 filter-active"
+                    <button class="filter-btn active px-4 py-2 rounded-lg transition-all duration-300 filter-active flex items-center space-x-2"
                             data-filter="all">
-                        🎴 Todos
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                        </svg>
+                        <span>Todos</span>
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80"
+                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80 flex items-center space-x-2"
                             data-filter="categoria">
-                        🏷️ Categorías
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6z" />
+                        </svg>
+                        <span>Categorías</span>
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80"
+                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80 flex items-center space-x-2"
                             data-filter="autor">
-                        ✍️ Autores
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                        <span>Autores</span>
                     </button>
-                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80"
+                    <button class="filter-btn px-4 py-2 rounded-lg transition-all duration-300 bg-white/60 hover:bg-white/80 flex items-center space-x-2"
                             data-filter="recientes">
-                        ⏰ Recientes
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Recientes</span>
                     </button>
                 </div>
 
@@ -313,7 +328,11 @@
         <!-- Error State -->
         <div id="error-state" class="hidden text-center py-12">
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
-                <div class="text-6xl mb-4">🎴</div>
+                <div class="w-16 h-16 mb-4 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                    </svg>
+                </div>
                 <h2 class="text-2xl font-playfair font-bold text-verde-bosque mb-4">
                     Error al cargar poemas
                 </h2>
@@ -366,7 +385,11 @@
         <!-- Indicador de fin de lista -->
         <div id="end-of-list" class="hidden text-center py-12">
             <div class="bg-white/60 backdrop-blur-sm rounded-xl p-8 shadow-lg max-w-md mx-auto border border-white/30">
-                <div class="text-4xl mb-4">✨</div>
+                <div class="w-12 h-12 mb-4 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-dorado-antiguo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                </div>
                 <h3 class="text-xl font-playfair font-bold text-verde-bosque mb-2">
                     ¡Has visto todas las tarjetas!
                 </h3>
@@ -380,7 +403,9 @@
     <!-- Botón de scroll hacia arriba -->
     <button id="scroll-top-btn" 
             class="fixed bottom-8 right-8 bg-gradient-to-r from-verde-oliva to-verde-bosque text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 pointer-events-none z-40">
-        <span class="text-xl">↑</span>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
     </button>
 
     <script>
