@@ -34,66 +34,166 @@
                     fontFamily: {
                         'crimson': ['Crimson Text', 'serif'],
                         'playfair': ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        pulseSoft: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.8' }
+                        }
                     }
                 }
             }
         }
     </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #F0F4E8 0%, #FDF2F8 50%, #FDF4E3 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(99, 107, 47, 0.15);
+        }
+        .decorative-element {
+            background: linear-gradient(45deg, #E89EB8, #F4D03F);
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.3;
+        }
+    </style>
 </head>
-<body class="bg-verde-muy-claro font-crimson">
+<body class="gradient-bg font-crimson min-h-screen">
+    <!-- Elementos decorativos de fondo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="decorative-element absolute top-20 right-20 w-32 h-32 animate-float"></div>
+        <div class="decorative-element absolute bottom-32 left-16 w-24 h-24 animate-float" style="animation-delay: 1s;"></div>
+        <div class="decorative-element absolute top-1/2 left-10 w-16 h-16 animate-float" style="animation-delay: 2s;"></div>
+    </div>
+
     <!-- Navbar -->
-    <nav id="navbar" class="bg-verde-principal text-white shadow-lg sticky top-0 z-50"></nav>
+    <nav id="navbar" class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white shadow-xl sticky top-0 z-50 backdrop-blur-sm"></nav>
 
     <!-- Selector de Temas -->
     <div id="theme-selector" class="fixed top-4 left-4 z-50"></div>
 
     <!-- Contenido Principal -->
-    <main class="min-h-screen">
-        <div class="container mx-auto px-4 py-8">
-            <!-- Selector de Vistas -->
-            <div class="text-center mb-12">
-                <h1 class="text-4xl font-playfair font-bold text-verde-oscuro mb-4">
-                    Sistema de Poemas Dinámico
-                </h1>
-                <p class="text-lg text-verde-principal mb-8">
-                    Elige tu forma preferida de leer poemas
+    <main class="min-h-screen relative z-10">
+        <div class="container mx-auto px-4 py-12">
+            <!-- Header principal mejorado -->
+            <div class="text-center mb-16 animate-fade-in">
+                <div class="mb-6">
+                    <h1 class="text-5xl md:text-6xl font-playfair font-bold bg-gradient-to-r from-verde-oscuro via-rosa-principal to-amarillo-dorado bg-clip-text text-transparent mb-6 leading-tight">
+                        Sistema de Poemas Dinámico
+                    </h1>
+                    <div class="w-24 h-1 bg-gradient-to-r from-rosa-principal to-amarillo-dorado mx-auto rounded-full mb-6"></div>
+                </div>
+                <p class="text-xl md:text-2xl text-verde-principal font-light max-w-3xl mx-auto leading-relaxed">
+                    Sumérgete en el mundo de la poesía a través de diferentes experiencias visuales únicas
                 </p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            </div>
+            
+            <!-- Selector de Vistas mejorado -->
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
                     <!-- Vista Tarjetas -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer" 
-                         onclick="navigateToView('tarjetas')">
-                        <div class="text-4xl mb-4">🎴</div>
-                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
-                            Vista Tarjetas
-                        </h3>
-                        <p class="text-gray-600">
-                            Poemas en tarjetas interactivas con efectos 3D
-                        </p>
+                    <div class="group animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                             onclick="navigateToView('tarjetas')">
+                            <div class="text-center">
+                                <div class="text-6xl mb-6 group-hover:animate-pulse-soft">🎴</div>
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                    Vista Tarjetas
+                                </h3>
+                                <p class="text-gray-600 leading-relaxed mb-6">
+                                    Poemas en tarjetas interactivas con efectos 3D y animaciones suaves que crean una experiencia envolvente
+                                </p>
+                                <div class="w-full h-1 bg-gradient-to-r from-verde-claro to-rosa-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Vista Lista -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
-                         onclick="navigateToView('lista')">
-                        <div class="text-4xl mb-4">📜</div>
-                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
-                            Vista Lista
-                        </h3>
-                        <p class="text-gray-600">
-                            Lista de poemas con scroll suave y animaciones
-                        </p>
+                    <div class="group animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                             onclick="navigateToView('lista')">
+                            <div class="text-center">
+                                <div class="text-6xl mb-6 group-hover:animate-pulse-soft">📜</div>
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                    Vista Lista
+                                </h3>
+                                <p class="text-gray-600 leading-relaxed mb-6">
+                                    Lista elegante de poemas con scroll suave, animaciones fluidas y navegación intuitiva
+                                </p>
+                                <div class="w-full h-1 bg-gradient-to-r from-rosa-claro to-amarillo-medio rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Vista Libro -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
-                         onclick="navigateToView('libro')">
-                        <div class="text-4xl mb-4">📖</div>
-                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
-                            Vista Libro
-                        </h3>
-                        <p class="text-gray-600">
-                            Simulación de libro tradicional con volteo de páginas
-                        </p>
+                    <div class="group animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-white/20"
+                             onclick="navigateToView('libro')">
+                            <div class="text-center">
+                                <div class="text-6xl mb-6 group-hover:animate-pulse-soft">📖</div>
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                    Vista Libro
+                                </h3>
+                                <p class="text-gray-600 leading-relaxed mb-6">
+                                    Simulación realista de libro tradicional con volteo de páginas y efectos de papel auténticos
+                                </p>
+                                <div class="w-full h-1 bg-gradient-to-r from-amarillo-medio to-verde-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de características adicionales -->
+                <div class="mt-20 text-center animate-fade-in" style="animation-delay: 0.4s;">
+                    <h2 class="text-3xl font-playfair font-semibold text-verde-oscuro mb-8">
+                        Características Destacadas
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div class="flex flex-col items-center p-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-rosa-claro to-rosa-principal rounded-full flex items-center justify-center mb-4">
+                                <span class="text-2xl">🎨</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Temas Dinámicos</h3>
+                            <p class="text-gray-600 text-sm">Personaliza la experiencia con diferentes esquemas de colores</p>
+                        </div>
+                        <div class="flex flex-col items-center p-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-amarillo-claro to-amarillo-dorado rounded-full flex items-center justify-center mb-4">
+                                <span class="text-2xl">📱</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Responsivo</h3>
+                            <p class="text-gray-600 text-sm">Optimizado para todos los dispositivos y tamaños de pantalla</p>
+                        </div>
+                        <div class="flex flex-col items-center p-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-verde-claro to-verde-principal rounded-full flex items-center justify-center mb-4">
+                                <span class="text-2xl">⚡</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Rendimiento</h3>
+                            <p class="text-gray-600 text-sm">Carga rápida y animaciones fluidas para la mejor experiencia</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,7 +201,7 @@
     </main>
 
     <!-- Footer -->
-    <footer id="footer" class="bg-verde-oscuro text-white py-8"></footer>
+    <footer id="footer" class="bg-gradient-to-r from-verde-oscuro to-verde-principal text-white py-12 relative z-10"></footer>
 
     <!-- Scripts -->
     <script src="src/components/BaseComponent.js"></script>
@@ -117,18 +217,37 @@
     <script src="src/app.js"></script>
 
     <script>
-        // Navegación simple
+        // Navegación simple con efecto
         function navigateToView(view) {
-            const routes = {
-                'tarjetas': 'tarjetas-poemas.html',
-                'lista': 'lista-scroll.html',
-                'libro': 'libro-tradicional.html'
-            };
+            // Efecto de transición antes de navegar
+            document.body.style.opacity = '0.8';
+            document.body.style.transform = 'scale(0.98)';
+            document.body.style.transition = 'all 0.3s ease';
             
-            if (routes[view]) {
-                window.location.href = routes[view];
-            }
+            setTimeout(() => {
+                const routes = {
+                    'tarjetas': 'tarjetas-poemas.html',
+                    'lista': 'lista-scroll.html',
+                    'libro': 'libro-tradicional.html'
+                };
+                
+                if (routes[view]) {
+                    window.location.href = routes[view];
+                }
+            }, 300);
         }
+
+        // Animación de entrada suave
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transform = 'translateY(20px)';
+            document.body.style.transition = 'all 0.8s ease-out';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                document.body.style.transform = 'translateY(0)';
+            }, 100);
+        });
     </script>
 </body>
 </html>
