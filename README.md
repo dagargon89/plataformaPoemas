@@ -37,14 +37,14 @@ plataformaPoemas/
 - **Patrón MVC**: Arquitectura Model-View-Controller
 - **Componentes Reutilizables**: Sistema modular de componentes
 - **Responsive Design**: Diseño adaptativo con Tailwind CSS
-- **API REST**: Backend con PHP y SQLite
+- **API REST**: Backend con PHP y MySQL
 - **Panel Administrativo**: Gestión completa de contenido
 - **Múltiples Vistas**: Tarjetas, Lista y Libro tradicional
 
 ## 🎨 Tecnologías
 
 - **Frontend**: HTML5, CSS3, JavaScript ES6+, Tailwind CSS
-- **Backend**: PHP 7.4+, SQLite3
+- **Backend**: PHP 7.4+, MySQL 5.7+
 - **Patrón**: MVC con componentes modulares
 
 ## 📱 Vistas Disponibles
@@ -57,7 +57,8 @@ plataformaPoemas/
 
 1. **Requisitos**:
    - PHP 7.4 o superior
-   - Extensiones: `pdo_sqlite`, `sqlite3`, `json`
+   - MySQL 5.7 o superior
+   - Extensiones: `pdo_mysql`, `json`
    - Servidor web (Apache/Nginx)
 
 2. **Configuración**:

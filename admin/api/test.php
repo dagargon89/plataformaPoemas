@@ -29,7 +29,7 @@ try {
     $testResults['tests']['database_connection'] = [
         'name' => 'Conexión a Base de Datos',
         'status' => 'passed',
-        'message' => 'Conexión exitosa a SQLite'
+        'message' => 'Conexión exitosa a MySQL'
     ];
 
     // Test 2: Verificar tablas
@@ -37,7 +37,7 @@ try {
     $existingTables = [];
     
     foreach ($tables as $table) {
-        $stmt = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='$table'");
+        $stmt = $db->query("SHOW TABLES LIKE '$table'");
         if ($stmt->fetch()) {
             $existingTables[] = $table;
         }
@@ -94,8 +94,13 @@ try {
     ];
 
     // Test 5: Verificar claves foráneas
-    $stmt = $db->query("PRAGMA foreign_keys");
-    $foreignKeysEnabled = $stmt->fetchColumn() == 1;
+    $foreignKeysEnabled = true; // MySQL tiene claves foráneas habilitadas por defecto
+    try {
+        $stmt = $db->query("SELECT @@foreign_key_checks");
+        $foreignKeysEnabled = $stmt->fetchColumn() == 1;
+    } catch (Exception $e) {
+        $foreignKeysEnabled = false;
+    }
 
     $testResults['tests']['foreign_keys'] = [
         'name' => 'Claves Foráneas',
@@ -117,24 +122,29 @@ try {
         ];
     }
 
-    // Test 7: Verificar permisos de escritura
-    $dataDir = '../data/';
-    $writable = is_writable($dataDir);
+    // Test 7: Verificar conexión MySQL
+    $mysqlConnection = true;
+    try {
+        $db->query('SELECT 1');
+    } catch (Exception $e) {
+        $mysqlConnection = false;
+    }
 
-    $testResults['tests']['write_permissions'] = [
-        'name' => 'Permisos de Escritura',
-        'status' => $writable ? 'passed' : 'failed',
-        'message' => $writable ? 'Directorio data/ tiene permisos de escritura' : 'Directorio data/ sin permisos de escritura'
+    $testResults['tests']['mysql_connection'] = [
+        'name' => 'Conexión MySQL',
+        'status' => $mysqlConnection ? 'passed' : 'failed',
+        'message' => $mysqlConnection ? 'Conexión a MySQL exitosa' : 'Error de conexión a MySQL'
     ];
 
     // Test 8: Información del sistema
     $testResults['system_info'] = [
         'php_version' => PHP_VERSION,
-        'sqlite_version' => $db->query('SELECT sqlite_version()')->fetchColumn(),
+        'mysql_version' => $db->query('SELECT VERSION()')->fetchColumn(),
         'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Desconocido',
         'document_root' => $_SERVER['DOCUMENT_ROOT'] ?? 'Desconocido',
         'script_path' => __DIR__,
-        'database_path' => realpath('../data/poemas.db') ?: 'No encontrada'
+        'database_name' => 'poemas_db',
+        'database_host' => 'localhost'
     ];
 
     // Determinar estado general

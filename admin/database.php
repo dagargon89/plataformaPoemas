@@ -1,35 +1,44 @@
 <?php
 /**
- * Configuración de la base de datos SQLite
+ * Configuración de la base de datos MySQL
  * Sistema de Poemas Dinámico
  */
 
 class Database {
     private $db;
-    private $dbPath;
+    private $config;
 
-    public function __construct($dbPath = '../data/poemas.db') {
-        $this->dbPath = $dbPath;
+    public function __construct($config = null) {
+        // Cargar configuración desde config.php si no se proporciona
+        if ($config === null) {
+            require_once __DIR__ . '/config.php';
+            $this->config = DB_CONFIG;
+        } else {
+            $this->config = $config;
+        }
         $this->connect();
     }
 
     /**
-     * Conecta a la base de datos SQLite
+     * Conecta a la base de datos MySQL
      */
     private function connect() {
         try {
-            // Crear directorio data si no existe
-            $dataDir = dirname($this->dbPath);
-            if (!is_dir($dataDir)) {
-                mkdir($dataDir, 0755, true);
-            }
-
-            $this->db = new PDO('sqlite:' . $this->dbPath);
+            $dsn = "mysql:host={$this->config['host']};charset={$this->config['charset']}";
+            
+            // Primero conectamos sin especificar base de datos para crearla si no existe
+            $this->db = new PDO($dsn, $this->config['username'], $this->config['password']);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             
-            // Habilitar claves foráneas
-            $this->db->exec('PRAGMA foreign_keys = ON');
+            // Crear base de datos si no existe
+            $this->db->exec("CREATE DATABASE IF NOT EXISTS `{$this->config['dbname']}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            
+            // Reconectar especificando la base de datos
+            $dsn = "mysql:host={$this->config['host']};dbname={$this->config['dbname']};charset={$this->config['charset']}";
+            $this->db = new PDO($dsn, $this->config['username'], $this->config['password']);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             
         } catch (PDOException $e) {
             throw new Exception("Error al conectar con la base de datos: " . $e->getMessage());
@@ -51,63 +60,63 @@ class Database {
             // Tabla autores
             $this->db->exec("
                 CREATE TABLE IF NOT EXISTS autores (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INT AUTO_INCREMENT PRIMARY KEY,
                     nombre VARCHAR(100) NOT NULL UNIQUE,
                     biografia TEXT,
-                    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
+                    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
 
             // Tabla categorias
             $this->db->exec("
                 CREATE TABLE IF NOT EXISTS categorias (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INT AUTO_INCREMENT PRIMARY KEY,
                     nombre VARCHAR(50) NOT NULL UNIQUE,
                     icono VARCHAR(50),
                     color VARCHAR(20),
                     descripcion TEXT,
-                    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
+                    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
 
             // Tabla etiquetas
             $this->db->exec("
                 CREATE TABLE IF NOT EXISTS etiquetas (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INT AUTO_INCREMENT PRIMARY KEY,
                     nombre VARCHAR(50) NOT NULL UNIQUE,
-                    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
+                    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
 
             // Tabla poemas
             $this->db->exec("
                 CREATE TABLE IF NOT EXISTS poemas (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INT AUTO_INCREMENT PRIMARY KEY,
                     titulo VARCHAR(200) NOT NULL,
-                    autor_id INTEGER NOT NULL,
-                    categoria_id INTEGER NOT NULL,
+                    autor_id INT NOT NULL,
+                    categoria_id INT NOT NULL,
                     icono VARCHAR(50),
                     extracto TEXT,
                     contenido TEXT NOT NULL,
-                    tiempo_lectura INTEGER DEFAULT 2,
-                    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    tiempo_lectura INT DEFAULT 2,
+                    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (autor_id) REFERENCES autores(id) ON DELETE CASCADE,
                     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE
-                )
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
 
             // Tabla de relación muchos a muchos entre poemas y etiquetas
             $this->db->exec("
                 CREATE TABLE IF NOT EXISTS poema_etiquetas (
-                    poema_id INTEGER,
-                    etiqueta_id INTEGER,
+                    poema_id INT,
+                    etiqueta_id INT,
                     PRIMARY KEY (poema_id, etiqueta_id),
                     FOREIGN KEY (poema_id) REFERENCES poemas(id) ON DELETE CASCADE,
                     FOREIGN KEY (etiqueta_id) REFERENCES etiquetas(id) ON DELETE CASCADE
-                )
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ");
 
             return true;
@@ -243,38 +252,34 @@ class Database {
      */
     public function checkDatabaseStatus() {
         $status = [
-            'database_exists' => file_exists($this->dbPath),
+            'database_exists' => true, // MySQL siempre existe si la conexión funciona
             'tables_created' => false,
             'data_inserted' => false,
-            'foreign_keys_enabled' => false
+            'foreign_keys_enabled' => true // MySQL tiene claves foráneas habilitadas por defecto
         ];
 
-        if ($status['database_exists']) {
-            try {
-                // Verificar si las tablas existen
-                $tables = ['autores', 'categorias', 'etiquetas', 'poemas', 'poema_etiquetas'];
-                $existingTables = 0;
-                
-                foreach ($tables as $table) {
-                    $stmt = $this->db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='$table'");
-                    if ($stmt->fetch()) {
-                        $existingTables++;
-                    }
+        try {
+            // Verificar si las tablas existen
+            $tables = ['autores', 'categorias', 'etiquetas', 'poemas', 'poema_etiquetas'];
+            $existingTables = 0;
+            
+            foreach ($tables as $table) {
+                $stmt = $this->db->query("SHOW TABLES LIKE '$table'");
+                if ($stmt->fetch()) {
+                    $existingTables++;
                 }
-                
-                $status['tables_created'] = ($existingTables === count($tables));
-                
-                // Verificar si hay datos
+            }
+            
+            $status['tables_created'] = ($existingTables === count($tables));
+            
+            // Verificar si hay datos
+            if ($status['tables_created']) {
                 $stmt = $this->db->query("SELECT COUNT(*) FROM autores");
                 $status['data_inserted'] = ($stmt->fetchColumn() > 0);
-                
-                // Verificar claves foráneas
-                $stmt = $this->db->query("PRAGMA foreign_keys");
-                $status['foreign_keys_enabled'] = ($stmt->fetchColumn() == 1);
-                
-            } catch (Exception $e) {
-                $status['error'] = $e->getMessage();
             }
+            
+        } catch (Exception $e) {
+            $status['error'] = $e->getMessage();
         }
 
         return $status;

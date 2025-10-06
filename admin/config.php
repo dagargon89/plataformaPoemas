@@ -1,0 +1,100 @@
+<?php
+/**
+ * Configuración del Sistema
+ * Sistema de Poemas Dinámico
+ */
+
+// Configuración de la base de datos MySQL
+define('DB_CONFIG', [
+    'host' => 'localhost',
+    'dbname' => 'poemas_db',
+    'username' => 'root',
+    'password' => '',
+    'charset' => 'utf8mb4'
+]);
+
+// Configuración general del sistema
+define('APP_CONFIG', [
+    'name' => 'Sistema de Poemas Dinámico',
+    'version' => '1.0.0',
+    'debug' => false,
+    'timezone' => 'America/Mexico_City'
+]);
+
+// Configuración de la API
+define('API_CONFIG', [
+    'cors_enabled' => true,
+    'rate_limit' => 1000, // requests per hour
+    'max_file_size' => '10MB'
+]);
+
+// Configuración de seguridad
+define('SECURITY_CONFIG', [
+    'password_min_length' => 8,
+    'session_timeout' => 3600, // 1 hour
+    'max_login_attempts' => 5
+]);
+
+// Configuración de uploads
+define('UPLOAD_CONFIG', [
+    'allowed_types' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+    'max_size' => 5 * 1024 * 1024, // 5MB
+    'upload_path' => '../uploads/'
+]);
+
+// Configuración de logs
+define('LOG_CONFIG', [
+    'enabled' => true,
+    'level' => 'INFO', // DEBUG, INFO, WARNING, ERROR
+    'file' => '../logs/system.log',
+    'max_size' => 10 * 1024 * 1024 // 10MB
+]);
+
+// Configuración de cache
+define('CACHE_CONFIG', [
+    'enabled' => true,
+    'driver' => 'file', // file, redis, memcached
+    'ttl' => 3600, // 1 hour
+    'path' => '../cache/'
+]);
+
+// Función helper para obtener configuración
+function getConfig($section = null) {
+    $configs = [
+        'database' => DB_CONFIG,
+        'app' => APP_CONFIG,
+        'api' => API_CONFIG,
+        'security' => SECURITY_CONFIG,
+        'upload' => UPLOAD_CONFIG,
+        'log' => LOG_CONFIG,
+        'cache' => CACHE_CONFIG
+    ];
+    
+    if ($section === null) {
+        return $configs;
+    }
+    
+    return isset($configs[$section]) ? $configs[$section] : null;
+}
+
+// Función para crear directorios necesarios
+function createRequiredDirectories() {
+    $directories = [
+        '../uploads/',
+        '../logs/',
+        '../cache/'
+    ];
+    
+    foreach ($directories as $dir) {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+    }
+}
+
+// Configurar zona horaria
+date_default_timezone_set(APP_CONFIG['timezone']);
+
+// Crear directorios necesarios
+createRequiredDirectories();
+?>
