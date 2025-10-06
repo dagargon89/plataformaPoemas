@@ -1,0 +1,211 @@
+/* Estilos principales del Sistema de Poemas */
+
+/* Variables CSS */
+:root {
+    /* Verde Principal */
+    --color-verde-principal: #636B2F;
+    --color-verde-claro: #8B9A4A;
+    --color-verde-oscuro: #4A5220;
+    --color-verde-muy-claro: #F0F4E8;
+
+    /* Rosa Complementario */
+    --color-rosa-principal: #E89EB8;
+    --color-rosa-claro: #F2C4D1;
+    --color-rosa-oscuro: #D67A9A;
+    --color-rosa-muy-claro: #FDF2F8;
+
+    /* Amarillos/Cremas */
+    --color-amarillo-claro: #FDF4E3;
+    --color-amarillo-medio: #F9E6B3;
+    --color-amarillo-dorado: #F4D03F;
+    --color-amarillo-intenso: #D4AC0D;
+
+    /* Fuentes */
+    --font-primary: 'Crimson Text', serif;
+    --font-heading: 'Playfair Display', serif;
+
+    /* Animaciones */
+    --animation-fast: 0.2s;
+    --animation-normal: 0.3s;
+    --animation-slow: 0.5s;
+    --animation-easing: ease-in-out;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base */
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    color: var(--color-verde-oscuro);
+    background-color: var(--color-verde-muy-claro);
+}
+
+/* Tipografías */
+.font-heading {
+    font-family: var(--font-heading);
+}
+
+.font-primary {
+    font-family: var(--font-primary);
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes flip {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(180deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Clases de animación */
+.animate-fadeIn {
+    animation: fadeIn var(--animation-normal) var(--animation-easing);
+}
+
+.animate-slideIn {
+    animation: slideIn var(--animation-normal) var(--animation-easing);
+}
+
+.animate-flip {
+    animation: flip var(--animation-slow) var(--animation-easing);
+}
+
+.animate-pulse-custom {
+    animation: pulse var(--animation-slow) infinite;
+}
+
+/* Efectos hover */
+.hover-lift {
+    transition: transform var(--animation-fast) var(--animation-easing);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.hover-scale {
+    transition: transform var(--animation-fast) var(--animation-easing);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+/* Cards personalizadas */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all var(--animation-normal) var(--animation-easing);
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Botones personalizados */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--animation-fast) var(--animation-easing);
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background-color: var(--color-verde-principal);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-verde-oscuro);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--color-rosa-principal);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-rosa-oscuro);
+    transform: translateY(-2px);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .text-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Estados de carga */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

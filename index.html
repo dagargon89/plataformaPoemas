@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Poemas Dinámico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/main.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde': {
+                            'principal': '#636B2F',
+                            'claro': '#8B9A4A',
+                            'oscuro': '#4A5220',
+                            'muy-claro': '#F0F4E8',
+                        },
+                        'rosa': {
+                            'principal': '#E89EB8',
+                            'claro': '#F2C4D1',
+                            'oscuro': '#D67A9A',
+                            'muy-claro': '#FDF2F8',
+                        },
+                        'amarillo': {
+                            'claro': '#FDF4E3',
+                            'medio': '#F9E6B3',
+                            'dorado': '#F4D03F',
+                            'intenso': '#D4AC0D',
+                        }
+                    },
+                    fontFamily: {
+                        'crimson': ['Crimson Text', 'serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-verde-muy-claro font-crimson">
+    <!-- Navbar -->
+    <nav id="navbar" class="bg-verde-principal text-white shadow-lg sticky top-0 z-50"></nav>
+
+    <!-- Contenido Principal -->
+    <main class="min-h-screen">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Selector de Vistas -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-playfair font-bold text-verde-oscuro mb-4">
+                    Sistema de Poemas Dinámico
+                </h1>
+                <p class="text-lg text-verde-principal mb-8">
+                    Elige tu forma preferida de leer poemas
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <!-- Vista Tarjetas -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer" 
+                         onclick="navigateToView('tarjetas')">
+                        <div class="text-4xl mb-4">🎴</div>
+                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
+                            Vista Tarjetas
+                        </h3>
+                        <p class="text-gray-600">
+                            Poemas en tarjetas interactivas con efectos 3D
+                        </p>
+                    </div>
+
+                    <!-- Vista Lista -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
+                         onclick="navigateToView('lista')">
+                        <div class="text-4xl mb-4">📜</div>
+                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
+                            Vista Lista
+                        </h3>
+                        <p class="text-gray-600">
+                            Lista de poemas con scroll suave y animaciones
+                        </p>
+                    </div>
+
+                    <!-- Vista Libro -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
+                         onclick="navigateToView('libro')">
+                        <div class="text-4xl mb-4">📖</div>
+                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
+                            Vista Libro
+                        </h3>
+                        <p class="text-gray-600">
+                            Simulación de libro tradicional con volteo de páginas
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-verde-oscuro text-white py-8"></footer>
+
+    <!-- Scripts -->
+    <script src="src/components/BaseComponent.js"></script>
+    <script src="src/components/NavbarComponent.js"></script>
+    <script src="src/components/FooterComponent.js"></script>
+    <script src="src/services/RouterService.js"></script>
+    <script src="src/services/StateService.js"></script>
+    <script src="src/services/StorageService.js"></script>
+    <script src="src/pages/BasePage.js"></script>
+    <script src="src/pages/HomePage.js"></script>
+    <script src="src/app.js"></script>
+
+    <script>
+        // Navegación simple
+        function navigateToView(view) {
+            const routes = {
+                'tarjetas': 'tarjetas-poemas.html',
+                'lista': 'lista-scroll.html',
+                'libro': 'libro-tradicional.html'
+            };
+            
+            if (routes[view]) {
+                window.location.href = routes[view];
+            }
+        }
+    </script>
+</body>
+</html>

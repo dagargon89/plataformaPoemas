@@ -1,0 +1,76 @@
+<!-- Template de navegación -->
+<nav class="bg-verde-principal text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo/Título -->
+            <div class="flex items-center">
+                <a href="index.html" class="text-xl font-playfair font-bold text-white hover:text-rosa-claro transition-colors">
+                    📚 Poemas
+                </a>
+            </div>
+
+            <!-- Navegación Desktop -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="nav-link text-white hover:text-rosa-claro transition-colors">
+                    🏠 Inicio
+                </a>
+                <a href="tarjetas-poemas.html" class="nav-link text-white hover:text-rosa-claro transition-colors">
+                    🎴 Tarjetas
+                </a>
+                <a href="lista-scroll.html" class="nav-link text-white hover:text-rosa-claro transition-colors">
+                    📜 Lista
+                </a>
+                <a href="libro-tradicional.html" class="nav-link text-white hover:text-rosa-claro transition-colors">
+                    📖 Libro
+                </a>
+            </nav>
+
+            <!-- Botón Admin -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="admin/" class="text-sm text-rosa-claro hover:text-white transition-colors">
+                    ⚙️ Admin
+                </a>
+            </div>
+
+            <!-- Botón Mobile Menu -->
+            <button class="md:hidden text-white hover:text-rosa-claro transition-colors" 
+                    onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-verde-oscuro mt-2 rounded-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-white hover:text-rosa-claro transition-colors">
+                    🏠 Inicio
+                </a>
+                <a href="tarjetas-poemas.html" class="block px-3 py-2 text-white hover:text-rosa-claro transition-colors">
+                    🎴 Tarjetas
+                </a>
+                <a href="lista-scroll.html" class="block px-3 py-2 text-white hover:text-rosa-claro transition-colors">
+                    📜 Lista
+                </a>
+                <a href="libro-tradicional.html" class="block px-3 py-2 text-white hover:text-rosa-claro transition-colors">
+                    📖 Libro
+                </a>
+                <div class="border-t border-verde-claro pt-2 mt-2">
+                    <a href="admin/" class="block px-3 py-2 text-rosa-claro hover:text-white transition-colors">
+                        ⚙️ Panel Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu) {
+        mobileMenu.classList.toggle('hidden');
+    }
+}
+</script>

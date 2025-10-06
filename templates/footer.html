@@ -1,0 +1,96 @@
+<!-- Template de pie de página -->
+<footer class="bg-verde-oscuro text-white py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Información del sitio -->
+            <div class="text-center md:text-left">
+                <h3 class="text-lg font-playfair font-semibold text-white mb-3">
+                    📚 Sistema de Poemas
+                </h3>
+                <p class="text-rosa-claro text-sm leading-relaxed">
+                    Una plataforma dinámica para disfrutar de la poesía 
+                    con múltiples formas de lectura y gestión de contenido.
+                </p>
+            </div>
+
+            <!-- Enlaces de navegación -->
+            <div class="text-center">
+                <h4 class="text-white font-semibold mb-3">Navegación</h4>
+                <div class="space-y-2">
+                    <div>
+                        <a href="index.html" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            🏠 Inicio
+                        </a>
+                    </div>
+                    <div>
+                        <a href="tarjetas-poemas.html" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            🎴 Vista Tarjetas
+                        </a>
+                    </div>
+                    <div>
+                        <a href="lista-scroll.html" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            📜 Vista Lista
+                        </a>
+                    </div>
+                    <div>
+                        <a href="libro-tradicional.html" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            📖 Vista Libro
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enlaces administrativos -->
+            <div class="text-center md:text-right">
+                <h4 class="text-white font-semibold mb-3">Administración</h4>
+                <div class="space-y-2">
+                    <div>
+                        <a href="admin/" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            ⚙️ Panel Admin
+                        </a>
+                    </div>
+                    <div>
+                        <a href="admin/panel.php" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            📝 Gestionar Poemas
+                        </a>
+                    </div>
+                    <div>
+                        <a href="admin/api/test.php" class="text-rosa-claro hover:text-white transition-colors text-sm">
+                            🔧 API Status
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Separador -->
+        <div class="border-t border-verde-claro mt-8 pt-6">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <!-- Copyright -->
+                <div class="text-center md:text-left">
+                    <p class="text-rosa-claro text-sm">
+                        © <span id="current-year">2024</span> Sistema de Poemas Dinámico. 
+                        Todos los derechos reservados.
+                    </p>
+                </div>
+
+                <!-- Información técnica -->
+                <div class="text-center md:text-right">
+                    <p class="text-rosa-claro text-xs">
+                        Versión 1.0.0 | Desarrollado con ❤️
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Actualizar año actual
+document.addEventListener('DOMContentLoaded', function() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+});
+</script>
