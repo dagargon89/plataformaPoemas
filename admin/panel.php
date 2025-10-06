@@ -54,6 +54,23 @@ if (!in_array($section, $validSections)) {
             }
         }
     </script>
+    <style>
+        /* Estilos personalizados para checkboxes de etiquetas */
+        .etiqueta-checkbox:checked + span {
+            color: #636B2F;
+            font-weight: 600;
+        }
+        
+        .etiqueta-checkbox:checked {
+            background-color: #636B2F;
+            border-color: #636B2F;
+        }
+        
+        label:has(.etiqueta-checkbox:checked) {
+            background-color: #F0F4E8;
+            border-color: #636B2F;
+        }
+    </style>
 </head>
 <body class="bg-verde-muy-claro font-crimson">
     <!-- Header -->
@@ -615,9 +632,14 @@ if (!in_array($section, $validSections)) {
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Etiquetas</label>
-                                <select name="etiquetas[]" multiple id="etiquetas-select"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-verde-principal focus:border-transparent">
-                                </select>
+                                <div id="etiquetas-container" class="border border-gray-300 rounded-lg p-3 min-h-[120px] bg-gray-50">
+                                    <div class="text-sm text-gray-500 mb-2">Selecciona las etiquetas:</div>
+                                    <div id="etiquetas-list" class="flex flex-wrap gap-2">
+                                        <!-- Las etiquetas se cargarán aquí dinámicamente -->
+                                    </div>
+                                </div>
+                                <!-- Campo oculto para enviar los IDs de las etiquetas seleccionadas -->
+                                <input type="hidden" name="etiquetas" id="etiquetas-hidden" value="">
                             </div>
                         </div>
                         <div>
@@ -700,7 +722,16 @@ if (!in_array($section, $validSections)) {
                 
                 // Procesar datos específicos
                 if (currentSection === 'poemas') {
-                    data.etiquetas = Array.isArray(data.etiquetas) ? data.etiquetas.map(id => parseInt(id)) : [];
+                    // Procesar etiquetas desde el campo oculto
+                    if (data.etiquetas) {
+                        try {
+                            data.etiquetas = JSON.parse(data.etiquetas).map(id => parseInt(id));
+                        } catch (e) {
+                            data.etiquetas = [];
+                        }
+                    } else {
+                        data.etiquetas = [];
+                    }
                     data.autor_id = parseInt(data.autor_id);
                     data.categoria_id = parseInt(data.categoria_id);
                     data.tiempo_lectura = parseInt(data.tiempo_lectura);
@@ -832,13 +863,32 @@ if (!in_array($section, $validSections)) {
                 const etiquetasData = await etiquetasResponse.json();
                 
                 if (etiquetasData.success) {
-                    const etiquetasSelect = document.getElementById('etiquetas-select');
-                    if (etiquetasSelect) {
-                        etiquetasSelect.innerHTML = etiquetasData.data.map(etiqueta => 
-                            `<option value="${etiqueta.id}">${etiqueta.nombre}</option>`
+                    const etiquetasList = document.getElementById('etiquetas-list');
+                    if (etiquetasList) {
+                        etiquetasList.innerHTML = etiquetasData.data.map(etiqueta => 
+                            `<label class="inline-flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" value="${etiqueta.id}" class="etiqueta-checkbox mr-2 text-verde-principal focus:ring-verde-principal">
+                                <span class="text-sm text-gray-700">${etiqueta.nombre}</span>
+                            </label>`
                         ).join('');
+                        
+                        // Agregar event listeners a los checkboxes
+                        const checkboxes = etiquetasList.querySelectorAll('.etiqueta-checkbox');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.addEventListener('change', updateEtiquetasHidden);
+                        });
                     }
                 }
+            }
+        }
+
+        // Actualizar campo oculto con etiquetas seleccionadas
+        function updateEtiquetasHidden() {
+            const checkboxes = document.querySelectorAll('.etiqueta-checkbox:checked');
+            const etiquetasIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+            const hiddenInput = document.getElementById('etiquetas-hidden');
+            if (hiddenInput) {
+                hiddenInput.value = JSON.stringify(etiquetasIds);
             }
         }
 
@@ -858,11 +908,11 @@ if (!in_array($section, $validSections)) {
                 }
 
                 // Seleccionar etiquetas
-                const etiquetasSelect = document.getElementById('etiquetas-select');
-                if (etiquetasSelect && item.etiquetas) {
+                if (item.etiquetas) {
                     // Limpiar selecciones previas
-                    Array.from(etiquetasSelect.options).forEach(option => {
-                        option.selected = false;
+                    const checkboxes = document.querySelectorAll('.etiqueta-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
                     });
                     
                     // Seleccionar etiquetas actuales
@@ -870,13 +920,13 @@ if (!in_array($section, $validSections)) {
                         item.etiquetas.forEach(etiqueta => {
                             // Manejar tanto objetos {id, nombre} como strings
                             const etiquetaId = typeof etiqueta === 'object' ? etiqueta.id : etiqueta;
-                            const option = Array.from(etiquetasSelect.options).find(opt => 
-                                opt.value == etiquetaId
-                            );
-                            if (option) {
-                                option.selected = true;
+                            const checkbox = document.querySelector(`input[value="${etiquetaId}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
                             }
                         });
+                        // Actualizar el campo oculto
+                        updateEtiquetasHidden();
                     }
                 }
             }
@@ -885,7 +935,11 @@ if (!in_array($section, $validSections)) {
         // Cargar opciones cuando se abra el modal
         document.addEventListener('click', function(e) {
             if (e.target.onclick && e.target.onclick.toString().includes('openCreateModal')) {
-                setTimeout(loadSelectOptions, 100);
+                setTimeout(async () => {
+                    await loadSelectOptions();
+                    // Inicializar el campo oculto de etiquetas para formularios nuevos
+                    updateEtiquetasHidden();
+                }, 100);
             }
         });
     </script>
