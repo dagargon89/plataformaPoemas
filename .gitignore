@@ -1,0 +1,42 @@
+# Archivos de configuración sensibles
+admin/config.php
+
+# Archivos de base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos de logs
+logs/
+*.log
+
+# Archivos de cache
+cache/
+
+# Archivos de uploads
+uploads/
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de dependencias
+vendor/
+node_modules/
+
+# Archivos de configuración local
+.env
+.env.local
+.env.production
+
+# Archivos de backup
+*.bak
+*.backup
