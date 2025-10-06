@@ -88,7 +88,8 @@
         .gradient-bg {
             background: linear-gradient(135deg, #F8F8FF 0%, #F5F5DC 50%, #F0E68C 100%);
             position: relative;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
         /* Partículas románticas flotantes */
@@ -327,7 +328,7 @@
 </head>
 <body class="gradient-bg font-libre min-h-screen scroll-smooth">
     <!-- Elementos decorativos de fondo -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="decorative-element absolute top-20 right-20 w-32 h-32 animate-float"></div>
         <div class="decorative-element absolute bottom-32 left-16 w-24 h-24 animate-float" style="animation-delay: 2s;"></div>
         <div class="decorative-element absolute top-1/2 left-10 w-16 h-16 animate-float" style="animation-delay: 4s;"></div>
@@ -384,7 +385,7 @@
     </header>
 
     <!-- Contenido principal -->
-    <main class="container mx-auto px-4 py-8 relative z-10">
+    <main class="container mx-auto px-4 py-8 pb-16 relative z-10">
             <!-- Header de la vista -->
             <div class="text-center mb-8 animate-fade-in">
                 <h2 class="text-4xl md:text-5xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-6 leading-tight">
