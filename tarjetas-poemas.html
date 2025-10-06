@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vista Tarjetas - Sistema de Poemas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -41,6 +41,7 @@
                         }
                     },
                     fontFamily: {
+                        'dosis': ['Dosis', 'sans-serif'],
                         'crimson': ['Crimson Text', 'serif'],
                         'playfair': ['Playfair Display', 'serif'],
                         'libre': ['Libre Baskerville', 'serif'],
@@ -238,7 +239,12 @@
                     <span class="font-playfair">Volver al inicio</span>
                 </button>
             </div>
-            <h1 class="text-2xl font-playfair font-bold">🎴 Vista Tarjetas</h1>
+            <h1 class="text-2xl font-dosis font-bold flex items-center space-x-3">
+                <svg class="w-8 h-8 text-verde-oliva" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                </svg>
+                <span>Vista Tarjetas</span>
+            </h1>
             <div class="flex items-center space-x-4">
                 <button id="theme-toggle" class="hover:bg-white/20 px-3 py-2 rounded-lg transition-colors">
                     🎨 Temas
@@ -251,7 +257,7 @@
     <main class="container mx-auto px-4 py-8 relative z-10">
         <!-- Header de la vista -->
         <div class="text-center mb-8 animate-fade-in">
-            <h2 class="text-4xl font-playfair font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-4">
+            <h2 class="text-4xl font-dosis font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-4">
                 Colección de Poemas
             </h2>
             <p class="text-lg text-verde-oliva max-w-2xl mx-auto">
