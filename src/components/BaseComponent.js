@@ -146,8 +146,18 @@ export class BaseComponent {
     /**
      * Escucha eventos personalizados
      */
-    on(eventName, callback) {
-        this.element.addEventListener(eventName, callback);
+    on(eventName, selector, callback) {
+        if (typeof selector === 'function') {
+            // Si solo se pasa eventName y callback
+            this.element.addEventListener(eventName, selector);
+        } else {
+            // Si se pasa eventName, selector y callback
+            this.element.addEventListener(eventName, (e) => {
+                if (e.target.matches(selector)) {
+                    callback(e);
+                }
+            });
+        }
     }
 
     /**

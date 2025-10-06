@@ -48,6 +48,9 @@ export class NavbarComponent extends BaseComponent {
                         <a href="admin/" class="text-sm text-rosa-claro hover:text-white transition-colors">
                             ⚙️ Admin
                         </a>
+                        <a href="temas-demo.html" class="text-sm text-rosa-claro hover:text-white transition-colors">
+                            🎨 Temas
+                        </a>
                     </div>
 
                     <!-- Botón Mobile Menu -->

@@ -1,8 +1,8 @@
 /* Estilos principales del Sistema de Poemas */
 
-/* Variables CSS */
+/* Variables CSS - Valores por defecto */
 :root {
-    /* Verde Principal */
+    /* Verde Principal (Tema por defecto) */
     --color-verde-principal: #636B2F;
     --color-verde-claro: #8B9A4A;
     --color-verde-oscuro: #4A5220;
@@ -29,6 +29,9 @@
     --animation-normal: 0.3s;
     --animation-slow: 0.5s;
     --animation-easing: ease-in-out;
+
+    /* Transiciones de tema */
+    --theme-transition: all 0.3s ease-in-out;
 }
 
 /* Reset básico */
@@ -44,6 +47,14 @@ body {
     line-height: 1.6;
     color: var(--color-verde-oscuro);
     background-color: var(--color-verde-muy-claro);
+    transition: var(--theme-transition);
+}
+
+/* Transiciones de tema para elementos principales */
+* {
+    transition: background-color var(--theme-transition), 
+                color var(--theme-transition), 
+                border-color var(--theme-transition);
 }
 
 /* Tipografías */
@@ -208,4 +219,156 @@ body {
     100% {
         background-position: -200% 0;
     }
+}
+
+/* ===== ESTILOS DINÁMICOS DE TEMAS ===== */
+
+/* Clases de tema para elementos específicos */
+.theme-ocean {
+    /* El tema oceánico se aplica automáticamente via CSS variables */
+}
+
+.theme-sunset {
+    /* El tema atardecer se aplica automáticamente via CSS variables */
+}
+
+.theme-night {
+    /* El tema nocturno se aplica automáticamente via CSS variables */
+}
+
+.theme-spring {
+    /* El tema primavera se aplica automáticamente via CSS variables */
+}
+
+/* Estilos para el selector de temas */
+.theme-selector {
+    position: relative;
+    z-index: 10;
+}
+
+.theme-selector .theme-card {
+    cursor: pointer;
+    user-select: none;
+}
+
+.theme-selector .theme-card:focus {
+    outline: 2px solid var(--color-verde-principal);
+    outline-offset: 2px;
+}
+
+/* Animaciones para cambios de tema */
+.theme-transition {
+    transition: var(--theme-transition);
+}
+
+/* Efectos especiales para temas específicos */
+.theme-night body {
+    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #2C3E50 100%);
+}
+
+.theme-ocean body {
+    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #E8F4F8 100%);
+}
+
+.theme-sunset body {
+    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #FDF2E9 100%);
+}
+
+.theme-spring body {
+    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #E8F8F5 100%);
+}
+
+/* Estilos para elementos que cambian con el tema */
+.navbar-theme {
+    background-color: var(--color-verde-principal);
+    transition: var(--theme-transition);
+}
+
+.footer-theme {
+    background-color: var(--color-verde-oscuro);
+    transition: var(--theme-transition);
+}
+
+.card-theme {
+    background: white;
+    border: 1px solid var(--color-verde-claro);
+    transition: var(--theme-transition);
+}
+
+.btn-primary-theme {
+    background-color: var(--color-verde-principal);
+    color: white;
+    transition: var(--theme-transition);
+}
+
+.btn-primary-theme:hover {
+    background-color: var(--color-verde-oscuro);
+}
+
+.btn-secondary-theme {
+    background-color: var(--color-rosa-principal);
+    color: white;
+    transition: var(--theme-transition);
+}
+
+.btn-secondary-theme:hover {
+    background-color: var(--color-rosa-oscuro);
+}
+
+/* Indicadores de tema activo */
+.theme-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--color-verde-principal);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 1000;
+    transition: var(--theme-transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive para el selector de temas */
+@media (max-width: 768px) {
+    .theme-indicator {
+        top: 10px;
+        right: 10px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.625rem;
+    }
+    
+    .theme-selector .grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+/* Animaciones de entrada para elementos del tema */
+.theme-fade-in {
+    animation: themeFadeIn 0.5s ease-in-out;
+}
+
+@keyframes themeFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efectos de hover mejorados para temas */
+.theme-card:hover .preview-colors .preview-color {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+.theme-card.active .preview-colors .preview-color {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }

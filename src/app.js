@@ -7,6 +7,8 @@ import { router } from './services/RouterService.js';
 import { HomePage } from './pages/HomePage.js';
 import { NavbarComponent } from './components/NavbarComponent.js';
 import { FooterComponent } from './components/FooterComponent.js';
+import { ThemeService } from './services/ThemeService.js';
+import { ThemeSelectorComponent } from './components/ThemeSelectorComponent.js';
 
 export class App {
     constructor() {
@@ -14,6 +16,7 @@ export class App {
         this.currentPage = null;
         this.components = new Map();
         this.isInitialized = false;
+        this.themeService = null;
         
         this.init();
     }
@@ -27,6 +30,7 @@ export class App {
         console.log('🚀 Iniciando Sistema de Poemas Dinámico...');
         
         try {
+            this.initializeThemeService();
             this.setupGlobalEventListeners();
             this.initializeComponents();
             await this.loadCurrentPage();
@@ -37,6 +41,15 @@ export class App {
             console.error('❌ Error al inicializar la aplicación:', error);
             this.handleAppError(error);
         }
+    }
+
+    /**
+     * Inicializa el servicio de temas
+     */
+    initializeThemeService() {
+        console.log('🎨 Inicializando servicio de temas...');
+        this.themeService = window.themeService || new ThemeService();
+        console.log('✅ Servicio de temas inicializado');
     }
 
     /**
@@ -81,6 +94,14 @@ export class App {
             debug: this.config.debug || false
         });
         this.components.set('footer', footer);
+
+        // Inicializar Selector de Temas
+        const themeSelector = new ThemeSelectorComponent('theme-selector', {
+            debug: this.config.debug || false,
+            compact: true,
+            showDescription: false
+        });
+        this.components.set('themeSelector', themeSelector);
         
         console.log('✅ Componentes inicializados');
     }

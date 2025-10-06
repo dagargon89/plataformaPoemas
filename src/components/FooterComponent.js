@@ -47,6 +47,9 @@ export class FooterComponent extends BaseComponent {
                             <div>
                                 <a href="libro-tradicional.html" class="footer-link">📖 Vista Libro</a>
                             </div>
+                            <div>
+                                <a href="temas-demo.html" class="footer-link">🎨 Demo Temas</a>
+                            </div>
                         </div>
                     </div>
 
