@@ -483,23 +483,6 @@
             </div>
         </div>
 
-        <!-- Estadísticas -->
-        <div id="stats-container" class="hidden mb-8 animate-fade-in">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-verde-oliva" id="total-poems">0</div>
-                    <div class="text-sm text-gray-600">Poemas totales</div>
-                </div>
-                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-tierra-siena" id="total-authors">0</div>
-                    <div class="text-sm text-gray-600">Autores únicos</div>
-                </div>
-                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-dorado-antiguo" id="total-categories">0</div>
-                    <div class="text-sm text-gray-600">Categorías</div>
-                </div>
-            </div>
-        </div>
 
         <!-- Lista de poemas -->
         <div id="poems-container" class="hidden space-y-6">
@@ -574,7 +557,6 @@
                     if (result.success) {
                         this.poemas = result.data;
                         this.filteredPoemas = [...this.poemas];
-                        this.renderStats();
                         this.renderPoems();
                         this.populateFilters();
                         this.hideLoading();
@@ -591,31 +573,20 @@
                 document.getElementById('loading-state').classList.remove('hidden');
                 document.getElementById('poems-container').classList.add('hidden');
                 document.getElementById('error-state').classList.add('hidden');
-                document.getElementById('stats-container').classList.add('hidden');
             }
 
             hideLoading() {
                 document.getElementById('loading-state').classList.add('hidden');
                 document.getElementById('poems-container').classList.remove('hidden');
                 document.getElementById('error-state').classList.add('hidden');
-                document.getElementById('stats-container').classList.remove('hidden');
             }
 
             showError() {
                 document.getElementById('loading-state').classList.add('hidden');
                 document.getElementById('poems-container').classList.add('hidden');
                 document.getElementById('error-state').classList.remove('hidden');
-                document.getElementById('stats-container').classList.add('hidden');
             }
 
-            renderStats() {
-                const uniqueAuthors = new Set(this.poemas.map(p => p.autor_nombre));
-                const uniqueCategories = new Set(this.poemas.map(p => p.categoria_nombre));
-                
-                document.getElementById('total-poems').textContent = this.poemas.length;
-                document.getElementById('total-authors').textContent = uniqueAuthors.size;
-                document.getElementById('total-categories').textContent = uniqueCategories.size;
-            }
 
             populateFilters() {
                 const categoryFilter = document.getElementById('category-filter');
