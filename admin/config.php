@@ -7,9 +7,9 @@
 // Configuración de la base de datos MySQL
 define('DB_CONFIG', [
     'host' => 'localhost',
-    'dbname' => 'poemas_db',
-    'username' => 'root',
-    'password' => '',
+    'dbname' => 'u575426443_poemas',
+    'username' => 'u575426443_poemas',
+    'password' => 'Ymvctr891220*',
     'charset' => 'utf8mb4'
 ]);
 
