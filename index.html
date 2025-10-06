@@ -13,22 +13,32 @@
                 extend: {
                     colors: {
                         'verde': {
-                            'principal': '#636B2F',
-                            'claro': '#8B9A4A',
-                            'oscuro': '#4A5220',
+                            'oliva': '#636B2F',
+                            'salvia': '#8FBC8F',
+                            'bosque': '#556B2F',
                             'muy-claro': '#F0F4E8',
                         },
-                        'rosa': {
-                            'principal': '#E89EB8',
-                            'claro': '#F2C4D1',
-                            'oscuro': '#D67A9A',
-                            'muy-claro': '#FDF2F8',
+                        'tierra': {
+                            'siena': '#A0522D',
+                            'claro': '#D2B48C',
+                            'oscuro': '#8B4513',
+                            'muy-claro': '#F5F5DC',
                         },
-                        'amarillo': {
-                            'claro': '#FDF4E3',
-                            'medio': '#F9E6B3',
-                            'dorado': '#F4D03F',
-                            'intenso': '#D4AC0D',
+                        'dorado': {
+                            'antiguo': '#B8860B',
+                            'claro': '#DAA520',
+                            'oscuro': '#8B6914',
+                            'suave': '#F0E68C',
+                        },
+                        'gris': {
+                            'pizarra': '#708090',
+                            'claro': '#A9A9A9',
+                            'oscuro': '#2F4F4F',
+                        },
+                        'crema': {
+                            'natural': '#F5F5DC',
+                            'blanco': '#F8F8FF',
+                            'roto': '#F5F5F0',
                         }
                     },
                     fontFamily: {
@@ -65,7 +75,7 @@
     </script>
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #F0F4E8 0%, #FDF2F8 50%, #FDF4E3 100%);
+            background: linear-gradient(135deg, #F8F8FF 0%, #F5F5DC 50%, #F0E68C 100%);
         }
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -75,7 +85,7 @@
             box-shadow: 0 20px 40px rgba(99, 107, 47, 0.15);
         }
         .decorative-element {
-            background: linear-gradient(45deg, #E89EB8, #F4D03F);
+            background: linear-gradient(45deg, #8FBC8F, #B8860B);
             border-radius: 50%;
             filter: blur(1px);
             opacity: 0.3;
@@ -91,7 +101,7 @@
     </div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white shadow-xl sticky top-0 z-50 backdrop-blur-sm"></nav>
+    <nav id="navbar" class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white shadow-xl sticky top-0 z-50 backdrop-blur-sm"></nav>
 
     <!-- Selector de Temas -->
     <div id="theme-selector" class="fixed top-4 left-4 z-50"></div>
@@ -102,12 +112,12 @@
             <!-- Header principal mejorado -->
             <div class="text-center mb-16 animate-fade-in">
                 <div class="mb-6">
-                    <h1 class="text-5xl md:text-6xl font-playfair font-bold bg-gradient-to-r from-verde-oscuro via-rosa-principal to-amarillo-dorado bg-clip-text text-transparent mb-6 leading-tight">
+                    <h1 class="text-5xl md:text-6xl font-playfair font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-6 leading-tight">
                         Sistema de Poemas Dinámico
                     </h1>
-                    <div class="w-24 h-1 bg-gradient-to-r from-rosa-principal to-amarillo-dorado mx-auto rounded-full mb-6"></div>
+                    <div class="w-24 h-1 bg-gradient-to-r from-tierra-siena to-dorado-antiguo mx-auto rounded-full mb-6"></div>
                 </div>
-                <p class="text-xl md:text-2xl text-verde-principal font-light max-w-3xl mx-auto leading-relaxed">
+                <p class="text-xl md:text-2xl text-verde-oliva font-light max-w-3xl mx-auto leading-relaxed">
                     Sumérgete en el mundo de la poesía a través de diferentes experiencias visuales únicas
                 </p>
             </div>
@@ -121,13 +131,13 @@
                              onclick="navigateToView('tarjetas')">
                             <div class="text-center">
                                 <div class="text-6xl mb-6 group-hover:animate-pulse-soft">🎴</div>
-                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
                                     Vista Tarjetas
                                 </h3>
                                 <p class="text-gray-600 leading-relaxed mb-6">
                                     Poemas en tarjetas interactivas con efectos 3D y animaciones suaves que crean una experiencia envolvente
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-verde-claro to-rosa-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1 bg-gradient-to-r from-verde-salvia to-tierra-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
@@ -138,13 +148,13 @@
                              onclick="navigateToView('lista')">
                             <div class="text-center">
                                 <div class="text-6xl mb-6 group-hover:animate-pulse-soft">📜</div>
-                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
                                     Vista Lista
                                 </h3>
                                 <p class="text-gray-600 leading-relaxed mb-6">
                                     Lista elegante de poemas con scroll suave, animaciones fluidas y navegación intuitiva
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-rosa-claro to-amarillo-medio rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1 bg-gradient-to-r from-tierra-claro to-dorado-suave rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
@@ -155,13 +165,13 @@
                              onclick="navigateToView('libro')">
                             <div class="text-center">
                                 <div class="text-6xl mb-6 group-hover:animate-pulse-soft">📖</div>
-                                <h3 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4 group-hover:text-rosa-principal transition-colors">
+                                <h3 class="text-2xl font-playfair font-semibold text-verde-bosque mb-4 group-hover:text-tierra-siena transition-colors">
                                     Vista Libro
                                 </h3>
                                 <p class="text-gray-600 leading-relaxed mb-6">
                                     Simulación realista de libro tradicional con volteo de páginas y efectos de papel auténticos
                                 </p>
-                                <div class="w-full h-1 bg-gradient-to-r from-amarillo-medio to-verde-claro rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div class="w-full h-1 bg-gradient-to-r from-dorado-suave to-verde-salvia rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
                         </div>
                     </div>
@@ -169,29 +179,29 @@
 
                 <!-- Sección de características adicionales -->
                 <div class="mt-20 text-center animate-fade-in" style="animation-delay: 0.4s;">
-                    <h2 class="text-3xl font-playfair font-semibold text-verde-oscuro mb-8">
+                    <h2 class="text-3xl font-playfair font-semibold text-verde-bosque mb-8">
                         Características Destacadas
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                         <div class="flex flex-col items-center p-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-rosa-claro to-rosa-principal rounded-full flex items-center justify-center mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-tierra-claro to-tierra-siena rounded-full flex items-center justify-center mb-4">
                                 <span class="text-2xl">🎨</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Temas Dinámicos</h3>
+                            <h3 class="text-lg font-semibold text-verde-bosque mb-2">Temas Dinámicos</h3>
                             <p class="text-gray-600 text-sm">Personaliza la experiencia con diferentes esquemas de colores</p>
                         </div>
                         <div class="flex flex-col items-center p-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-amarillo-claro to-amarillo-dorado rounded-full flex items-center justify-center mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-dorado-suave to-dorado-antiguo rounded-full flex items-center justify-center mb-4">
                                 <span class="text-2xl">📱</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Responsivo</h3>
+                            <h3 class="text-lg font-semibold text-verde-bosque mb-2">Responsivo</h3>
                             <p class="text-gray-600 text-sm">Optimizado para todos los dispositivos y tamaños de pantalla</p>
                         </div>
                         <div class="flex flex-col items-center p-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-verde-claro to-verde-principal rounded-full flex items-center justify-center mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-verde-salvia to-verde-oliva rounded-full flex items-center justify-center mb-4">
                                 <span class="text-2xl">⚡</span>
                             </div>
-                            <h3 class="text-lg font-semibold text-verde-oscuro mb-2">Rendimiento</h3>
+                            <h3 class="text-lg font-semibold text-verde-bosque mb-2">Rendimiento</h3>
                             <p class="text-gray-600 text-sm">Carga rápida y animaciones fluidas para la mejor experiencia</p>
                         </div>
                     </div>
@@ -201,7 +211,7 @@
     </main>
 
     <!-- Footer -->
-    <footer id="footer" class="bg-gradient-to-r from-verde-oscuro to-verde-principal text-white py-12 relative z-10"></footer>
+    <footer id="footer" class="bg-gradient-to-r from-verde-bosque to-verde-oliva text-white py-12 relative z-10"></footer>
 
     <!-- Scripts -->
     <script src="src/components/BaseComponent.js"></script>

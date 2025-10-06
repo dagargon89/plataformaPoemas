@@ -12,27 +12,32 @@
                 extend: {
                     colors: {
                         'verde': {
-                            'principal': '#636B2F',
-                            'claro': '#8B9A4A',
-                            'oscuro': '#4A5220',
+                            'oliva': '#636B2F',
+                            'salvia': '#8FBC8F',
+                            'bosque': '#556B2F',
                             'muy-claro': '#F0F4E8',
                         },
-                        'rosa': {
-                            'principal': '#E89EB8',
-                            'claro': '#F2C4D1',
-                            'oscuro': '#D67A9A',
-                            'muy-claro': '#FDF2F8',
+                        'tierra': {
+                            'siena': '#A0522D',
+                            'claro': '#D2B48C',
+                            'oscuro': '#8B4513',
+                            'muy-claro': '#F5F5DC',
                         },
-                        'amarillo': {
-                            'claro': '#FDF4E3',
-                            'medio': '#F9E6B3',
-                            'dorado': '#F4D03F',
-                            'intenso': '#D4AC0D',
+                        'dorado': {
+                            'antiguo': '#B8860B',
+                            'claro': '#DAA520',
+                            'oscuro': '#8B6914',
+                            'suave': '#F0E68C',
                         },
-                        'papel': {
-                            'claro': '#FEFCF7',
-                            'medio': '#F5F1E8',
-                            'oscuro': '#E8E2D4',
+                        'gris': {
+                            'pizarra': '#708090',
+                            'claro': '#A9A9A9',
+                            'oscuro': '#2F4F4F',
+                        },
+                        'crema': {
+                            'natural': '#F5F5DC',
+                            'blanco': '#F8F8FF',
+                            'roto': '#F5F5F0',
                         }
                     },
                     fontFamily: {
@@ -91,7 +96,7 @@
     </script>
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #F0F4E8 0%, #FDF2F8 50%, #FDF4E3 100%);
+            background: linear-gradient(135deg, #F8F8FF 0%, #F5F5DC 50%, #F0E68C 100%);
         }
         
         .card-3d {
@@ -131,7 +136,7 @@
         }
         
         .decorative-element {
-            background: linear-gradient(45deg, #E89EB8, #F4D03F);
+            background: linear-gradient(45deg, #8FBC8F, #B8860B);
             border-radius: 50%;
             filter: blur(1px);
             opacity: 0.2;
@@ -153,7 +158,7 @@
         }
         
         .filter-active {
-            background: linear-gradient(135deg, #636B2F, #8B9A4A);
+            background: linear-gradient(135deg, #636B2F, #8FBC8F);
             color: white;
             box-shadow: 0 4px 15px rgba(99, 107, 47, 0.3);
         }
@@ -173,14 +178,14 @@
         }
         
         .category-badge {
-            background: linear-gradient(135deg, #E89EB8, #F2C4D1);
-            color: #4A5220;
+            background: linear-gradient(135deg, #D2B48C, #F5F5DC);
+            color: #556B2F;
             font-weight: 600;
         }
         
         .author-badge {
-            background: linear-gradient(135deg, #F4D03F, #F9E6B3);
-            color: #4A5220;
+            background: linear-gradient(135deg, #F0E68C, #DAA520);
+            color: #556B2F;
             font-weight: 600;
         }
         
@@ -224,7 +229,7 @@
     </div>
 
     <!-- Header con navegación -->
-    <header class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white shadow-xl sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white shadow-xl sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <button onclick="window.location.href='index.html'" 
@@ -246,10 +251,10 @@
     <main class="container mx-auto px-4 py-8 relative z-10">
         <!-- Header de la vista -->
         <div class="text-center mb-8 animate-fade-in">
-            <h2 class="text-4xl font-playfair font-bold bg-gradient-to-r from-verde-oscuro via-rosa-principal to-amarillo-dorado bg-clip-text text-transparent mb-4">
+            <h2 class="text-4xl font-playfair font-bold bg-gradient-to-r from-verde-bosque via-tierra-siena to-dorado-antiguo bg-clip-text text-transparent mb-4">
                 Colección de Poemas
             </h2>
-            <p class="text-lg text-verde-principal max-w-2xl mx-auto">
+            <p class="text-lg text-verde-oliva max-w-2xl mx-auto">
                 Explora poemas en tarjetas interactivas con efectos 3D y animaciones envolventes
             </p>
         </div>
@@ -263,7 +268,7 @@
                         <input type="text" 
                                id="search-input"
                                placeholder="Buscar poemas, autores o contenido..."
-                               class="w-full px-4 py-3 pl-12 bg-white/80 border border-white/30 rounded-xl focus:outline-none focus:border-verde-principal transition-all duration-300 search-focus">
+                               class="w-full px-4 py-3 pl-12 bg-white/80 border border-white/30 rounded-xl focus:outline-none focus:border-verde-oliva transition-all duration-300 search-focus">
                         <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
                     </div>
                 </div>
@@ -299,24 +304,24 @@
 
         <!-- Loading State -->
         <div id="loading-state" class="flex items-center justify-center py-12">
-            <div class="text-center">
-                <div class="w-12 h-12 border-4 border-verde-principal border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p class="text-verde-principal font-playfair">Cargando poemas...</p>
-            </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 border-4 border-verde-oliva border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p class="text-verde-oliva font-playfair">Cargando poemas...</p>
+                </div>
         </div>
 
         <!-- Error State -->
         <div id="error-state" class="hidden text-center py-12">
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
                 <div class="text-6xl mb-4">🎴</div>
-                <h2 class="text-2xl font-playfair font-bold text-verde-oscuro mb-4">
+                <h2 class="text-2xl font-playfair font-bold text-verde-bosque mb-4">
                     Error al cargar poemas
                 </h2>
                 <p class="text-gray-600 mb-6">
                     No se pudieron cargar los poemas. Por favor, intenta nuevamente.
                 </p>
                 <button onclick="cardView.loadPoemas()" 
-                        class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                        class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
                     Reintentar
                 </button>
             </div>
@@ -326,15 +331,15 @@
         <div id="stats-container" class="hidden mb-8 animate-fade-in">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-verde-principal" id="total-poems">0</div>
+                    <div class="text-3xl font-bold text-verde-oliva" id="total-poems">0</div>
                     <div class="text-sm text-gray-600">Poemas totales</div>
                 </div>
                 <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-rosa-principal" id="total-authors">0</div>
+                    <div class="text-3xl font-bold text-tierra-siena" id="total-authors">0</div>
                     <div class="text-sm text-gray-600">Autores únicos</div>
                 </div>
                 <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-white/30">
-                    <div class="text-3xl font-bold text-amarillo-dorado" id="total-categories">0</div>
+                    <div class="text-3xl font-bold text-dorado-antiguo" id="total-categories">0</div>
                     <div class="text-sm text-gray-600">Categorías</div>
                 </div>
             </div>
@@ -350,7 +355,7 @@
         <!-- Botón de cargar más -->
         <div id="load-more-container" class="hidden text-center mt-12">
             <button id="load-more-btn" 
-                    class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105">
                 <span id="load-more-text">Cargar más poemas</span>
                 <span id="load-more-spinner" class="hidden ml-2">
                     <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block"></div>
@@ -362,7 +367,7 @@
         <div id="end-of-list" class="hidden text-center py-12">
             <div class="bg-white/60 backdrop-blur-sm rounded-xl p-8 shadow-lg max-w-md mx-auto border border-white/30">
                 <div class="text-4xl mb-4">✨</div>
-                <h3 class="text-xl font-playfair font-bold text-verde-oscuro mb-2">
+                <h3 class="text-xl font-playfair font-bold text-verde-bosque mb-2">
                     ¡Has visto todas las tarjetas!
                 </h3>
                 <p class="text-gray-600">
@@ -374,7 +379,7 @@
 
     <!-- Botón de scroll hacia arriba -->
     <button id="scroll-top-btn" 
-            class="fixed bottom-8 right-8 bg-gradient-to-r from-verde-principal to-verde-oscuro text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 pointer-events-none z-40">
+            class="fixed bottom-8 right-8 bg-gradient-to-r from-verde-oliva to-verde-bosque text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 opacity-0 pointer-events-none z-40">
         <span class="text-xl">↑</span>
     </button>
 

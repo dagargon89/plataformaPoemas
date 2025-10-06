@@ -12,27 +12,32 @@
                 extend: {
                     colors: {
                         'verde': {
-                            'principal': '#636B2F',
-                            'claro': '#8B9A4A',
-                            'oscuro': '#4A5220',
+                            'oliva': '#636B2F',
+                            'salvia': '#8FBC8F',
+                            'bosque': '#556B2F',
                             'muy-claro': '#F0F4E8',
                         },
-                        'rosa': {
-                            'principal': '#E89EB8',
-                            'claro': '#F2C4D1',
-                            'oscuro': '#D67A9A',
-                            'muy-claro': '#FDF2F8',
+                        'tierra': {
+                            'siena': '#A0522D',
+                            'claro': '#D2B48C',
+                            'oscuro': '#8B4513',
+                            'muy-claro': '#F5F5DC',
                         },
-                        'amarillo': {
-                            'claro': '#FDF4E3',
-                            'medio': '#F9E6B3',
-                            'dorado': '#F4D03F',
-                            'intenso': '#D4AC0D',
+                        'dorado': {
+                            'antiguo': '#B8860B',
+                            'claro': '#DAA520',
+                            'oscuro': '#8B6914',
+                            'suave': '#F0E68C',
                         },
-                        'papel': {
-                            'claro': '#FEFCF7',
-                            'medio': '#F5F1E8',
-                            'oscuro': '#E8E2D4',
+                        'gris': {
+                            'pizarra': '#708090',
+                            'claro': '#A9A9A9',
+                            'oscuro': '#2F4F4F',
+                        },
+                        'crema': {
+                            'natural': '#F5F5DC',
+                            'blanco': '#F8F8FF',
+                            'roto': '#F5F5F0',
                         }
                     },
                     fontFamily: {
@@ -116,14 +121,14 @@
         }
         
         .decorative-element {
-            background: linear-gradient(45deg, #E89EB8, #F4D03F);
+            background: linear-gradient(45deg, #8FBC8F, #B8860B);
             border-radius: 50%;
             filter: blur(1px);
             opacity: 0.15;
         }
         
         .bookmark {
-            background: linear-gradient(135deg, #E89EB8, #F4D03F);
+            background: linear-gradient(135deg, #D2B48C, #B8860B);
             clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
         }
         
@@ -141,7 +146,7 @@
     </div>
 
     <!-- Header con navegación -->
-    <header class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white shadow-xl sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white shadow-xl sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-4">
                 <button onclick="window.location.href='index.html'" 
@@ -163,24 +168,24 @@
     <main class="container mx-auto px-4 py-8 relative z-10">
         <!-- Loading State -->
         <div id="loading-state" class="flex items-center justify-center min-h-[600px]">
-            <div class="text-center">
-                <div class="w-16 h-16 border-4 border-verde-principal border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p class="text-verde-principal font-playfair text-lg">Cargando poemas...</p>
-            </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 border-4 border-verde-oliva border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p class="text-verde-oliva font-playfair text-lg">Cargando poemas...</p>
+                </div>
         </div>
 
         <!-- Error State -->
         <div id="error-state" class="hidden text-center py-12">
             <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
                 <div class="text-6xl mb-4">📚</div>
-                <h2 class="text-2xl font-playfair font-bold text-verde-oscuro mb-4">
+                <h2 class="text-2xl font-playfair font-bold text-verde-bosque mb-4">
                     Error al cargar poemas
                 </h2>
                 <p class="text-gray-600 mb-6">
                     No se pudieron cargar los poemas. Por favor, intenta nuevamente.
                 </p>
                 <button onclick="loadPoemas()" 
-                        class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                        class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
                     Reintentar
                 </button>
             </div>
@@ -197,7 +202,7 @@
                 </button>
                 
                 <div class="text-center">
-                    <div class="text-sm text-verde-principal font-semibold">
+                    <div class="text-sm text-verde-oliva font-semibold">
                         Página <span id="current-page">1</span> de <span id="total-pages">1</span>
                     </div>
                     <div class="text-xs text-gray-600 mt-1">
@@ -259,7 +264,7 @@
         <!-- Selector de poemas (debajo de todo) -->
         <div id="poem-selector" class="hidden mt-8">
             <div class="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/30">
-                <h3 class="text-xl font-playfair font-bold text-verde-oscuro mb-4 text-center">
+                <h3 class="text-xl font-playfair font-bold text-verde-bosque mb-4 text-center">
                     Navegación Rápida
                 </h3>
                 <div id="poem-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-40 overflow-y-auto">
