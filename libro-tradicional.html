@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Libro - Sistema de Poemas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde': {
+                            'principal': '#636B2F',
+                            'claro': '#8B9A4A',
+                            'oscuro': '#4A5220',
+                            'muy-claro': '#F0F4E8',
+                        },
+                        'rosa': {
+                            'principal': '#E89EB8',
+                            'claro': '#F2C4D1',
+                            'oscuro': '#D67A9A',
+                            'muy-claro': '#FDF2F8',
+                        },
+                        'amarillo': {
+                            'claro': '#FDF4E3',
+                            'medio': '#F9E6B3',
+                            'dorado': '#F4D03F',
+                            'intenso': '#D4AC0D',
+                        },
+                        'papel': {
+                            'claro': '#FEFCF7',
+                            'medio': '#F5F1E8',
+                            'oscuro': '#E8E2D4',
+                        }
+                    },
+                    fontFamily: {
+                        'crimson': ['Crimson Text', 'serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                        'libre': ['Libre Baskerville', 'serif'],
+                    },
+                    animation: {
+                        'page-turn': 'pageTurn 0.8s ease-in-out',
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pageTurn: {
+                            '0%': { transform: 'rotateY(0deg)', transformOrigin: 'left center' },
+                            '50%': { transform: 'rotateY(-90deg)', transformOrigin: 'left center' },
+                            '100%': { transform: 'rotateY(0deg)', transformOrigin: 'left center' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(-30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .book-container {
+            perspective: 1000px;
+            perspective-origin: center center;
+        }
+        
+        .book-page {
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .book-page.turning {
+            transform: rotateY(-90deg);
+        }
+        
+        .page-content {
+            background: linear-gradient(135deg, #FEFCF7 0%, #F5F1E8 100%);
+            box-shadow: 
+                inset 1px 0 2px rgba(0,0,0,0.1),
+                inset -1px 0 2px rgba(0,0,0,0.1),
+                0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .book-spine {
+            background: linear-gradient(90deg, 
+                rgba(99, 107, 47, 0.8) 0%, 
+                rgba(99, 107, 47, 0.4) 50%, 
+                rgba(99, 107, 47, 0.8) 100%);
+        }
+        
+        .text-shadow {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .decorative-element {
+            background: linear-gradient(45deg, #E89EB8, #F4D03F);
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.15;
+        }
+        
+        .bookmark {
+            background: linear-gradient(135deg, #E89EB8, #F4D03F);
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+        }
+        
+        .page-number {
+            font-variant-numeric: oldstyle-nums;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-papel-claro via-papel-medio to-verde-muy-claro font-libre min-h-screen">
+    <!-- Elementos decorativos de fondo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="decorative-element absolute top-20 right-20 w-24 h-24 animate-float"></div>
+        <div class="decorative-element absolute bottom-32 left-16 w-16 h-16 animate-float" style="animation-delay: 2s;"></div>
+        <div class="decorative-element absolute top-1/3 right-1/4 w-20 h-20 animate-float" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Header con navegación -->
+    <header class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button onclick="window.location.href='index.html'" 
+                        class="flex items-center space-x-2 hover:bg-white/20 px-3 py-2 rounded-lg transition-colors">
+                    <span class="text-xl">←</span>
+                    <span class="font-playfair">Volver al inicio</span>
+                </button>
+            </div>
+            <h1 class="text-2xl font-playfair font-bold">📖 Vista Libro</h1>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" class="hover:bg-white/20 px-3 py-2 rounded-lg transition-colors">
+                    🎨 Temas
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto px-4 py-8 relative z-10">
+        <!-- Loading State -->
+        <div id="loading-state" class="flex items-center justify-center min-h-[600px]">
+            <div class="text-center">
+                <div class="w-16 h-16 border-4 border-verde-principal border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-verde-principal font-playfair text-lg">Cargando poemas...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="hidden text-center py-12">
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                <div class="text-6xl mb-4">📚</div>
+                <h2 class="text-2xl font-playfair font-bold text-verde-oscuro mb-4">
+                    Error al cargar poemas
+                </h2>
+                <p class="text-gray-600 mb-6">
+                    No se pudieron cargar los poemas. Por favor, intenta nuevamente.
+                </p>
+                <button onclick="loadPoemas()" 
+                        class="bg-gradient-to-r from-verde-principal to-verde-oscuro text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                    Reintentar
+                </button>
+            </div>
+        </div>
+
+        <!-- Book Container -->
+        <div id="book-container" class="hidden book-container max-w-6xl mx-auto">
+            <!-- Controles de navegación -->
+            <div class="flex items-center justify-between mb-8">
+                <button id="prev-page" 
+                        class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
+                    <span class="text-xl">←</span>
+                    <span>Anterior</span>
+                </button>
+                
+                <div class="text-center">
+                    <div class="text-sm text-verde-principal font-semibold">
+                        Página <span id="current-page">1</span> de <span id="total-pages">1</span>
+                    </div>
+                    <div class="text-xs text-gray-600 mt-1">
+                        <span id="current-poem-title">Cargando...</span>
+                    </div>
+                </div>
+                
+                <button id="next-page" 
+                        class="flex items-center space-x-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/20">
+                    <span>Siguiente</span>
+                    <span class="text-xl">→</span>
+                </button>
+            </div>
+
+            <!-- Book Pages Container -->
+            <div class="relative bg-white/20 backdrop-blur-sm rounded-2xl p-4 shadow-xl">
+                <!-- Bookmark -->
+                <div class="absolute -right-3 top-1/4 z-20">
+                    <div class="bookmark w-6 h-20 opacity-70"></div>
+                </div>
+
+                <!-- Book Pages -->
+                <div class="flex gap-2 relative">
+                    <!-- Left Page -->
+                    <div id="left-page" class="book-page flex-1">
+                        <div class="page-content min-h-[650px] p-8 relative">
+                            <div id="left-content" class="h-full">
+                                <!-- Content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book Spine -->
+                    <div class="book-spine w-2 relative">
+                        <div class="absolute inset-0 bg-gradient-to-b from-verde-principal to-verde-oscuro opacity-60"></div>
+                    </div>
+
+                    <!-- Right Page -->
+                    <div id="right-page" class="book-page flex-1">
+                        <div class="page-content min-h-[650px] p-8 relative">
+                            <div id="right-content" class="h-full">
+                                <!-- Content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información del poema actual (debajo del libro) -->
+            <div class="mt-8 text-center animate-fade-in">
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg max-w-4xl mx-auto border border-white/30">
+                    <div id="poem-info" class="space-y-3">
+                        <!-- Poem info will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selector de poemas (debajo de todo) -->
+        <div id="poem-selector" class="hidden mt-8">
+            <div class="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/30">
+                <h3 class="text-xl font-playfair font-bold text-verde-oscuro mb-4 text-center">
+                    Navegación Rápida
+                </h3>
+                <div id="poem-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-40 overflow-y-auto">
+                    <!-- Poem list will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        class BookView {
+            constructor() {
+                this.poemas = [];
+                this.currentPageIndex = 0;
+                this.poemasPerPage = 2; // 2 poemas por página (uno en cada lado)
+                this.isLoading = false;
+                
+                this.init();
+            }
+
+            async init() {
+                await this.loadPoemas();
+                this.setupEventListeners();
+            }
+
+            async loadPoemas() {
+                try {
+                    this.showLoading();
+                    
+                    const response = await fetch('admin/api/poemas.php');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.poemas = result.data;
+                        this.renderBook();
+                        this.hideLoading();
+                    } else {
+                        throw new Error(result.message || 'Error al cargar poemas');
+                    }
+                } catch (error) {
+                    console.error('Error loading poems:', error);
+                    this.showError();
+                }
+            }
+
+            showLoading() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('book-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('book-container').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+            }
+
+            showError() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('book-container').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+            }
+
+            renderBook() {
+                if (this.poemas.length === 0) {
+                    this.showEmptyState();
+                    return;
+                }
+
+                this.updateNavigation();
+                this.renderCurrentPages();
+                this.updatePoemInfo();
+                this.renderPoemSelector();
+            }
+
+            showEmptyState() {
+                const leftContent = document.getElementById('left-content');
+                const rightContent = document.getElementById('right-content');
+                
+                leftContent.innerHTML = `
+                    <div class="text-center h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-6xl mb-6">📚</div>
+                        <h2 class="text-3xl font-playfair font-bold text-verde-oscuro mb-4 text-shadow">
+                            No hay poemas disponibles
+                        </h2>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            Agrega algunos poemas desde el panel de administración para comenzar tu colección literaria
+                        </p>
+                    </div>
+                `;
+                
+                rightContent.innerHTML = `
+                    <div class="text-center h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-6xl mb-6">✨</div>
+                        <h2 class="text-3xl font-playfair font-bold text-verde-oscuro mb-4 text-shadow">
+                            ¡Crea tu primera poesía!
+                        </h2>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            La literatura espera por tus palabras y emociones
+                        </p>
+                    </div>
+                `;
+            }
+
+            renderCurrentPages() {
+                const startIndex = this.currentPageIndex * this.poemasPerPage;
+                const endIndex = Math.min(startIndex + this.poemasPerPage, this.poemas.length);
+                const currentPoemas = this.poemas.slice(startIndex, endIndex);
+
+                // Renderizar página izquierda
+                if (currentPoemas[0]) {
+                    this.renderPoemPage(currentPoemas[0], 'left');
+                } else {
+                    this.renderEmptyPage('left');
+                }
+
+                // Renderizar página derecha
+                if (currentPoemas[1]) {
+                    this.renderPoemPage(currentPoemas[1], 'right');
+                } else {
+                    this.renderEmptyPage('right');
+                }
+            }
+
+            renderPoemPage(poema, side) {
+                const contentDiv = document.getElementById(`${side}-content`);
+                
+                contentDiv.innerHTML = `
+                    <div class="animate-slide-in h-full flex flex-col">
+                        <!-- Header del poema -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">${poema.categoria_icono || '📝'}</span>
+                                    <span class="text-sm font-semibold text-verde-principal bg-verde-muy-claro px-2 py-1 rounded-full">
+                                        ${poema.categoria_nombre}
+                                    </span>
+                                </div>
+                                <div class="text-xs text-gray-500 page-number">
+                                    ${this.getPageNumber(side)}
+                                </div>
+                            </div>
+                            
+                            <h2 class="text-2xl font-playfair font-bold text-verde-oscuro mb-3 text-shadow leading-tight">
+                                ${poema.titulo}
+                            </h2>
+                            
+                            <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                <span class="flex items-center space-x-1">
+                                    <span>✍️</span>
+                                    <span class="font-medium">${poema.autor_nombre}</span>
+                                </span>
+                                <span class="flex items-center space-x-1">
+                                    <span>⏱️</span>
+                                    <span>${poema.tiempo_lectura} min</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Extracto -->
+                        ${poema.extracto ? `
+                            <div class="mb-6 p-4 bg-rosa-muy-claro rounded-lg border-l-4 border-rosa-principal">
+                                <p class="text-gray-700 italic text-sm leading-relaxed">
+                                    "${poema.extracto}"
+                                </p>
+                            </div>
+                        ` : ''}
+
+                        <!-- Contenido del poema -->
+                        <div class="flex-1 mb-6">
+                            <div class="prose prose-lg max-w-none">
+                                ${this.formatPoemContent(poema.contenido)}
+                            </div>
+                        </div>
+
+                        <!-- Footer de la página -->
+                        <div class="mt-auto pt-4 border-t border-gray-200">
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <div class="flex items-center space-x-2">
+                                    ${poema.etiquetas && poema.etiquetas.length > 0 ? `
+                                        <span class="flex items-center space-x-1">
+                                            <span>🏷️</span>
+                                            <span>${poema.etiquetas.slice(0, 2).join(', ')}</span>
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <div class="text-right">
+                                    <div>${new Date(poema.fecha_creacion).toLocaleDateString('es-ES')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderEmptyPage(side) {
+                const contentDiv = document.getElementById(`${side}-content`);
+                contentDiv.innerHTML = `
+                    <div class="text-center h-full flex flex-col justify-center animate-fade-in">
+                        <div class="text-4xl mb-4 opacity-30">📄</div>
+                        <p class="text-gray-400 italic text-lg">
+                            ${side === 'left' ? 'Página en blanco' : 'Continuará...'}
+                        </p>
+                        <div class="text-xs text-gray-300 page-number mt-4">
+                            ${this.getPageNumber(side)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            formatPoemContent(content) {
+                // Convertir saltos de línea en <br> y preservar el formato del poema
+                return content
+                    .split('\n')
+                    .map(line => {
+                        if (line.trim() === '') {
+                            return '<div class="mb-4"></div>';
+                        }
+                        return `<div class="mb-3 leading-relaxed text-gray-800">${line}</div>`;
+                    })
+                    .join('');
+            }
+
+            getPageNumber(side) {
+                const basePage = this.currentPageIndex * 2 + 1;
+                return side === 'left' ? basePage : basePage + 1;
+            }
+
+            updateNavigation() {
+                const totalPages = Math.ceil(this.poemas.length / this.poemasPerPage);
+                const currentPage = this.currentPageIndex + 1;
+                
+                document.getElementById('current-page').textContent = currentPage;
+                document.getElementById('total-pages').textContent = totalPages;
+                
+                const prevButton = document.getElementById('prev-page');
+                const nextButton = document.getElementById('next-page');
+                
+                prevButton.disabled = this.currentPageIndex === 0;
+                nextButton.disabled = this.currentPageIndex >= totalPages - 1;
+                
+                // Actualizar título del poema actual
+                const currentPoemas = this.poemas.slice(
+                    this.currentPageIndex * this.poemasPerPage,
+                    (this.currentPageIndex + 1) * this.poemasPerPage
+                );
+                
+                if (currentPoemas.length > 0) {
+                    const poemTitles = currentPoemas.map(p => p.titulo).join(' • ');
+                    document.getElementById('current-poem-title').textContent = poemTitles;
+                }
+            }
+
+            updatePoemInfo() {
+                const currentPoemas = this.poemas.slice(
+                    this.currentPageIndex * this.poemasPerPage,
+                    (this.currentPageIndex + 1) * this.poemasPerPage
+                );
+                
+                const infoDiv = document.getElementById('poem-info');
+                
+                if (currentPoemas.length === 0) {
+                    infoDiv.innerHTML = '<p class="text-gray-600">No hay poemas para mostrar</p>';
+                    return;
+                }
+                
+                infoDiv.innerHTML = currentPoemas.map(poema => `
+                    <div class="flex items-center justify-between p-4 bg-white/50 rounded-lg">
+                        <div class="text-left">
+                            <h3 class="font-playfair font-semibold text-verde-oscuro text-lg">${poema.titulo}</h3>
+                            <p class="text-sm text-gray-600">por ${poema.autor_nombre}</p>
+                        </div>
+                        <div class="text-right text-sm text-gray-500">
+                            <div class="font-medium">${poema.categoria_nombre}</div>
+                            <div>${poema.tiempo_lectura} min lectura</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderPoemSelector() {
+                const selectorDiv = document.getElementById('poem-selector');
+                const listDiv = document.getElementById('poem-list');
+                
+                if (this.poemas.length <= 4) {
+                    selectorDiv.classList.add('hidden');
+                    return;
+                }
+                
+                selectorDiv.classList.remove('hidden');
+                
+                listDiv.innerHTML = this.poemas.map((poema, index) => {
+                    const pageIndex = Math.floor(index / this.poemasPerPage);
+                    const isActive = pageIndex === this.currentPageIndex;
+                    
+                    return `
+                        <button onclick="bookView.goToPage(${pageIndex})"
+                                class="p-3 text-left rounded-lg transition-all ${
+                                    isActive 
+                                        ? 'bg-verde-principal text-white shadow-lg' 
+                                        : 'bg-white/60 hover:bg-white/80 hover:shadow-md'
+                                }">
+                            <div class="text-sm font-semibold truncate">${poema.titulo}</div>
+                            <div class="text-xs opacity-75 truncate">${poema.autor_nombre}</div>
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            goToPage(pageIndex) {
+                if (pageIndex < 0 || pageIndex >= Math.ceil(this.poemas.length / this.poemasPerPage)) {
+                    return;
+                }
+                
+                this.currentPageIndex = pageIndex;
+                this.renderBook();
+                
+                // Efecto de volteo de página
+                this.animatePageTurn();
+            }
+
+            animatePageTurn() {
+                const leftPage = document.getElementById('left-page');
+                const rightPage = document.getElementById('right-page');
+                
+                leftPage.classList.add('turning');
+                rightPage.classList.add('turning');
+                
+                setTimeout(() => {
+                    leftPage.classList.remove('turning');
+                    rightPage.classList.remove('turning');
+                }, 800);
+            }
+
+            setupEventListeners() {
+                document.getElementById('prev-page').addEventListener('click', () => {
+                    if (this.currentPageIndex > 0) {
+                        this.goToPage(this.currentPageIndex - 1);
+                    }
+                });
+                
+                document.getElementById('next-page').addEventListener('click', () => {
+                    const totalPages = Math.ceil(this.poemas.length / this.poemasPerPage);
+                    if (this.currentPageIndex < totalPages - 1) {
+                        this.goToPage(this.currentPageIndex + 1);
+                    }
+                });
+                
+                // Navegación con teclado
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        document.getElementById('prev-page').click();
+                    } else if (e.key === 'ArrowRight') {
+                        document.getElementById('next-page').click();
+                    }
+                });
+            }
+        }
+
+        // Inicializar la vista de libro
+        let bookView;
+        
+        // Función global para recargar poemas
+        function loadPoemas() {
+            bookView = new BookView();
+        }
+        
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPoemas();
+        });
+    </script>
+</body>
+</html>
