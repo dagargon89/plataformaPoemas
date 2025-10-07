@@ -272,7 +272,9 @@
     <script src="src/components/BaseComponent.js"></script>
     <script src="src/components/NavbarComponent.js"></script>
     <script src="src/components/FooterComponent.js"></script>
+    <!-- Selector de Temas desactivado
     <script src="src/components/ThemeSelectorComponent.js"></script>
+    -->
     <script src="src/services/RouterService.js"></script>
     <script src="src/services/StateService.js"></script>
     <script src="src/services/StorageService.js"></script>
@@ -287,15 +289,7 @@
             // Inicializar componentes
             const navbar = new NavbarComponent('navbar', { debug: true });
             const footer = new FooterComponent('footer', { debug: true });
-            const themeSelector = new ThemeSelectorComponent('theme-selector', { 
-                debug: true, 
-                compact: true 
-            });
-            const themeSelectorFull = new ThemeSelectorComponent('theme-selector-full', { 
-                debug: true, 
-                compact: false,
-                showDescription: true 
-            });
+            // Selector de temas desactivado
 
             // Controles de tema
             const prevBtn = document.getElementById('prev-theme');
