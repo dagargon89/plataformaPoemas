@@ -87,13 +87,8 @@ class App {
         });
         this.components.set('footer', footer);
 
-        // Inicializar Selector de Temas
-        const themeSelector = new window.ThemeSelectorComponent('theme-selector', {
-            debug: this.config.debug || false,
-            compact: true,
-            showDescription: false
-        });
-        this.components.set('themeSelector', themeSelector);
+        // Selector de Temas desactivado por solicitud del usuario
+        // console.log('🎨 Selector de temas desactivado');
         
         console.log('✅ Componentes inicializados');
     }

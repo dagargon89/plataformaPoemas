@@ -5,7 +5,30 @@
 class ThemeSelectorComponent extends BaseComponent {
     constructor(elementId, options = {}) {
         super(elementId, options);
-        this.themeService = window.themeService;
+        this.themeService = null;
+        this.initThemeService();
+    }
+
+    /**
+     * Inicializa el servicio de temas
+     */
+    initThemeService() {
+        // Esperar a que el themeService esté disponible
+        const checkThemeService = () => {
+            if (window.themeService) {
+                this.themeService = window.themeService;
+                this.log('ThemeService inicializado correctamente');
+                // Si el componente ya está renderizado, actualizar el contenido
+                if (this.element && this.element.innerHTML) {
+                    this.renderContent();
+                }
+            } else {
+                // Reintentar en el siguiente tick
+                setTimeout(checkThemeService, 10);
+            }
+        };
+        
+        checkThemeService();
     }
 
     get defaultOptions() {
@@ -19,6 +42,13 @@ class ThemeSelectorComponent extends BaseComponent {
     }
 
     renderContent() {
+        // Verificar si el themeService está disponible
+        if (!this.themeService) {
+            this.log('ThemeService no disponible, renderizando placeholder');
+            this.setHTML('<div class="theme-selector-loading">Cargando temas...</div>');
+            return;
+        }
+
         const themes = this.themeService.getAvailableThemes();
         const currentTheme = this.themeService.getCurrentTheme();
 
@@ -149,6 +179,10 @@ class ThemeSelectorComponent extends BaseComponent {
      * Cambia el tema
      */
     changeTheme(themeKey) {
+        if (!this.themeService) {
+            this.log('ThemeService no disponible para cambiar tema');
+            return;
+        }
         this.themeService.applyTheme(themeKey);
         this.log(`Tema cambiado a: ${themeKey}`);
     }
@@ -157,6 +191,10 @@ class ThemeSelectorComponent extends BaseComponent {
      * Aplica un tema aleatorio
      */
     randomTheme() {
+        if (!this.themeService) {
+            this.log('ThemeService no disponible para tema aleatorio');
+            return;
+        }
         this.themeService.randomTheme();
         this.log('Tema aleatorio aplicado');
     }
@@ -199,6 +237,9 @@ class ThemeSelectorComponent extends BaseComponent {
      * Actualiza la descripción del tema
      */
     updateDescription(themeKey) {
+        if (!this.themeService) {
+            return;
+        }
         const theme = this.themeService.getCurrentTheme();
         const descriptionElement = this.querySelector('.theme-description-text');
         
@@ -213,6 +254,9 @@ class ThemeSelectorComponent extends BaseComponent {
      * Obtiene el tema actual
      */
     getCurrentTheme() {
+        if (!this.themeService) {
+            return null;
+        }
         return this.themeService.getCurrentTheme();
     }
 
@@ -223,7 +267,7 @@ class ThemeSelectorComponent extends BaseComponent {
         return {
             component: 'ThemeSelectorComponent',
             currentTheme: this.getCurrentTheme(),
-            availableThemes: this.themeService.getAvailableThemes().length,
+            availableThemes: this.themeService ? this.themeService.getAvailableThemes().length : 0,
             options: this.options
         };
     }
