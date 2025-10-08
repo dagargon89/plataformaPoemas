@@ -82,15 +82,7 @@ class App {
             console.log('⚠️ NavbarComponent encontrado pero no se usará en página principal');
         }
         
-        // Inicializar Footer
-        if (typeof window.FooterComponent !== 'undefined') {
-            const footer = new window.FooterComponent('footer', {
-                debug: this.config.debug || false
-            });
-            this.components.set('footer', footer);
-        } else {
-            console.warn('⚠️ FooterComponent no encontrado');
-        }
+        // Footer removido - no necesario en página principal
 
         // Selector de Temas desactivado por solicitud del usuario
         // console.log('🎨 Selector de temas desactivado');
