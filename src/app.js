@@ -1,6 +1,7 @@
 /**
  * Aplicación principal del Sistema de Poemas
  * Punto de entrada y coordinador principal
+ * Última actualización: Navbar removido - 2024
  */
 class App {
     constructor() {
@@ -75,17 +76,21 @@ class App {
     initializeComponents() {
         console.log('🔧 Inicializando componentes...');
         
-        // Inicializar Navbar
-        const navbar = new window.NavbarComponent('navbar', {
-            debug: this.config.debug || false
-        });
-        this.components.set('navbar', navbar);
+        // Navbar removido - no necesario en página principal
+        // Verificación de seguridad: si NavbarComponent existe, no lo usar
+        if (typeof window.NavbarComponent !== 'undefined') {
+            console.log('⚠️ NavbarComponent encontrado pero no se usará en página principal');
+        }
         
         // Inicializar Footer
-        const footer = new window.FooterComponent('footer', {
-            debug: this.config.debug || false
-        });
-        this.components.set('footer', footer);
+        if (typeof window.FooterComponent !== 'undefined') {
+            const footer = new window.FooterComponent('footer', {
+                debug: this.config.debug || false
+            });
+            this.components.set('footer', footer);
+        } else {
+            console.warn('⚠️ FooterComponent no encontrado');
+        }
 
         // Selector de Temas desactivado por solicitud del usuario
         // console.log('🎨 Selector de temas desactivado');
