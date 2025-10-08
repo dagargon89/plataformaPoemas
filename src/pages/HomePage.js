@@ -169,8 +169,10 @@ class HomePage extends BasePage {
         // Añadir efectos visuales después del renderizado
         this.enhanceViewCards();
         
-        // Configurar tooltips si es necesario
-        this.setupTooltips();
+        // Configurar tooltips con un pequeño delay para asegurar que los elementos estén renderizados
+        setTimeout(() => {
+            this.setupTooltips();
+        }, 100);
     }
 
     /**
@@ -180,10 +182,14 @@ class HomePage extends BasePage {
         const viewCards = document.querySelectorAll('.view-card');
         
         viewCards.forEach(card => {
-            const title = card.querySelector('h3').textContent;
-            const description = card.querySelector('p').textContent;
+            const titleElement = card.querySelector('h3');
+            const descriptionElement = card.querySelector('p');
             
-            card.title = `${title}: ${description}`;
+            if (titleElement && descriptionElement) {
+                const title = titleElement.textContent;
+                const description = descriptionElement.textContent;
+                card.title = `${title}: ${description}`;
+            }
         });
     }
 
