@@ -1,0 +1,45 @@
+# Configuración Apache para API RESTful v1
+# Habilita URLs amigables y mejora el rendimiento
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Permitir el acceso a archivos PHP directamente
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Redirigir URLs sin extensión a archivos PHP
+    # Ejemplo: /api/v1/poemas/5 -> /api/v1/poemas.php/5
+    RewriteCond %{REQUEST_URI} ^/api/v1/(poemas|autores|categorias|etiquetas)(/.*)?$
+    RewriteRule ^(.*)$ %{DOCUMENT_ROOT}/api/v1/$1.php$2 [L,QSA]
+</IfModule>
+
+# Configuración de headers
+<IfModule mod_headers.c>
+    # CORS Headers
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    
+    # Cache control
+    Header set Cache-Control "public, max-age=300"
+    
+    # Seguridad
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# Configuración de charset
+AddDefaultCharset UTF-8
+
+# Comprimir respuestas
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+</IfModule>
+
