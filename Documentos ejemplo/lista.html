@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vista de Lista - Para Ti, Mi Poesía</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Lora:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B7A40', // Olive Green
+                        'primary-light': '#8A9A5B',
+                        secondary: '#FADADD', // Pastel Pink
+                        accent: '#FFFACD', // Pastel Yellow
+                        'background-light': '#F5F5DC', // Beige
+                        'background-dark': '#2C3531', // Dark Slate Gray
+                        'text-light': '#36454F', // Charcoal
+                        'text-dark': '#EAEAEA',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: '1rem',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-text-light dark:text-text-dark transition-colors duration-500">
+<div class="bg-background-light dark:bg-background-dark py-16">
+<div class="container mx-auto px-6">
+<header class="text-center mb-12 fade-in">
+<a class="text-primary dark:text-primary-light hover:underline mb-4 inline-block" href="#">← Volver al inicio</a>
+<h1 class="text-5xl font-display text-primary dark:text-primary-light">Vista de Lista</h1>
+<p class="text-lg text-text-light dark:text-text-dark/80 mt-2">Un paseo por el jardín de las palabras, donde cada verso florece.</p>
+</header>
+<div class="max-w-4xl mx-auto">
+<div class="bg-white/70 dark:bg-gray-800/50 backdrop-blur-md p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 fade-in" style="animation-delay: 0.2s;">
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<span class="material-icons text-gray-500">search</span>
+<input class="bg-transparent border-0 focus:ring-0 text-text-light dark:text-text-dark placeholder-gray-400 flex-grow" placeholder="Buscar por título, autor o verso..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<button class="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary-light">
+<span class="material-icons">filter_list</span>
+<span>Filtros</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<label class="text-sm" for="sort">Ordenar por:</label>
+<select class="bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-md py-1 px-3 focus:ring-primary focus:border-primary text-sm" id="sort">
+<option>Recientes</option>
+<option>Populares</option>
+<option>Duración</option>
+</select>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.4s;">
+<div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
+<span class="material-icons text-5xl text-secondary dark:text-pink-400 mb-2">favorite_border</span>
+<span class="font-bold text-sm text-primary dark:text-primary-light">Amor</span>
+<span class="text-xs text-gray-400 dark:text-gray-500 mt-1">14/10/2023</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">El Capitán</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+<span>por David García</span>
+<span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 2 min</span>
+</div>
+<p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma..."</p>
+<a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
+                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
+<button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
+<button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
+<button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.6s;">
+<div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
+<span class="material-icons text-5xl text-accent dark:text-yellow-300 mb-2">nature</span>
+<span class="font-bold text-sm text-primary dark:text-primary-light">Naturaleza</span>
+<span class="text-xs text-gray-400 dark:text-gray-500 mt-1">12/10/2023</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Bosque Susurrante</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+<span>por Elena Cruz</span>
+<span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 3 min</span>
+</div>
+<p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Los árboles mecen sus hojas al compás del viento, contando historias antiguas que solo el corazón entiende..."</p>
+<a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
+                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
+<button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
+<button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
+<button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.8s;">
+<div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
+<span class="material-icons text-5xl text-secondary dark:text-pink-400 mb-2">favorite_border</span>
+<span class="font-bold text-sm text-primary dark:text-primary-light">Amor</span>
+<span class="text-xs text-gray-400 dark:text-gray-500 mt-1">10/10/2023</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Corazón de piedra</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+<span>por David García</span>
+<span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 2 min</span>
+</div>
+<p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano..."</p>
+<a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
+                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
+<button class="hover:text-pink-500"><span class="material-icons">favorite</span></button>
+<button class="hover:text-primary"><span class="material-icons">bookmark</span></button>
+<button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+</div>
+</div>
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 1.0s;">
+<div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
+<span class="material-icons text-5xl text-blue-300 dark:text-blue-400 mb-2">water_drop</span>
+<span class="font-bold text-sm text-primary dark:text-primary-light">Melancolía</span>
+<span class="text-xs text-gray-400 dark:text-gray-500 mt-1">08/10/2023</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Lágrimas de Lluvia</h3>
+<div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+<span>por Sofía Moreno</span>
+<span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 1 min</span>
+</div>
+<p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Cada gota que cae del cielo es un recuerdo tuyo, un eco de tu adiós que resuena en mi ventana..."</p>
+<a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
+                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
+<button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
+<button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
+<button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-12 fade-in" style="animation-delay: 1.2s;">
+<nav class="flex items-center space-x-2">
+<a class="px-3 py-1 rounded-md text-text-light dark:text-text-dark hover:bg-primary-light/20" href="#">Anterior</a>
+<a class="px-3 py-1 rounded-md bg-primary text-white" href="#">1</a>
+<a class="px-3 py-1 rounded-md text-text-light dark:text-text-dark hover:bg-primary-light/20" href="#">2</a>
+<a class="px-3 py-1 rounded-md text-text-light dark:text-text-dark hover:bg-primary-light/20" href="#">3</a>
+<span class="px-3 py-1">...</span>
+<a class="px-3 py-1 rounded-md text-text-light dark:text-text-dark hover:bg-primary-light/20" href="#">10</a>
+<a class="px-3 py-1 rounded-md text-text-light dark:text-text-dark hover:bg-primary-light/20" href="#">Siguiente</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

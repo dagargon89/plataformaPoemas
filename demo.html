@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti, Mi Poesía - Inicio</title>
+    <title>Demo - Para Ti, Mi Poesía</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -11,54 +11,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         .floating-heart {
             animation: float 3s ease-in-out infinite;
         }
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in-down {
-            animation: fadeInDown 1s ease-out forwards;
-        }
-        .fade-in-up {
-            animation: fadeInUp 1s ease-out forwards;
-        }
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
+        .fade-in-down { animation: fadeInDown 1s ease-out forwards; }
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
     </style>
     <script>
         tailwind.config = {
@@ -66,22 +38,20 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#6B7A40', // Olive Green
+                        primary: '#6B7A40',
                         'primary-light': '#8A9A5B',
-                        'secondary': '#FADADD', // Pastel Pink
-                        'accent': '#FFFACD', // Pastel Yellow
-                        'background-light': '#FDFCF7', // Off-white, more subtle
-                        'background-dark': '#2C3531', // Dark Slate Gray
-                        'text-light': '#36454F', // Charcoal
+                        'secondary': '#FADADD',
+                        'accent': '#FFFACD',
+                        'background-light': '#FDFCF7',
+                        'background-dark': '#2C3531',
+                        'text-light': '#36454F',
                         'text-dark': '#EAEAEA',
                     },
                     fontFamily: {
                         display: ['Playfair Display', 'serif'],
                         body: ['Lora', 'serif'],
                     },
-                    borderRadius: {
-                        DEFAULT: '1rem',
-                    },
+                    borderRadius: { DEFAULT: '1rem' },
                 },
             },
         };
@@ -98,19 +68,38 @@
         <div class="absolute top-[20%] right-[5%] w-56 h-56 bg-accent/20 dark:bg-yellow-200/10 rounded-full filter blur-2xl"></div>
         <div class="absolute bottom-[10%] left-[10%] w-40 h-40 bg-primary-light/10 dark:bg-primary/20 rounded-full filter blur-2xl"></div>
         
-        <main class="container mx-auto px-6 py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
+        <main class="container mx-auto px-6 py-20 relative z-10">
             <header class="text-center mb-16 fade-in-down">
-                <h1 class="text-5xl md:text-7xl font-display text-primary dark:text-primary-light mb-4">Para Ti, Mi Poesía</h1>
+                <h1 class="text-5xl md:text-7xl font-display text-primary dark:text-primary-light mb-4">Demo - Para Ti, Mi Poesía</h1>
                 <div class="w-28 h-1 bg-secondary mx-auto mb-6"></div>
-                <p class="text-lg md:text-xl text-text-light dark:text-text-dark/80 max-w-2xl mx-auto">Un santuario digital donde los versos florecen y las emociones encuentran su voz.</p>
+                <p class="text-lg md:text-xl text-text-light dark:text-text-dark/80 max-w-2xl mx-auto">Demostración de todas las funcionalidades implementadas</p>
             </header>
             
-            <div class="max-w-2xl mx-auto bg-white/30 dark:bg-background-dark/30 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 mb-20 text-center fade-in-up delay-1">
-                <p class="italic text-xl text-text-light dark:text-text-dark">"En el lienzo de tus ojos, pinto mis versos más sinceros."</p>
-                <p class="mt-3 text-primary dark:text-primary-light font-semibold">- Un Alma Enamorada</p>
+            <!-- Controles de demostración -->
+            <div class="max-w-4xl mx-auto bg-white/30 dark:bg-background-dark/30 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 mb-20 text-center fade-in-up delay-1">
+                <h2 class="text-2xl font-display text-primary dark:text-primary-light mb-6">Controles de Demostración</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="toggleDarkMode()" class="bg-primary text-white py-3 px-6 rounded-full hover:bg-primary-light transition-colors duration-300 shadow-md hover:shadow-lg">
+                        <span class="material-icons mr-2">dark_mode</span>
+                        Alternar Modo Oscuro
+                    </button>
+                    <button onclick="toggleAnimations()" class="bg-secondary text-primary py-3 px-6 rounded-full hover:bg-accent transition-colors duration-300 shadow-md hover:shadow-lg">
+                        <span class="material-icons mr-2">animation</span>
+                        Alternar Animaciones
+                    </button>
+                    <button onclick="toggleParticles()" class="bg-accent text-primary py-3 px-6 rounded-full hover:bg-yellow-200 transition-colors duration-300 shadow-md hover:shadow-lg">
+                        <span class="material-icons mr-2">auto_awesome</span>
+                        Alternar Partículas
+                    </button>
+                    <button onclick="showInfo()" class="bg-gray-600 text-white py-3 px-6 rounded-full hover:bg-gray-700 transition-colors duration-300 shadow-md hover:shadow-lg">
+                        <span class="material-icons mr-2">info</span>
+                        Mostrar Info
+                    </button>
+                </div>
             </div>
             
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+            <!-- Sección de navegación -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl mx-auto mb-20">
                 <div class="bg-white/50 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-2xl shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300 border border-gray-200/50 dark:border-gray-700/50 fade-in-up delay-1 cursor-pointer" onclick="navigateToView('libro')">
                     <div class="mb-4">
                         <span class="material-icons text-5xl text-primary dark:text-primary-light">auto_stories</span>
@@ -138,6 +127,37 @@
                     <a class="inline-block bg-primary text-white py-2 px-8 rounded-full hover:bg-primary-light transition-colors duration-300 shadow-md hover:shadow-lg">Descubrir</a>
                 </div>
             </section>
+            
+            <!-- Información técnica -->
+            <div class="max-w-4xl mx-auto bg-white/30 dark:bg-background-dark/30 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 text-center">
+                <h2 class="text-2xl font-display text-primary dark:text-primary-light mb-6">Información Técnica</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary dark:text-primary-light mb-3">Tecnologías Implementadas</h3>
+                        <ul class="space-y-2 text-text-light dark:text-text-dark/80">
+                            <li>✅ HTML5 Semántico</li>
+                            <li>✅ CSS3 con Variables</li>
+                            <li>✅ JavaScript ES6+</li>
+                            <li>✅ Tailwind CSS</li>
+                            <li>✅ GSAP 3.12.2</li>
+                            <li>✅ Three.js r128</li>
+                            <li>✅ Material Icons</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary dark:text-primary-light mb-3">Características</h3>
+                        <ul class="space-y-2 text-text-light dark:text-text-dark/80">
+                            <li>✅ Diseño Responsivo</li>
+                            <li>✅ Modo Oscuro</li>
+                            <li>✅ Animaciones Fluidas</li>
+                            <li>✅ Efectos 3D</li>
+                            <li>✅ Partículas Flotantes</li>
+                            <li>✅ Glassmorphism</li>
+                            <li>✅ Backdrop Blur</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -145,6 +165,12 @@
     <canvas id="three-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
     <script>
+        // Variables globales
+        let animationsEnabled = true;
+        let particlesEnabled = true;
+        let threeScene = null;
+        let particlesMesh = null;
+
         // Navegación con efectos GSAP
         function navigateToView(view) {
             const routes = {
@@ -165,6 +191,82 @@
                     }
                 }
             });
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+            
+            // Efecto de transición
+            gsap.to("body", {
+                scale: 1.02,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        }
+
+        // Toggle animations
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            
+            if (animationsEnabled) {
+                gsap.globalTimeline.play();
+                document.body.style.animationPlayState = 'running';
+            } else {
+                gsap.globalTimeline.pause();
+                document.body.style.animationPlayState = 'paused';
+            }
+            
+            // Efecto de confirmación
+            gsap.to("body", {
+                scale: 1.05,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        }
+
+        // Toggle particles
+        function toggleParticles() {
+            particlesEnabled = !particlesEnabled;
+            
+            if (particlesMesh) {
+                particlesMesh.visible = particlesEnabled;
+            }
+            
+            // Efecto de confirmación
+            gsap.to("body", {
+                scale: 1.03,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        }
+
+        // Show info
+        function showInfo() {
+            const info = {
+                gsapVersion: gsap.version,
+                threeVersion: THREE.REVISION,
+                darkMode: document.documentElement.classList.contains('dark'),
+                animations: animationsEnabled,
+                particles: particlesEnabled,
+                userAgent: navigator.userAgent,
+                screenSize: `${window.innerWidth}x${window.innerHeight}`
+            };
+            
+            alert(`Información del Sistema:\n\n` +
+                  `GSAP: ${info.gsapVersion}\n` +
+                  `Three.js: ${info.threeVersion}\n` +
+                  `Modo Oscuro: ${info.darkMode ? 'Sí' : 'No'}\n` +
+                  `Animaciones: ${info.animations ? 'Habilitadas' : 'Deshabilitadas'}\n` +
+                  `Partículas: ${info.particles ? 'Habilitadas' : 'Deshabilitadas'}\n` +
+                  `Pantalla: ${info.screenSize}`);
         }
 
         // Inicialización de Three.js para efectos de fondo
@@ -195,7 +297,7 @@
                 opacity: 0.6
             });
             
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
             
             camera.position.z = 5;
@@ -203,8 +305,10 @@
             function animate() {
                 requestAnimationFrame(animate);
                 
-                particlesMesh.rotation.y += 0.001;
-                particlesMesh.rotation.x += 0.0005;
+                if (particlesEnabled) {
+                    particlesMesh.rotation.y += 0.001;
+                    particlesMesh.rotation.x += 0.0005;
+                }
                 
                 renderer.render(scene, camera);
             }
@@ -221,6 +325,11 @@
 
         // Inicialización con GSAP
         document.addEventListener('DOMContentLoaded', function() {
+            // Cargar preferencia de modo oscuro
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+            
             // Animación de entrada
             gsap.from("body", {
                 opacity: 0,

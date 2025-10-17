@@ -1,7 +1,7 @@
 /**
- * Aplicación principal del Sistema de Poemas
- * Punto de entrada y coordinador principal
- * Última actualización: Navbar removido - 2024
+ * Aplicación principal del Sistema de Poemas - Versión Modernizada
+ * Integración con GSAP y Three.js para efectos dinámicos
+ * Última actualización: 2025
  */
 class App {
     constructor() {
@@ -10,6 +10,8 @@ class App {
         this.components = new Map();
         this.isInitialized = false;
         this.themeService = null;
+        this.threeScene = null;
+        this.gsapTimeline = null;
         
         this.init();
     }
@@ -26,6 +28,8 @@ class App {
             this.initializeThemeService();
             this.setupGlobalEventListeners();
             this.initializeComponents();
+            this.initializeGSAP();
+            this.initializeThreeJS();
             await this.loadCurrentPage();
             this.isInitialized = true;
             
@@ -43,6 +47,119 @@ class App {
         console.log('🎨 Inicializando servicio de temas...');
         this.themeService = window.themeService || new window.ThemeService();
         console.log('✅ Servicio de temas inicializado');
+    }
+
+    /**
+     * Inicializa GSAP
+     */
+    initializeGSAP() {
+        console.log('🎬 Inicializando GSAP...');
+        
+        // Configuración global de GSAP
+        gsap.config({
+            nullTargetWarn: false,
+            trialWarn: false
+        });
+        
+        // Timeline principal
+        this.gsapTimeline = gsap.timeline();
+        
+        console.log('✅ GSAP inicializado');
+    }
+
+    /**
+     * Inicializa Three.js
+     */
+    initializeThreeJS() {
+        console.log('🎨 Inicializando Three.js...');
+        
+        const canvas = document.getElementById('three-canvas');
+        if (!canvas) {
+            console.log('⚠️ Canvas de Three.js no encontrado');
+            return;
+        }
+
+        // Escena
+        this.threeScene = new THREE.Scene();
+        
+        // Cámara
+        const camera = new THREE.PerspectiveCamera(
+            75, 
+            window.innerWidth / window.innerHeight, 
+            0.1, 
+            1000
+        );
+        
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvas, 
+            alpha: true,
+            antialias: true
+        });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        
+        // Crear partículas flotantes
+        this.createFloatingParticles();
+        
+        // Posicionar cámara
+        camera.position.z = 5;
+        
+        // Función de animación
+        const animate = () => {
+            requestAnimationFrame(animate);
+            this.animateThreeJS();
+            renderer.render(this.threeScene, camera);
+        };
+        
+        animate();
+        
+        // Redimensionar canvas
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        console.log('✅ Three.js inicializado');
+    }
+
+    /**
+     * Crea partículas flotantes
+     */
+    createFloatingParticles() {
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 100;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0x6B7A40,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+        
+        this.particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        this.threeScene.add(this.particlesMesh);
+    }
+
+    /**
+     * Anima elementos de Three.js
+     */
+    animateThreeJS() {
+        if (this.particlesMesh) {
+            this.particlesMesh.rotation.y += 0.001;
+            this.particlesMesh.rotation.x += 0.0005;
+        }
     }
 
     /**
@@ -68,6 +185,16 @@ class App {
         window.addEventListener('beforeunload', () => {
             this.cleanup();
         });
+
+        // Event listener para scroll
+        window.addEventListener('scroll', () => {
+            this.handleScroll();
+        });
+
+        // Event listener para resize
+        window.addEventListener('resize', () => {
+            this.handleResize();
+        });
     }
 
     /**
@@ -76,25 +203,324 @@ class App {
     initializeComponents() {
         console.log('🔧 Inicializando componentes...');
         
-        // Navbar removido - no necesario en página principal
-        // Verificación de seguridad: si NavbarComponent existe, no lo usar
-        if (typeof window.NavbarComponent !== 'undefined') {
-            console.log('⚠️ NavbarComponent encontrado pero no se usará en página principal');
-        }
-        
-        // Footer removido - no necesario en página principal
-
-        // Selector de Temas desactivado por solicitud del usuario
-        // console.log('🎨 Selector de temas desactivado');
+        // Inicializar componentes específicos de la página
+        this.initializePageComponents();
         
         console.log('✅ Componentes inicializados');
+    }
+
+    /**
+     * Inicializa componentes específicos de la página
+     */
+    initializePageComponents() {
+        const currentPage = window.location.pathname.split('/').pop();
+        
+        switch (currentPage) {
+            case 'index.html':
+            case '':
+                this.initializeHomePageComponents();
+                break;
+            case 'libro-tradicional.html':
+                this.initializeBookPageComponents();
+                break;
+            case 'lista-scroll.html':
+                this.initializeListPageComponents();
+                break;
+            case 'tarjetas-poemas.html':
+                this.initializeCardsPageComponents();
+                break;
+        }
+    }
+
+    /**
+     * Inicializa componentes de la página de inicio
+     */
+    initializeHomePageComponents() {
+        // Animación de entrada
+        gsap.from("body", {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            ease: "power2.out"
+        });
+        
+        // Animación de elementos con delay
+        gsap.from(".fade-in-down", {
+            opacity: 0,
+            y: -20,
+            duration: 1,
+            delay: 0.2,
+            ease: "power2.out"
+        });
+        
+        gsap.from(".fade-in-up", {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            delay: 0.4,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+
+        // Efectos hover para tarjetas
+        this.setupCardHoverEffects();
+    }
+
+    /**
+     * Inicializa componentes de la página de libro
+     */
+    initializeBookPageComponents() {
+        // Animación de entrada
+        gsap.from("body", {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            ease: "power2.out"
+        });
+        
+        // Animación del libro
+        gsap.from(".book-container", {
+            opacity: 0,
+            scale: 0.9,
+            duration: 1.5,
+            delay: 0.3,
+            ease: "power2.out"
+        });
+
+        // Efectos de página
+        this.setupBookPageEffects();
+    }
+
+    /**
+     * Inicializa componentes de la página de lista
+     */
+    initializeListPageComponents() {
+        // Animación de entrada
+        gsap.from("body", {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            ease: "power2.out"
+        });
+        
+        // Animación de elementos con stagger
+        gsap.from(".fade-in", {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out"
+        });
+
+        // Efectos de scroll infinito
+        this.setupInfiniteScroll();
+    }
+
+    /**
+     * Inicializa componentes de la página de tarjetas
+     */
+    initializeCardsPageComponents() {
+        // Animación de entrada
+        gsap.from("body", {
+            opacity: 0,
+            y: 20,
+            duration: 1,
+            ease: "power2.out"
+        });
+        
+        // Animación de tarjetas con stagger
+        gsap.from(".grid > div", {
+            opacity: 0,
+            y: 30,
+            scale: 0.9,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+            delay: 0.3
+        });
+
+        // Efectos de tarjetas
+        this.setupCardEffects();
+    }
+
+    /**
+     * Configura efectos hover para tarjetas
+     */
+    setupCardHoverEffects() {
+        const cards = document.querySelectorAll('.card-hover, .hover-lift');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    y: -12,
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    y: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+    }
+
+    /**
+     * Configura efectos de página de libro
+     */
+    setupBookPageEffects() {
+        const bookContainer = document.querySelector('.book-container');
+        if (!bookContainer) return;
+
+        // Efecto de hover para voltear páginas
+        bookContainer.addEventListener('mouseenter', () => {
+            gsap.to('.book-page-front', {
+                rotationY: -180,
+                duration: 1,
+                ease: "power2.inOut"
+            });
+        });
+
+        bookContainer.addEventListener('mouseleave', () => {
+            gsap.to('.book-page-front', {
+                rotationY: 0,
+                duration: 1,
+                ease: "power2.inOut"
+            });
+        });
+    }
+
+    /**
+     * Configura scroll infinito
+     */
+    setupInfiniteScroll() {
+        let isLoading = false;
+        
+        window.addEventListener('scroll', () => {
+            if (isLoading) return;
+            
+            const scrollTop = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            if (scrollTop + windowHeight >= documentHeight - 100) {
+                isLoading = true;
+                this.loadMoreContent();
+            }
+        });
+    }
+
+    /**
+     * Carga más contenido para scroll infinito
+     */
+    loadMoreContent() {
+        console.log('📄 Cargando más contenido...');
+        
+        // Simular carga
+        setTimeout(() => {
+            // Aquí se cargaría más contenido
+            console.log('✅ Contenido cargado');
+            isLoading = false;
+        }, 1000);
+    }
+
+    /**
+     * Configura efectos de tarjetas
+     */
+    setupCardEffects() {
+        const cards = document.querySelectorAll('.grid > div');
+        
+        cards.forEach((card, index) => {
+            // Efecto de entrada con delay
+            gsap.from(card, {
+                opacity: 0,
+                y: 30,
+                scale: 0.9,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: "power2.out"
+            });
+            
+            // Efecto hover
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    y: -8,
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    y: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+    }
+
+    /**
+     * Maneja el scroll
+     */
+    handleScroll() {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        
+        // Efecto parallax para elementos de fondo
+        const parallaxElements = document.querySelectorAll('.parallax');
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.speed || 0.5;
+            const yPos = -(scrollTop * speed);
+            gsap.set(element, { y: yPos });
+        });
+        
+        // Efecto de fade in para elementos
+        const fadeElements = document.querySelectorAll('.fade-on-scroll');
+        fadeElements.forEach(element => {
+            const elementTop = element.offsetTop;
+            const elementHeight = element.offsetHeight;
+            
+            if (scrollTop > elementTop - windowHeight + elementHeight) {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            }
+        });
+    }
+
+    /**
+     * Maneja el redimensionamiento
+     */
+    handleResize() {
+        // Reajustar Three.js
+        if (this.threeScene) {
+            const camera = this.threeScene.children.find(child => child.type === 'PerspectiveCamera');
+            if (camera) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            }
+        }
+        
+        // Reajustar GSAP
+        gsap.set("body", { clearProps: "all" });
     }
 
     /**
      * Carga la página actual
      */
     async loadCurrentPage() {
-        const currentRoute = window.router.getCurrentRoute();
+        const currentRoute = window.router?.getCurrentRoute();
         
         if (currentRoute) {
             await this.loadPage(currentRoute);
@@ -124,15 +550,12 @@ class App {
                     pageClass = window.HomePage;
                     break;
                 case 'tarjetas':
-                    // pageClass = TarjetasPage; // Se implementará después
                     console.log('⚠️ Página de tarjetas no implementada aún');
                     return;
                 case 'lista':
-                    // pageClass = ListaPage; // Se implementará después
                     console.log('⚠️ Página de lista no implementada aún');
                     return;
                 case 'libro':
-                    // pageClass = LibroPage; // Se implementará después
                     console.log('⚠️ Página de libro no implementada aún');
                     return;
                 default:
@@ -169,8 +592,6 @@ class App {
      */
     handleAppError(error) {
         console.error('💥 Error crítico de la aplicación:', error);
-        
-        // Mostrar mensaje de error al usuario
         this.showCriticalError();
     }
 
@@ -179,8 +600,6 @@ class App {
      */
     handleGlobalError(event) {
         console.error('💥 Error global:', event.error);
-        
-        // Reportar error si es necesario
         this.reportError('Global Error', event.error);
     }
 
@@ -189,8 +608,6 @@ class App {
      */
     handlePromiseRejection(event) {
         console.error('💥 Promesa rechazada:', event.reason);
-        
-        // Reportar error si es necesario
         this.reportError('Unhandled Promise Rejection', event.reason);
     }
 
@@ -199,8 +616,6 @@ class App {
      */
     handlePageError(pageName, error) {
         console.error(`💥 Error en página '${pageName}':`, error);
-        
-        // Mostrar página de error
         this.showErrorPage(pageName, error);
     }
 
@@ -246,11 +661,11 @@ class App {
                     </p>
                     <div class="space-x-4">
                         <button onclick="window.location.href='index.html'" 
-                                class="bg-verde-principal text-white px-4 py-2 rounded-lg hover:bg-verde-oscuro transition-colors">
+                                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light transition-colors">
                             🏠 Ir al Inicio
                         </button>
                         <button onclick="window.location.reload()" 
-                                class="bg-rosa-principal text-white px-4 py-2 rounded-lg hover:bg-rosa-oscuro transition-colors">
+                                class="bg-secondary text-primary px-4 py-2 rounded-lg hover:bg-accent transition-colors">
                             🔄 Recargar
                         </button>
                     </div>
@@ -265,10 +680,9 @@ class App {
     }
 
     /**
-     * Reporta errores (para futuras implementaciones)
+     * Reporta errores
      */
     reportError(type, error) {
-        // Aquí se podría implementar un sistema de reporte de errores
         console.log(`📊 Error reportado: ${type}`, error);
     }
 
@@ -296,7 +710,9 @@ class App {
             version: this.config.version,
             initialized: this.isInitialized,
             currentPage: this.currentPage ? this.currentPage.constructor.name : null,
-            components: Array.from(this.components.keys())
+            components: Array.from(this.components.keys()),
+            gsapVersion: gsap.version,
+            threeVersion: THREE.REVISION
         };
     }
 
@@ -320,6 +736,16 @@ class App {
         
         this.components.clear();
         this.isInitialized = false;
+        
+        // Limpiar GSAP
+        if (this.gsapTimeline) {
+            this.gsapTimeline.kill();
+        }
+        
+        // Limpiar Three.js
+        if (this.threeScene) {
+            this.threeScene.clear();
+        }
     }
 }
 
@@ -328,5 +754,5 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = new App();
 });
 
-// Exportar para uso global si es necesario
+// Exportar para uso global
 window.App = App;

@@ -1,28 +1,20 @@
-/* Estilos principales del Sistema de Poemas */
+/* Estilos principales del Sistema de Poemas - Versión Modernizada */
 
-/* Variables CSS - Valores por defecto */
+/* Variables CSS - Paleta de colores de los ejemplos */
 :root {
-    /* Verde Principal (Tema por defecto) */
-    --color-verde-principal: #636B2F;
-    --color-verde-claro: #8B9A4A;
-    --color-verde-oscuro: #4A5220;
-    --color-verde-muy-claro: #F0F4E8;
-
-    /* Rosa Complementario */
-    --color-rosa-principal: #E89EB8;
-    --color-rosa-claro: #F2C4D1;
-    --color-rosa-oscuro: #D67A9A;
-    --color-rosa-muy-claro: #FDF2F8;
-
-    /* Amarillos/Cremas */
-    --color-amarillo-claro: #FDF4E3;
-    --color-amarillo-medio: #F9E6B3;
-    --color-amarillo-dorado: #F4D03F;
-    --color-amarillo-intenso: #D4AC0D;
+    /* Colores principales */
+    --color-primary: #6B7A40; /* Olive Green */
+    --color-primary-light: #8A9A5B;
+    --color-secondary: #FADADD; /* Pastel Pink */
+    --color-accent: #FFFACD; /* Pastel Yellow */
+    --color-background-light: #FDFCF7; /* Off-white, more subtle */
+    --color-background-dark: #2C3531; /* Dark Slate Gray */
+    --color-text-light: #36454F; /* Charcoal */
+    --color-text-dark: #EAEAEA;
 
     /* Fuentes */
-    --font-primary: 'Crimson Text', serif;
-    --font-heading: 'Playfair Display', serif;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Lora', serif;
 
     /* Animaciones */
     --animation-fast: 0.2s;
@@ -43,11 +35,17 @@
 
 /* Estilos base */
 body {
-    font-family: var(--font-primary);
+    font-family: var(--font-body);
     line-height: 1.6;
-    color: var(--color-verde-oscuro);
-    background-color: var(--color-verde-muy-claro);
+    color: var(--color-text-light);
+    background-color: var(--color-background-light);
     transition: var(--theme-transition);
+}
+
+/* Modo oscuro */
+.dark {
+    --color-background-light: var(--color-background-dark);
+    --color-text-light: var(--color-text-dark);
 }
 
 /* Transiciones de tema para elementos principales */
@@ -58,15 +56,49 @@ body {
 }
 
 /* Tipografías */
-.font-heading {
-    font-family: var(--font-heading);
+.font-display {
+    font-family: var(--font-display);
 }
 
-.font-primary {
-    font-family: var(--font-primary);
+.font-body {
+    font-family: var(--font-body);
 }
 
 /* Animaciones personalizadas */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -108,8 +140,20 @@ body {
 }
 
 /* Clases de animación */
-.animate-fadeIn {
-    animation: fadeIn var(--animation-normal) var(--animation-easing);
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
 }
 
 .animate-slideIn {
@@ -122,6 +166,19 @@ body {
 
 .animate-pulse-custom {
     animation: pulse var(--animation-slow) infinite;
+}
+
+/* Delays para animaciones */
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
 }
 
 /* Efectos hover */
@@ -169,23 +226,241 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--color-verde-principal);
+    background-color: var(--color-primary);
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: var(--color-verde-oscuro);
+    background-color: var(--color-primary-light);
     transform: translateY(-2px);
 }
 
 .btn-secondary {
-    background-color: var(--color-rosa-principal);
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-rosa-oscuro);
+    background-color: var(--color-accent);
     transform: translateY(-2px);
+}
+
+/* Efectos de backdrop blur */
+.backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+    backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+}
+
+/* Efectos de glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass-dark {
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Efectos de sombra personalizados */
+.shadow-soft {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-medium {
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-strong {
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Efectos de gradiente */
+.gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+}
+
+.gradient-secondary {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Efectos de hover para tarjetas */
+.card-hover {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.card-hover:hover::before {
+    left: 100%;
+}
+
+.card-hover:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+/* Efectos de partículas flotantes */
+.floating-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    background: linear-gradient(45deg, var(--color-secondary), var(--color-accent));
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatParticle 8s infinite linear;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Efectos de corazones flotantes */
+.floating-hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    color: var(--color-secondary);
+    font-size: 20px;
+    animation: floatHeart 6s infinite linear;
+    opacity: 0.7;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-100px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Efectos de luz romántica */
+.romantic-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(250, 218, 221, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: romanticPulse 4s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes romanticPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+/* Efectos de brillo en el título */
+.title-glow {
+    text-shadow: 0 0 20px rgba(107, 122, 64, 0.3);
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 20px rgba(107, 122, 64, 0.3);
+    }
+    to {
+        text-shadow: 0 0 30px rgba(107, 122, 64, 0.6), 0 0 40px rgba(250, 218, 221, 0.3);
+    }
+}
+
+/* Efectos de libro 3D */
+.book-page {
+    transform-style: preserve-3d;
+    transition: transform 1s;
+}
+
+.book-container:hover .book-page-front {
+    transform: rotateY(-180deg);
+}
+
+.book-page-front {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    z-index: 2;
+}
+
+.book-page-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateY(180deg);
+    z-index: 1;
 }
 
 /* Responsive utilities */
@@ -197,6 +472,26 @@ body {
     
     .text-responsive {
         font-size: 0.875rem;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-4px) scale(1.005);
+    }
+}
+
+@media (max-width: 480px) {
+    .card-hover {
+        min-height: 240px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-4px) scale(1.005);
+    }
+    
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
 }
 
@@ -221,154 +516,188 @@ body {
     }
 }
 
-/* ===== ESTILOS DINÁMICOS DE TEMAS ===== */
-
-/* Clases de tema para elementos específicos */
-.theme-ocean {
-    /* El tema oceánico se aplica automáticamente via CSS variables */
+/* Efectos de scroll suave */
+html {
+    scroll-behavior: smooth;
 }
 
-.theme-sunset {
-    /* El tema atardecer se aplica automáticamente via CSS variables */
-}
-
-.theme-night {
-    /* El tema nocturno se aplica automáticamente via CSS variables */
-}
-
-.theme-spring {
-    /* El tema primavera se aplica automáticamente via CSS variables */
-}
-
-/* Estilos para el selector de temas */
-.theme-selector {
-    position: relative;
-    z-index: 10;
-}
-
-.theme-selector .theme-card {
-    cursor: pointer;
-    user-select: none;
-}
-
-.theme-selector .theme-card:focus {
-    outline: 2px solid var(--color-verde-principal);
+/* Efectos de focus para accesibilidad */
+.focus-visible:focus {
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
 }
 
-/* Animaciones para cambios de tema */
+/* Efectos de selección de texto */
+::selection {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+::-moz-selection {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+/* Efectos de scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-background-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-light);
+}
+
+/* Efectos de transición para cambios de tema */
 .theme-transition {
     transition: var(--theme-transition);
 }
 
-/* Efectos especiales para temas específicos */
-.theme-night body {
-    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #2C3E50 100%);
+/* Efectos de hover mejorados */
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgba(107, 122, 64, 0.3);
 }
 
-.theme-ocean body {
-    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #E8F4F8 100%);
-}
-
-.theme-sunset body {
-    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #FDF2E9 100%);
-}
-
-.theme-spring body {
-    background: linear-gradient(135deg, var(--color-verde-muy-claro) 0%, #E8F8F5 100%);
-}
-
-/* Estilos para elementos que cambian con el tema */
-.navbar-theme {
-    background-color: var(--color-verde-principal);
-    transition: var(--theme-transition);
-}
-
-.footer-theme {
-    background-color: var(--color-verde-oscuro);
-    transition: var(--theme-transition);
-}
-
-.card-theme {
-    background: white;
-    border: 1px solid var(--color-verde-claro);
-    transition: var(--theme-transition);
-}
-
-.btn-primary-theme {
-    background-color: var(--color-verde-principal);
-    color: white;
-    transition: var(--theme-transition);
-}
-
-.btn-primary-theme:hover {
-    background-color: var(--color-verde-oscuro);
-}
-
-.btn-secondary-theme {
-    background-color: var(--color-rosa-principal);
-    color: white;
-    transition: var(--theme-transition);
-}
-
-.btn-secondary-theme:hover {
-    background-color: var(--color-rosa-oscuro);
-}
-
-/* Indicadores de tema activo */
-.theme-indicator {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--color-verde-principal);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    z-index: 1000;
-    transition: var(--theme-transition);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive para el selector de temas */
-@media (max-width: 768px) {
-    .theme-indicator {
-        top: 10px;
-        right: 10px;
-        padding: 0.25rem 0.75rem;
-        font-size: 0.625rem;
-    }
-    
-    .theme-selector .grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-    }
-}
-
-/* Animaciones de entrada para elementos del tema */
-.theme-fade-in {
-    animation: themeFadeIn 0.5s ease-in-out;
-}
-
-@keyframes themeFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Efectos de hover mejorados para temas */
-.theme-card:hover .preview-colors .preview-color {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-}
-
-.theme-card.active .preview-colors .preview-color {
+.hover-scale:hover {
     transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hover-rotate:hover {
+    transform: rotate(5deg);
+}
+
+/* Efectos de gradiente animado */
+.gradient-animated {
+    background: linear-gradient(-45deg, var(--color-primary), var(--color-primary-light), var(--color-secondary), var(--color-accent));
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Efectos de texto con sombra */
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow-soft {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Efectos de borde animado */
+.border-animated {
+    position: relative;
+    overflow: hidden;
+}
+
+.border-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    transition: left 0.5s;
+}
+
+.border-animated:hover::before {
+    left: 100%;
+}
+
+/* Efectos de partículas de fondo */
+.particles-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Efectos de blur personalizado */
+.blur-soft {
+    filter: blur(2px);
+}
+
+.blur-medium {
+    filter: blur(4px);
+}
+
+.blur-strong {
+    filter: blur(8px);
+}
+
+/* Efectos de saturación */
+.saturate {
+    filter: saturate(1.2);
+}
+
+.desaturate {
+    filter: saturate(0.8);
+}
+
+/* Efectos de contraste */
+.contrast-high {
+    filter: contrast(1.2);
+}
+
+.contrast-low {
+    filter: contrast(0.8);
+}
+
+/* Efectos de brillo */
+.brightness-high {
+    filter: brightness(1.2);
+}
+
+.brightness-low {
+    filter: brightness(0.8);
+}
+
+/* Efectos de sepia */
+.sepia {
+    filter: sepia(0.3);
+}
+
+/* Efectos de hue-rotate */
+.hue-rotate {
+    filter: hue-rotate(15deg);
+}
+
+/* Efectos de invert */
+.invert {
+    filter: invert(0.1);
+}
+
+/* Efectos de drop-shadow */
+.drop-shadow {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.drop-shadow-soft {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.drop-shadow-strong {
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
 }

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo de Temas - Sistema de Poemas Dinámico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/main.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'verde': {
+                            'principal': '#636B2F',
+                            'claro': '#8B9A4A',
+                            'oscuro': '#4A5220',
+                            'muy-claro': '#F0F4E8',
+                        },
+                        'rosa': {
+                            'principal': '#E89EB8',
+                            'claro': '#F2C4D1',
+                            'oscuro': '#D67A9A',
+                            'muy-claro': '#FDF2F8',
+                        },
+                        'amarillo': {
+                            'claro': '#FDF4E3',
+                            'medio': '#F9E6B3',
+                            'dorado': '#F4D03F',
+                            'intenso': '#D4AC0D',
+                        }
+                    },
+                    fontFamily: {
+                        'crimson': ['Crimson Text', 'serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-verde-muy-claro font-crimson">
+    <!-- Navbar -->
+    <nav id="navbar" class="bg-verde-principal text-white shadow-lg sticky top-0 z-50"></nav>
+
+    <!-- Selector de Temas -->
+    <div id="theme-selector" class="fixed top-4 left-4 z-50"></div>
+
+    <!-- Contenido Principal -->
+    <main class="min-h-screen">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Título -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-playfair font-bold text-verde-oscuro mb-4">
+                    🎨 Demo de Temas Dinámicos
+                </h1>
+                <p class="text-lg text-verde-principal mb-8">
+                    Explora los diferentes temas disponibles y ve cómo cambian los colores en tiempo real
+                </p>
+            </div>
+
+            <!-- Selector de Temas Completo -->
+            <div class="mb-12">
+                <div id="theme-selector-full" class="bg-white rounded-lg shadow-lg p-6"></div>
+            </div>
+
+            <!-- Demostración de Componentes -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Tarjetas de Ejemplo -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4">
+                        📋 Componentes de Ejemplo
+                    </h2>
+                    
+                    <!-- Tarjeta 1 -->
+                    <div class="card-theme rounded-lg p-6 hover-lift">
+                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
+                            Poema de Ejemplo
+                        </h3>
+                        <p class="text-verde-principal mb-4">
+                            "La naturaleza es un poema que se escribe con colores..."
+                        </p>
+                        <div class="flex space-x-2">
+                            <button class="btn-primary-theme px-4 py-2 rounded-lg">
+                                Leer más
+                            </button>
+                            <button class="btn-secondary-theme px-4 py-2 rounded-lg">
+                                Compartir
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 2 -->
+                    <div class="card-theme rounded-lg p-6 hover-lift">
+                        <h3 class="text-xl font-playfair font-semibold text-verde-oscuro mb-2">
+                            Categoría: Naturaleza
+                        </h3>
+                        <p class="text-verde-principal mb-4">
+                            Poemas inspirados en la belleza natural del mundo.
+                        </p>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">🌿</span>
+                            <span class="text-sm text-verde-claro">12 poemas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de Ejemplo -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-4">
+                        📝 Formulario de Ejemplo
+                    </h2>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-verde-oscuro mb-2">
+                                Título del Poema
+                            </label>
+                            <input type="text" 
+                                   class="w-full px-3 py-2 border border-verde-claro rounded-lg focus:outline-none focus:ring-2 focus:ring-verde-principal"
+                                   placeholder="Escribe el título aquí...">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-verde-oscuro mb-2">
+                                Categoría
+                            </label>
+                            <select class="w-full px-3 py-2 border border-verde-claro rounded-lg focus:outline-none focus:ring-2 focus:ring-verde-principal">
+                                <option>Naturaleza</option>
+                                <option>Amor</option>
+                                <option>Reflexión</option>
+                                <option>Vida</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-verde-oscuro mb-2">
+                                Contenido
+                            </label>
+                            <textarea rows="4" 
+                                      class="w-full px-3 py-2 border border-verde-claro rounded-lg focus:outline-none focus:ring-2 focus:ring-verde-principal"
+                                      placeholder="Escribe tu poema aquí..."></textarea>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button type="submit" class="btn-primary-theme px-6 py-2 rounded-lg">
+                                Guardar Poema
+                            </button>
+                            <button type="button" class="btn-secondary-theme px-6 py-2 rounded-lg">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Paleta de Colores Actual -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-12">
+                <h2 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-6">
+                    🎨 Paleta de Colores Actual
+                </h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <!-- Colores Primarios -->
+                    <div class="space-y-2">
+                        <h3 class="font-semibold text-verde-oscuro">Primarios</h3>
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-verde-principal)"></div>
+                                <span class="text-sm">Principal</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-verde-claro)"></div>
+                                <span class="text-sm">Claro</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-verde-oscuro)"></div>
+                                <span class="text-sm">Oscuro</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-verde-muy-claro)"></div>
+                                <span class="text-sm">Muy Claro</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colores Secundarios -->
+                    <div class="space-y-2">
+                        <h3 class="font-semibold text-verde-oscuro">Secundarios</h3>
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-rosa-principal)"></div>
+                                <span class="text-sm">Principal</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-rosa-claro)"></div>
+                                <span class="text-sm">Claro</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-rosa-oscuro)"></div>
+                                <span class="text-sm">Oscuro</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-rosa-muy-claro)"></div>
+                                <span class="text-sm">Muy Claro</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colores de Acento -->
+                    <div class="space-y-2">
+                        <h3 class="font-semibold text-verde-oscuro">Acentos</h3>
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-amarillo-claro)"></div>
+                                <span class="text-sm">Claro</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-amarillo-medio)"></div>
+                                <span class="text-sm">Medio</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-amarillo-dorado)"></div>
+                                <span class="text-sm">Dorado</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 rounded border" style="background-color: var(--color-amarillo-intenso)"></div>
+                                <span class="text-sm">Intenso</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información del Tema -->
+                    <div class="space-y-2">
+                        <h3 class="font-semibold text-verde-oscuro">Tema Actual</h3>
+                        <div id="theme-info" class="text-sm text-verde-principal">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles de Tema -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-playfair font-semibold text-verde-oscuro mb-6">
+                    🎛️ Controles de Tema
+                </h2>
+                
+                <div class="flex flex-wrap gap-4">
+                    <button id="prev-theme" class="btn-primary-theme px-4 py-2 rounded-lg">
+                        ← Tema Anterior
+                    </button>
+                    <button id="next-theme" class="btn-primary-theme px-4 py-2 rounded-lg">
+                        Tema Siguiente →
+                    </button>
+                    <button id="random-theme" class="btn-secondary-theme px-4 py-2 rounded-lg">
+                        🎲 Tema Aleatorio
+                    </button>
+                    <button id="reset-theme" class="btn-secondary-theme px-4 py-2 rounded-lg">
+                        🔄 Tema Original
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="bg-verde-oscuro text-white py-8"></footer>
+
+    <!-- Scripts -->
+    <script src="src/components/BaseComponent.js"></script>
+    <script src="src/components/NavbarComponent.js"></script>
+    <script src="src/components/FooterComponent.js"></script>
+    <!-- Selector de Temas desactivado
+    <script src="src/components/ThemeSelectorComponent.js"></script>
+    -->
+    <script src="src/services/RouterService.js"></script>
+    <script src="src/services/StateService.js"></script>
+    <script src="src/services/StorageService.js"></script>
+    <script src="src/services/ThemeService.js"></script>
+    <script src="src/pages/BasePage.js"></script>
+    <script src="src/pages/HomePage.js"></script>
+    <script src="src/app.js"></script>
+
+    <script>
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar componentes
+            const navbar = new NavbarComponent('navbar', { debug: true });
+            const footer = new FooterComponent('footer', { debug: true });
+            // Selector de temas desactivado
+
+            // Controles de tema
+            const prevBtn = document.getElementById('prev-theme');
+            const nextBtn = document.getElementById('next-theme');
+            const randomBtn = document.getElementById('random-theme');
+            const resetBtn = document.getElementById('reset-theme');
+            const themeInfo = document.getElementById('theme-info');
+
+            // Event listeners para controles
+            prevBtn.addEventListener('click', () => {
+                window.themeService.previousTheme();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                window.themeService.nextTheme();
+            });
+
+            randomBtn.addEventListener('click', () => {
+                window.themeService.randomTheme();
+            });
+
+            resetBtn.addEventListener('click', () => {
+                window.themeService.applyTheme('default');
+            });
+
+            // Actualizar información del tema
+            function updateThemeInfo() {
+                const currentTheme = window.themeService.getCurrentTheme();
+                themeInfo.innerHTML = `
+                    <div class="font-semibold">${currentTheme.data.name}</div>
+                    <div class="text-xs mt-1">${currentTheme.data.description}</div>
+                `;
+            }
+
+            // Escuchar cambios de tema
+            document.addEventListener('theme-changed', updateThemeInfo);
+
+            // Actualizar información inicial
+            updateThemeInfo();
+
+            console.log('🎨 Demo de temas inicializada');
+        });
+    </script>
+</body>
+</html>

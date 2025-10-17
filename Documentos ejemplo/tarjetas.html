@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Para Ti, Mi Poesía - Vista de Tarjetas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Lora:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-heart {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B7A40', // Olive Green
+                        'primary-light': '#8A9A5B',
+                        'secondary': '#FADADD', // Pastel Pink
+                        'accent': '#FFFACD', // Pastel Yellow
+                        'background-light': '#F5F5DC', // Beige
+                        'background-dark': '#2C3531', // Dark Slate Gray
+                        'text-light': '#36454F', // Charcoal
+                        'text-dark': '#EAEAEA',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: '1rem',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-text-light dark:text-text-dark transition-colors duration-500">
+<div class="relative min-h-screen overflow-hidden">
+<div class="absolute top-0 left-0 w-72 h-72 bg-secondary/20 dark:bg-pink-400/10 rounded-full filter blur-xl opacity-50"></div>
+<div class="absolute bottom-0 right-0 w-72 h-72 bg-accent/20 dark:bg-yellow-200/10 rounded-full filter blur-xl opacity-50"></div>
+<div class="container mx-auto px-4 sm:px-6 py-16 relative z-10">
+<header class="text-center mb-12">
+<a class="text-primary dark:text-primary-light hover:underline mb-4 inline-block" href="#">← Volver al inicio</a>
+<h1 class="text-5xl md:text-6xl font-display text-primary dark:text-primary-light mb-3">Galería de Versos</h1>
+<p class="text-lg text-text-light dark:text-text-dark/80">Explora un jardín de emociones en cada tarjeta.</p>
+</header>
+<div class="bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm p-4 rounded-lg shadow-md mb-10 flex flex-col sm:flex-row items-center justify-between gap-4 sticky top-4 z-20 border border-gray-200 dark:border-gray-700">
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<span class="material-icons text-gray-500">search</span>
+<input class="bg-transparent border-0 focus:ring-0 text-text-light dark:text-text-dark placeholder-gray-400 w-full" placeholder="Buscar por título o autor..." type="text"/>
+</div>
+<div class="flex items-center gap-2 sm:gap-4 flex-wrap justify-center">
+<div class="relative">
+<select class="appearance-none bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-full py-2 px-4 pr-8 focus:ring-primary focus:border-primary text-sm">
+<option>Categoría</option>
+<option>Amor</option>
+<option>Naturaleza</option>
+<option>Melancolía</option>
+</select>
+<span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-full py-2 px-4 pr-8 focus:ring-primary focus:border-primary text-sm">
+<option>Ordenar por</option>
+<option>Recientes</option>
+<option>Populares</option>
+<option>Más cortos</option>
+</select>
+<span class="material-icons absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">expand_more</span>
+</div>
+<button class="bg-primary text-white rounded-full p-2 hover:bg-primary-light transition-colors">
+<span class="material-icons">tune</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
+<button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
+<span class="material-icons">favorite_border</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">El Capitán</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por David García</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma, cruzar el océano de tu belleza y explorar las aguas de tu alegría..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>2 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
+<button class="text-secondary dark:text-pink-400">
+<span class="material-icons">favorite</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Corazón de piedra</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por David García</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano que parecía más una historia de un libro en una vieja biblioteca..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>2 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-accent text-primary px-2 py-1 rounded-full">Naturaleza</span>
+<button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
+<span class="material-icons">favorite_border</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Bosque Silente</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Elena Gómez</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "El musgo es alfombra, el viento un susurro. Los árboles, guardianes de secretos antiguos, mecen sus hojas al compás del tiempo..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>1 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Melancolía</span>
+<button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
+<span class="material-icons">favorite_border</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Lluvia en la Ventana</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Carlos Ruiz</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "Las gotas trazan caminos en el cristal, como lágrimas de un cielo que también siente. Cada una cuenta una historia, un recuerdo, un quizás..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>3 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
+<button class="text-secondary dark:text-pink-400">
+<span class="material-icons">favorite</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Tu Constelación</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Anaïs Marín</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "En el mapa de tus lunares he encontrado mi galaxia favorita. Cada uno, una estrella que guía mis noches y mis días..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>1 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+<div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-semibold uppercase tracking-wider bg-accent text-primary px-2 py-1 rounded-full">Naturaleza</span>
+<button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
+<span class="material-icons">favorite_border</span>
+</button>
+</div>
+<h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Mar de Fondo</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Javier Soto</p>
+<p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                        "El oleaje trae consigo el eco de antiguos cantos de sirenas. La sal en el aire cura heridas que ni el tiempo pudo cerrar..."
+                    </p>
+</div>
+<div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+<div class="flex items-center gap-1">
+<span class="material-icons text-base">timer</span>
+<span>2 min</span>
+</div>
+<a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
+</div>
+</div>
+</div>
+<div class="mt-12 flex justify-center items-center gap-2">
+<button class="px-4 py-2 rounded-lg bg-white/80 dark:bg-gray-800/60 hover:bg-primary-light/20 dark:hover:bg-gray-700/60 transition-colors">Anterior</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-white">1</button>
+<button class="w-10 h-10 rounded-lg bg-white/80 dark:bg-gray-800/60 hover:bg-primary-light/20 dark:hover:bg-gray-700/60 transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg bg-white/80 dark:bg-gray-800/60 hover:bg-primary-light/20 dark:hover:bg-gray-700/60 transition-colors">3</button>
+<span class="text-text-light dark:text-text-dark">...</span>
+<button class="px-4 py-2 rounded-lg bg-white/80 dark:bg-gray-800/60 hover:bg-primary-light/20 dark:hover:bg-gray-700/60 transition-colors">Siguiente</button>
+</div>
+</div>
+</div>
+
+</body></html>

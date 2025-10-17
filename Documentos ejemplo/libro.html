@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Para Ti, Mi Poesía - Vista Libro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Lora:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<style>
+        .book-page {
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        .book-container:hover .book-page-front {
+            transform: rotateY(-180deg);
+        }
+        .book-page-front {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            z-index: 2;
+        }
+        .book-page-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6B7A40', // Olive Green
+                        'primary-light': '#8A9A5B',
+                        'secondary': '#FADADD', // Pastel Pink
+                        'accent': '#FFFACD', // Pastel Yellow
+                        'background-light': '#F5F5DC', // Beige
+                        'background-dark': '#2C3531', // Dark Slate Gray
+                        'text-light': '#36454F', // Charcoal
+                        'text-dark': '#EAEAEA',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['Lora', 'serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: '1rem',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-text-light dark:text-text-dark transition-colors duration-500">
+<div class="bg-background-light dark:bg-background-dark py-16">
+<div class="container mx-auto px-6">
+<header class="text-center mb-12">
+<a class="text-primary dark:text-primary-light hover:underline mb-4 inline-block flex items-center justify-center gap-2" href="#">
+<span class="material-icons">arrow_back</span> Volver al inicio</a>
+<h1 class="text-5xl font-display text-primary dark:text-primary-light">Lectura Inmersiva</h1>
+<p class="text-lg text-text-light dark:text-text-dark/80 mt-2">Pasa la página y sumérgete en un mundo de versos.</p>
+</header>
+<div class="bg-white/70 dark:bg-gray-800/50 backdrop-blur-md p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary-light transition-colors">
+<span class="material-icons">filter_list</span>
+                    Filtros
+                </button>
+<div class="relative">
+<select class="appearance-none bg-accent/50 dark:bg-gray-700 border border-primary/20 dark:border-gray-600 rounded-full py-2 pl-4 pr-10 focus:ring-primary focus:border-primary text-text-light dark:text-text-dark">
+<option>Categoría: Amor</option>
+<option>Categoría: Naturaleza</option>
+<option>Categoría: Melancolía</option>
+</select>
+<span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-primary/70 dark:text-primary-light/70 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-semibold">Personalizar Lectura:</span>
+<button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Aumentar tamaño de letra">
+<span class="material-icons">format_size</span>
+</button>
+<button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Modo oscuro">
+<span class="material-icons">dark_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Cambiar fuente">
+<span class="material-icons">text_format</span>
+</button>
+</div>
+</div>
+<div class="relative book-container" style="perspective: 2500px;">
+<div class="grid md:grid-cols-2 max-w-6xl mx-auto">
+<div class="relative book-page-container">
+<div class="relative w-full h-full book-page">
+<div class="absolute w-full h-full p-8 sm:p-12 bg-white dark:bg-gray-800 rounded-l-lg shadow-2xl book-page-front" style="box-shadow: -10px 0 30px -15px rgba(0,0,0,0.3);">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2 text-secondary dark:text-pink-400">
+<span class="material-icons text-lg">favorite</span>
+<span class="font-bold text-sm">Amor</span>
+</div>
+<span class="text-sm text-gray-400 dark:text-gray-500">Pág. 1</span>
+</div>
+<h3 class="font-display text-3xl text-primary dark:text-primary-light mb-2">El Capitán</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por David García</p>
+<article class="space-y-4 text-text-light/90 dark:text-text-dark/80 font-body leading-loose text-lg">
+<p>Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma, cruzar el océano de tu belleza y explorar las aguas de tu alegría.</p>
+<p>Y si he de naufragar, que sea en tus labios, que sea en tu mirada, que sea en tu vientre, porque no hay destino más noble que el de un capitán hundiéndose con su barco, que el de un amante sucumbiendo ante la belleza de su amada.</p>
+</article>
+<div class="absolute bottom-8 right-8 text-xs text-gray-400 dark:text-gray-500">
+                                14/10/2023
+                            </div>
+</div>
+<div class="absolute w-full h-full p-8 sm:p-12 bg-white dark:bg-gray-800 rounded-l-lg shadow-2xl book-page-back">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2 text-secondary dark:text-pink-400">
+<span class="material-icons text-lg">favorite</span>
+<span class="font-bold text-sm">Amor</span>
+</div>
+<span class="text-sm text-gray-400 dark:text-gray-500">Pág. 2</span>
+</div>
+<h3 class="font-display text-3xl text-primary dark:text-primary-light mb-2">Corazón de piedra</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por David García</p>
+<article class="space-y-4 text-text-light/90 dark:text-text-dark/80 font-body leading-loose text-lg">
+<p>Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano que parecía más una historia de un libro en una vieja biblioteca.</p>
+<p>Pero cuál fue mi sorpresa al descubrir, que este corazón aún latía, y con cada latido la coraza de piedra caía a pedazos... Pero ¿Por qué? ¿Cómo es que late? Me di cuenta que solo late en ciertas circunstancias, con una foto, una mirada, un mensaje, una caricia, un beso apasionado o un chiste malo.</p>
+</article>
+<div class="absolute bottom-8 left-8 text-xs text-gray-400 dark:text-gray-500">
+                                14/10/2023
+                            </div>
+</div>
+</div>
+</div>
+<div class="p-8 sm:p-12 bg-accent/30 dark:bg-gray-900/40 rounded-r-lg shadow-lg border-l border-gray-200 dark:border-gray-700">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2 text-secondary dark:text-pink-400 opacity-50">
+<span class="material-icons text-lg">favorite</span>
+<span class="font-bold text-sm">Amor</span>
+</div>
+<span class="text-sm text-gray-400 dark:text-gray-500">Pág. 3</span>
+</div>
+<h3 class="font-display text-3xl text-primary/70 dark:text-primary-light/70 mb-2">Un Nuevo Comienzo</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por Ana Martínez</p>
+<article class="space-y-4 text-text-light/70 dark:text-text-dark/60 font-body leading-loose text-lg">
+<p>Cada amanecer a tu lado es una página en blanco, una oportunidad para escribir una nueva estrofa de nuestro amor. El sol se asoma tímido, celoso de tu brillo.</p>
+<p>Las aves cantan melodías que aprendieron de tu risa. El mundo se detiene un instante, solo para admirar la belleza que emana de tu alma. Eres mi poema favorito, el que nunca me canso de leer, el que siempre me hace soñar.</p>
+</article>
+<div class="absolute bottom-8 right-8 text-xs text-gray-400 dark:text-gray-500">
+                            15/10/2023
+                        </div>
+</div>
+</div>
+<div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 mt-8 text-sm text-text-light dark:text-text-dark/80">
+<button class="flex items-center gap-2 hover:text-primary dark:hover:text-primary-light transition-colors group">
+<span class="material-icons transition-transform group-hover:-translate-x-1">arrow_back</span> Anterior
+            </button>
+<span class="font-display text-lg">Página 1 de 25</span>
+<button class="flex items-center gap-2 hover:text-primary dark:hover:text-primary-light transition-colors group">
+                Siguiente <span class="material-icons transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>
