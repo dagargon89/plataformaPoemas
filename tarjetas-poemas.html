@@ -89,144 +89,50 @@
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
-                            <button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
-                                <span class="material-icons">favorite_border</span>
-                            </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">El Capitán</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por David García</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma, cruzar el océano de tu belleza y explorar las aguas de tu alegría..."
+            <!-- Estados de la aplicación -->
+            <div id="loading-state" class="text-center py-12 hidden">
+                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+                    <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-2">
+                        Cargando poemas...
+                    </h2>
+                    <p class="text-text-light dark:text-text-dark/80">
+                        Preparando tu jardín de versos
                         </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>2 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
                     </div>
                 </div>
                 
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
-                            <button class="text-secondary dark:text-pink-400">
-                                <span class="material-icons">favorite</span>
+            <div id="error-state" class="text-center py-12 hidden">
+                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                    <div class="text-4xl mb-4">😔</div>
+                    <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-4">
+                        Error al cargar poemas
+                    </h2>
+                    <p class="text-text-light dark:text-text-dark/80 mb-6">
+                        No pudimos conectar con el jardín de versos. Inténtalo de nuevo.
+                    </p>
+                    <button onclick="tarjetasView.loadPoemas()" 
+                            class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-colors">
+                        Reintentar
                             </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Corazón de piedra</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por David García</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano que parecía más una historia de un libro en una vieja biblioteca..."
-                        </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>2 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
                     </div>
                 </div>
                 
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-accent text-primary px-2 py-1 rounded-full">Naturaleza</span>
-                            <button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
-                                <span class="material-icons">favorite_border</span>
-                            </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Bosque Silente</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Elena Gómez</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "El musgo es alfombra, el viento un susurro. Los árboles, guardianes de secretos antiguos, mecen sus hojas al compás del tiempo..."
+            <div id="empty-state" class="text-center py-12 hidden">
+                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-4">
+                        No hay poemas disponibles
+                    </h2>
+                    <p class="text-text-light dark:text-text-dark/80">
+                        El jardín de versos está vacío por ahora.
                         </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>1 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
                     </div>
                 </div>
                 
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Melancolía</span>
-                            <button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
-                                <span class="material-icons">favorite_border</span>
-                            </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Lluvia en la Ventana</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Carlos Ruiz</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "Las gotas trazan caminos en el cristal, como lágrimas de un cielo que también siente. Cada una cuenta una historia, un recuerdo, un quizás..."
-                        </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>3 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
-                    </div>
-                </div>
-                
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-secondary text-primary px-2 py-1 rounded-full">Amor</span>
-                            <button class="text-secondary dark:text-pink-400">
-                                <span class="material-icons">favorite</span>
-                            </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Tu Constelación</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Anaïs Marín</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "En el mapa de tus lunares he encontrado mi galaxia favorita. Cada uno, una estrella que guía mis noches y mis días..."
-                        </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>1 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
-                    </div>
-                </div>
-                
-                <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-semibold uppercase tracking-wider bg-accent text-primary px-2 py-1 rounded-full">Naturaleza</span>
-                            <button class="text-gray-400 hover:text-secondary dark:hover:text-pink-400">
-                                <span class="material-icons">favorite_border</span>
-                            </button>
-                        </div>
-                        <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">Mar de Fondo</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por Javier Soto</p>
-                        <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
-                            "El oleaje trae consigo el eco de antiguos cantos de sirenas. La sal en el aire cura heridas que ni el tiempo pudo cerrar..."
-                        </p>
-                    </div>
-                    <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
-                        <div class="flex items-center gap-1">
-                            <span class="material-icons text-base">timer</span>
-                            <span>2 min</span>
-                        </div>
-                        <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" href="#">Leer más →</a>
-                    </div>
-                </div>
+            <!-- Contenedor de poemas -->
+            <div id="poemas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Los poemas se cargarán dinámicamente aquí -->
             </div>
             
             <div class="mt-12 flex justify-center items-center gap-2">
@@ -244,7 +150,228 @@
     <canvas id="three-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
     <script>
-        // Inicialización con GSAP
+        // Clase para manejar la vista de tarjetas
+        class TarjetasView {
+            constructor() {
+                this.poemas = [];
+                this.filteredPoemas = [];
+                this.currentPage = 1;
+                this.itemsPerPage = 6;
+                this.favorites = new Set();
+            }
+
+            async init() {
+                await this.loadPoemas();
+                this.setupEventListeners();
+            }
+
+            async loadPoemas() {
+                try {
+                    this.showLoading();
+                    console.log('Cargando poemas desde admin/api/poemas.php...');
+                    
+                    const response = await fetch('admin/api/poemas.php');
+                    console.log('Respuesta de la API:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Datos recibidos:', result);
+                    
+                    if (result.success && result.data) {
+                        this.poemas = result.data;
+                        this.filteredPoemas = [...this.poemas];
+                        console.log(`Cargados ${this.poemas.length} poemas`);
+                        this.renderPoemas();
+                        this.hideLoading();
+                    } else {
+                        console.error('Error en la respuesta:', result);
+                        throw new Error(result.message || 'Error al cargar poemas');
+                    }
+                } catch (error) {
+                    console.error('Error loading poems:', error);
+                    this.showError();
+                }
+            }
+
+            renderPoemas() {
+                const container = document.getElementById('poemas-container');
+                if (!container) return;
+
+                if (this.filteredPoemas.length === 0) {
+                    this.showEmpty();
+                    return;
+                }
+
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                const pagePoemas = this.filteredPoemas.slice(startIndex, endIndex);
+
+                container.innerHTML = pagePoemas.map(poema => this.createPoemaCard(poema)).join('');
+
+                // Animación de entrada con GSAP
+                gsap.from(container.children, {
+                    opacity: 0,
+                    y: 30,
+                    scale: 0.9,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+
+                this.updatePagination();
+            }
+
+            createPoemaCard(poema) {
+                const categoriaColor = this.getCategoriaColor(poema.categoria_nombre);
+                const isFavorite = this.favorites.has(poema.id);
+                const contenidoPreview = this.getContenidoPreview(poema.contenido);
+                const tiempoLectura = this.calculateReadingTime(poema.contenido);
+
+                return `
+                    <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-md rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group border border-gray-200 dark:border-gray-700">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-xs font-semibold uppercase tracking-wider ${categoriaColor} px-2 py-1 rounded-full">
+                                    ${poema.categoria_nombre || 'Sin categoría'}
+                                </span>
+                                <button class="${isFavorite ? 'text-secondary dark:text-pink-400' : 'text-gray-400 hover:text-secondary dark:hover:text-pink-400'}" 
+                                        onclick="tarjetasView.toggleFavorite(${poema.id})">
+                                    <span class="material-icons">${isFavorite ? 'favorite' : 'favorite_border'}</span>
+                                </button>
+                            </div>
+                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-2">${poema.titulo || 'Sin título'}</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">por ${poema.autor_nombre || 'Autor desconocido'}</p>
+                            <p class="text-text-light/80 dark:text-text-dark/70 italic text-base leading-relaxed h-24 overflow-hidden">
+                                "${contenidoPreview}"
+                            </p>
+                        </div>
+                        <div class="bg-accent/50 dark:bg-yellow-200/20 px-6 py-4 flex justify-between items-center text-sm text-text-light dark:text-text-dark/80">
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons text-base">timer</span>
+                                <span>${tiempoLectura} min</span>
+                            </div>
+                            <a class="font-semibold text-primary dark:text-primary-light group-hover:underline" 
+                               href="libro-tradicional.html?id=${poema.id}">Leer más →</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getCategoriaColor(categoria) {
+                const colors = {
+                    'Amor': 'bg-secondary text-primary',
+                    'Naturaleza': 'bg-accent text-primary',
+                    'Melancolía': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+                    'Alegría': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                    'Esperanza': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                };
+                return colors[categoria] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+            }
+
+            getContenidoPreview(contenido) {
+                if (!contenido) return 'Contenido no disponible';
+                const cleanContent = contenido.replace(/<[^>]*>/g, '').trim();
+                return cleanContent.length > 120 ? cleanContent.substring(0, 120) + '...' : cleanContent;
+            }
+
+            calculateReadingTime(contenido) {
+                if (!contenido) return 1;
+                const words = contenido.replace(/<[^>]*>/g, '').split(/\s+/).length;
+                return Math.max(1, Math.ceil(words / 200));
+            }
+
+            toggleFavorite(poemaId) {
+                if (this.favorites.has(poemaId)) {
+                    this.favorites.delete(poemaId);
+                } else {
+                    this.favorites.add(poemaId);
+                }
+                this.renderPoemas();
+            }
+
+            updatePagination() {
+                const totalPages = Math.ceil(this.filteredPoemas.length / this.itemsPerPage);
+                // Aquí puedes implementar la lógica de paginación si es necesaria
+            }
+
+            showLoading() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showError() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showEmpty() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.remove('hidden');
+            }
+
+            setupEventListeners() {
+                // Búsqueda
+                const searchInput = document.querySelector('input[placeholder*="Buscar"]');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        this.filterPoemas(e.target.value);
+                    });
+                }
+
+                // Filtros de categoría
+                const categoriaSelect = document.querySelector('select');
+                if (categoriaSelect) {
+                    categoriaSelect.addEventListener('change', (e) => {
+                        this.filterByCategoria(e.target.value);
+                    });
+                }
+            }
+
+            filterPoemas(searchTerm) {
+                if (!searchTerm.trim()) {
+                    this.filteredPoemas = [...this.poemas];
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        poema.autor_nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        poema.contenido.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+                this.currentPage = 1;
+                this.renderPoemas();
+            }
+
+            filterByCategoria(categoria) {
+                if (categoria === 'Categoría' || !categoria) {
+                    this.filteredPoemas = [...this.poemas];
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.categoria_nombre === categoria
+                    );
+                }
+                this.currentPage = 1;
+                this.renderPoemas();
+            }
+        }
+
+        // Inicialización
+        let tarjetasView;
         document.addEventListener('DOMContentLoaded', function() {
             // Animación de entrada
             gsap.from("body", {
@@ -254,16 +381,9 @@
                 ease: "power2.out"
             });
             
-            // Animación de tarjetas con stagger
-            gsap.from(".grid > div", {
-                opacity: 0,
-                y: 30,
-                scale: 0.9,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power2.out",
-                delay: 0.3
-            });
+            // Inicializar vista de tarjetas
+            tarjetasView = new TarjetasView();
+            tarjetasView.init();
         });
 
         // Inicialización de Three.js para efectos de fondo

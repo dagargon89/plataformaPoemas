@@ -78,102 +78,50 @@
                     </div>
                 </div>
                 
-                <div class="space-y-4">
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.4s;">
-                        <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
-                            <span class="material-icons text-5xl text-secondary dark:text-pink-400 mb-2">favorite_border</span>
-                            <span class="font-bold text-sm text-primary dark:text-primary-light">Amor</span>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">14/10/2023</span>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">El Capitán</h3>
-                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                                <span>por David García</span>
-                                <span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 2 min</span>
-                            </div>
-                            <p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma..."</p>
-                            <a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
-                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
-                            </a>
-                        </div>
-                        <div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
-                            <button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
-                            <button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
-                            <button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+                <!-- Estados de la aplicación -->
+                <div id="loading-state" class="text-center py-12 hidden">
+                    <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+                        <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-2">
+                            Cargando poemas...
+                        </h2>
+                        <p class="text-text-light dark:text-text-dark/80">
+                            Preparando tu jardín de versos
+                        </p>
                         </div>
                     </div>
                     
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.6s;">
-                        <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
-                            <span class="material-icons text-5xl text-accent dark:text-yellow-300 mb-2">nature</span>
-                            <span class="font-bold text-sm text-primary dark:text-primary-light">Naturaleza</span>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">12/10/2023</span>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Bosque Susurrante</h3>
-                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                                <span>por Elena Cruz</span>
-                                <span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 3 min</span>
-                            </div>
-                            <p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Los árboles mecen sus hojas al compás del viento, contando historias antiguas que solo el corazón entiende..."</p>
-                            <a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
-                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
-                            </a>
-                        </div>
-                        <div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
-                            <button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
-                            <button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
-                            <button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+                <div id="error-state" class="text-center py-12 hidden">
+                    <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                        <div class="text-4xl mb-4">😔</div>
+                        <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-4">
+                            Error al cargar poemas
+                        </h2>
+                        <p class="text-text-light dark:text-text-dark/80 mb-6">
+                            No pudimos conectar con el jardín de versos. Inténtalo de nuevo.
+                        </p>
+                        <button onclick="listaView.loadPoemas()" 
+                                class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-colors">
+                            Reintentar
+                        </button>
                         </div>
                     </div>
                     
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 0.8s;">
-                        <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
-                            <span class="material-icons text-5xl text-secondary dark:text-pink-400 mb-2">favorite_border</span>
-                            <span class="font-bold text-sm text-primary dark:text-primary-light">Amor</span>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">10/10/2023</span>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Corazón de piedra</h3>
-                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                                <span>por David García</span>
-                                <span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 2 min</span>
-                            </div>
-                            <p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano..."</p>
-                            <a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
-                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
-                            </a>
-                        </div>
-                        <div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
-                            <button class="hover:text-pink-500"><span class="material-icons">favorite</span></button>
-                            <button class="hover:text-primary"><span class="material-icons">bookmark</span></button>
-                            <button class="hover:text-blue-500"><span class="material-icons">share</span></button>
+                <div id="empty-state" class="text-center py-12 hidden">
+                    <div class="bg-white/80 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                        <div class="text-4xl mb-4">📝</div>
+                        <h2 class="text-xl font-display font-bold text-primary dark:text-primary-light mb-4">
+                            No hay poemas disponibles
+                        </h2>
+                        <p class="text-text-light dark:text-text-dark/80">
+                            El jardín de versos está vacío por ahora.
+                        </p>
                         </div>
                     </div>
                     
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" style="animation-delay: 1.0s;">
-                        <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
-                            <span class="material-icons text-5xl text-blue-300 dark:text-blue-400 mb-2">water_drop</span>
-                            <span class="font-bold text-sm text-primary dark:text-primary-light">Melancolía</span>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">08/10/2023</span>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">Lágrimas de Lluvia</h3>
-                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                                <span>por Sofía Moreno</span>
-                                <span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> 1 min</span>
-                            </div>
-                            <p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"Cada gota que cae del cielo es un recuerdo tuyo, un eco de tu adiós que resuena en mi ventana..."</p>
-                            <a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" href="#">
-                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
-                            </a>
-                        </div>
-                        <div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
-                            <button class="hover:text-pink-500"><span class="material-icons">favorite_border</span></button>
-                            <button class="hover:text-primary"><span class="material-icons">bookmark_border</span></button>
-                            <button class="hover:text-blue-500"><span class="material-icons">share</span></button>
-                        </div>
-                    </div>
+                <!-- Contenedor de poemas -->
+                <div id="poemas-container" class="space-y-4">
+                    <!-- Los poemas se cargarán dinámicamente aquí -->
                 </div>
                 
                 <div class="flex justify-center mt-12 fade-in" style="animation-delay: 1.2s;">
@@ -195,7 +143,297 @@
     <canvas id="three-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
     <script>
-        // Inicialización con GSAP
+        // Clase para manejar la vista de lista
+        class ListaView {
+            constructor() {
+                this.poemas = [];
+                this.filteredPoemas = [];
+                this.currentPage = 1;
+                this.itemsPerPage = 10;
+                this.favorites = new Set();
+                this.bookmarks = new Set();
+            }
+
+            async init() {
+                await this.loadPoemas();
+                this.setupEventListeners();
+            }
+
+            async loadPoemas() {
+                try {
+                    this.showLoading();
+                    console.log('Cargando poemas desde admin/api/poemas.php...');
+                    
+                    const response = await fetch('admin/api/poemas.php');
+                    console.log('Respuesta de la API:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Datos recibidos:', result);
+                    
+                    if (result.success && result.data) {
+                        this.poemas = result.data;
+                        this.filteredPoemas = [...this.poemas];
+                        console.log(`Cargados ${this.poemas.length} poemas`);
+                        this.renderPoemas();
+                        this.hideLoading();
+                    } else {
+                        console.error('Error en la respuesta:', result);
+                        throw new Error(result.message || 'Error al cargar poemas');
+                    }
+                } catch (error) {
+                    console.error('Error loading poems:', error);
+                    this.showError();
+                }
+            }
+
+            renderPoemas() {
+                const container = document.getElementById('poemas-container');
+                if (!container) return;
+
+                if (this.filteredPoemas.length === 0) {
+                    this.showEmpty();
+                    return;
+                }
+
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                const pagePoemas = this.filteredPoemas.slice(startIndex, endIndex);
+
+                container.innerHTML = pagePoemas.map((poema, index) => this.createPoemaItem(poema, index)).join('');
+
+                // Animación de entrada con GSAP
+                gsap.from(container.children, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+
+                this.updatePagination();
+            }
+
+            createPoemaItem(poema, index) {
+                const categoriaIcon = this.getCategoriaIcon(poema.categoria_nombre);
+                const categoriaColor = this.getCategoriaColor(poema.categoria_nombre);
+                const isFavorite = this.favorites.has(poema.id);
+                const isBookmarked = this.bookmarks.has(poema.id);
+                const contenidoPreview = this.getContenidoPreview(poema.contenido);
+                const tiempoLectura = this.calculateReadingTime(poema.contenido);
+                const fechaFormateada = this.formatDate(poema.fecha_creacion);
+
+                return `
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col md:flex-row items-start gap-6 fade-in" 
+                         style="animation-delay: ${0.4 + (index * 0.2)}s;">
+                        <div class="flex-shrink-0 flex flex-col items-center text-center w-full md:w-32">
+                            <span class="material-icons text-5xl ${categoriaColor} mb-2">${categoriaIcon}</span>
+                            <span class="font-bold text-sm text-primary dark:text-primary-light">${poema.categoria_nombre || 'Sin categoría'}</span>
+                            <span class="text-xs text-gray-400 dark:text-gray-500 mt-1">${fechaFormateada}</span>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-display text-2xl text-primary dark:text-primary-light mb-1">${poema.titulo || 'Sin título'}</h3>
+                            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                                <span>por ${poema.autor_nombre || 'Autor desconocido'}</span>
+                                <span class="flex items-center gap-1"><span class="material-icons text-base">timer</span> ${tiempoLectura} min</span>
+                            </div>
+                            <p class="text-text-light/80 dark:text-text-dark/70 italic leading-relaxed mb-4">"${contenidoPreview}"</p>
+                            <a class="inline-flex items-center text-primary dark:text-primary-light font-semibold hover:underline" 
+                               href="libro-tradicional.html?id=${poema.id}">
+                                Leer poema completo <span class="material-icons text-base ml-1">arrow_forward</span>
+                            </a>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2 text-gray-400 self-center md:self-auto">
+                            <button class="${isFavorite ? 'text-pink-500' : 'hover:text-pink-500'}" 
+                                    onclick="listaView.toggleFavorite(${poema.id})">
+                                <span class="material-icons">${isFavorite ? 'favorite' : 'favorite_border'}</span>
+                            </button>
+                            <button class="${isBookmarked ? 'text-primary' : 'hover:text-primary'}" 
+                                    onclick="listaView.toggleBookmark(${poema.id})">
+                                <span class="material-icons">${isBookmarked ? 'bookmark' : 'bookmark_border'}</span>
+                            </button>
+                            <button class="hover:text-blue-500" onclick="listaView.sharePoema(${poema.id})">
+                                <span class="material-icons">share</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getCategoriaIcon(categoria) {
+                const icons = {
+                    'Amor': 'favorite',
+                    'Naturaleza': 'nature',
+                    'Melancolía': 'water_drop',
+                    'Alegría': 'mood',
+                    'Esperanza': 'lightbulb',
+                    'Nostalgia': 'history'
+                };
+                return icons[categoria] || 'description';
+            }
+
+            getCategoriaColor(categoria) {
+                const colors = {
+                    'Amor': 'text-secondary dark:text-pink-400',
+                    'Naturaleza': 'text-accent dark:text-yellow-300',
+                    'Melancolía': 'text-blue-300 dark:text-blue-400',
+                    'Alegría': 'text-green-400 dark:text-green-300',
+                    'Esperanza': 'text-purple-400 dark:text-purple-300',
+                    'Nostalgia': 'text-orange-400 dark:text-orange-300'
+                };
+                return colors[categoria] || 'text-gray-400 dark:text-gray-500';
+            }
+
+            getContenidoPreview(contenido) {
+                if (!contenido) return 'Contenido no disponible';
+                const cleanContent = contenido.replace(/<[^>]*>/g, '').trim();
+                return cleanContent.length > 150 ? cleanContent.substring(0, 150) + '...' : cleanContent;
+            }
+
+            calculateReadingTime(contenido) {
+                if (!contenido) return 1;
+                const words = contenido.replace(/<[^>]*>/g, '').split(/\s+/).length;
+                return Math.max(1, Math.ceil(words / 200));
+            }
+
+            formatDate(fecha) {
+                if (!fecha) return 'Sin fecha';
+                const date = new Date(fecha);
+                return date.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            }
+
+            toggleFavorite(poemaId) {
+                if (this.favorites.has(poemaId)) {
+                    this.favorites.delete(poemaId);
+                } else {
+                    this.favorites.add(poemaId);
+                }
+                this.renderPoemas();
+            }
+
+            toggleBookmark(poemaId) {
+                if (this.bookmarks.has(poemaId)) {
+                    this.bookmarks.delete(poemaId);
+                } else {
+                    this.bookmarks.add(poemaId);
+                }
+                this.renderPoemas();
+            }
+
+            sharePoema(poemaId) {
+                const poema = this.poemas.find(p => p.id === poemaId);
+                if (poema && navigator.share) {
+                    navigator.share({
+                        title: poema.titulo,
+                        text: `Lee "${poema.titulo}" por ${poema.autor_nombre}`,
+                        url: window.location.origin + `/libro-tradicional.html?id=${poemaId}`
+                    });
+                } else {
+                    // Fallback para navegadores que no soportan Web Share API
+                    const url = window.location.origin + `/libro-tradicional.html?id=${poemaId}`;
+                    navigator.clipboard.writeText(url).then(() => {
+                        alert('Enlace copiado al portapapeles');
+                    });
+                }
+            }
+
+            updatePagination() {
+                const totalPages = Math.ceil(this.filteredPoemas.length / this.itemsPerPage);
+                // Aquí puedes implementar la lógica de paginación si es necesaria
+            }
+
+            showLoading() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showError() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showEmpty() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('poemas-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.remove('hidden');
+            }
+
+            setupEventListeners() {
+                // Búsqueda
+                const searchInput = document.querySelector('input[placeholder*="Buscar"]');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        this.filterPoemas(e.target.value);
+                    });
+                }
+
+                // Filtros de ordenamiento
+                const sortSelect = document.getElementById('sort');
+                if (sortSelect) {
+                    sortSelect.addEventListener('change', (e) => {
+                        this.sortPoemas(e.target.value);
+                    });
+                }
+            }
+
+            filterPoemas(searchTerm) {
+                if (!searchTerm.trim()) {
+                    this.filteredPoemas = [...this.poemas];
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        poema.autor_nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        poema.contenido.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+                this.currentPage = 1;
+                this.renderPoemas();
+            }
+
+            sortPoemas(sortBy) {
+                switch (sortBy) {
+                    case 'Recientes':
+                        this.filteredPoemas.sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+                        break;
+                    case 'Populares':
+                        // Por ahora ordenar por ID (podrías implementar un sistema de likes)
+                        this.filteredPoemas.sort((a, b) => b.id - a.id);
+                        break;
+                    case 'Duración':
+                        this.filteredPoemas.sort((a, b) => {
+                            const aWords = a.contenido ? a.contenido.replace(/<[^>]*>/g, '').split(/\s+/).length : 0;
+                            const bWords = b.contenido ? b.contenido.replace(/<[^>]*>/g, '').split(/\s+/).length : 0;
+                            return bWords - aWords;
+                        });
+                        break;
+                    default:
+                        this.filteredPoemas.sort((a, b) => a.id - b.id);
+                }
+                this.renderPoemas();
+            }
+        }
+
+        // Inicialización
+        let listaView;
         document.addEventListener('DOMContentLoaded', function() {
             // Animación de entrada
             gsap.from("body", {
@@ -205,14 +443,9 @@
                 ease: "power2.out"
             });
             
-            // Animación de elementos con stagger
-            gsap.from(".fade-in", {
-                opacity: 0,
-                y: 20,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out"
-            });
+            // Inicializar vista de lista
+            listaView = new ListaView();
+            listaView.init();
         });
 
         // Inicialización de Three.js para efectos de fondo

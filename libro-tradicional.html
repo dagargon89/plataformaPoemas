@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        /* Estilos del libro mejorados */
+        /* Estilos del libro simplificado */
         .book-container {
             perspective: 2500px;
             perspective-origin: center center;
@@ -378,8 +378,8 @@
                     <p class="text-gris-oscuro">
                         Agrega algunos poemas desde el panel de administración
                     </p>
-                </div>
-            </div>
+                                    </div>
+                                </div>
 
             <!-- Contenedor principal del libro -->
             <div id="book-container" class="hidden relative book-container">
@@ -411,13 +411,13 @@
                         
                         <article class="space-y-3 text-gris-oscuro font-crimson leading-relaxed text-base" id="mobile-current-content">
                             <p>Cargando contenido...</p>
-                        </article>
+                                </article>
                         
                         <div class="mt-6 pt-4 border-t border-gray-200">
                             <div class="text-xs text-gris-claro text-right" id="mobile-current-date">
-                                14/10/2023
+                                    14/10/2023
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -425,8 +425,8 @@
                 <div class="hidden lg:block">
                     <div class="grid grid-cols-2 max-w-7xl mx-auto gap-0">
                         <!-- Página izquierda (página actual) -->
-                    <div class="relative book-page-container">
-                        <div class="relative w-full h-full book-page">
+                        <div class="relative book-page-container">
+                            <div class="relative w-full h-full book-page">
                                 <div class="absolute w-full h-full p-8 lg:p-12 bg-white rounded-l-xl shadow-2xl book-page-front book-page-content" 
                                      style="box-shadow: -10px 0 30px -15px rgba(0,0,0,0.2);">
                                 <div class="flex justify-between items-start mb-4">
@@ -450,20 +450,20 @@
                                         <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
                                             <span id="current-reading-time">3</span> min de lectura
                                         </span>
-                                </div>
+                                    </div>
                                     
                                     <article class="space-y-3 text-gris-oscuro font-crimson leading-relaxed text-lg" id="current-content">
                                         <p>Cargando contenido...</p>
-                                </article>
+                                    </article>
                                     
                                     <div class="absolute bottom-6 right-6 text-xs text-gris-claro" id="current-date">
-                                    14/10/2023
+                                        14/10/2023
+                                    </div>
                                 </div>
-                            </div>
                                 
                                 <!-- Página trasera (siguiente poema) -->
                                 <div class="absolute w-full h-full p-8 lg:p-12 bg-white rounded-l-xl shadow-2xl book-page-back book-page-content">
-                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex justify-between items-start mb-4">
                                         <div class="flex items-center gap-2 text-verde-oliva opacity-70">
                                             <span class="text-lg" id="next-category-icon">💕</span>
                                             <span class="font-bold text-sm bg-verde-muy-claro px-3 py-1 rounded-full" id="next-category">
@@ -484,7 +484,7 @@
                                         <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
                                             <span id="next-reading-time">3</span> min de lectura
                                         </span>
-                                </div>
+                                    </div>
                                     
                                     <article class="space-y-3 text-gris-oscuro/70 font-crimson leading-relaxed text-lg" id="next-content">
                                         <p>Contenido del siguiente poema...</p>
@@ -591,7 +591,7 @@
                     this.showLoading();
                     console.log('Iniciando carga de poemas...');
                     
-                    const response = await fetch('api/v1/poemas.php');
+                    const response = await fetch('admin/api/poemas.php');
                     console.log('Respuesta de la API:', response.status, response.statusText);
                     
                     if (!response.ok) {
@@ -600,14 +600,18 @@
                     
                     const result = await response.json();
                     console.log('Datos recibidos:', result);
+                    console.log('Success:', result.success);
+                    console.log('Data length:', result.data ? result.data.length : 'No data');
                     
-                    if (result.success) {
+                    if (result.success && result.data) {
                         this.poemas = result.data;
                         this.filteredPoemas = [...this.poemas];
                         console.log(`Cargados ${this.poemas.length} poemas`);
+                        console.log('Primer poema:', this.poemas[0]);
                         this.renderPoems();
                         this.hideLoading();
                     } else {
+                        console.error('Error en la respuesta:', result);
                         throw new Error(result.message || 'Error al cargar poemas');
                     }
                 } catch (error) {
@@ -700,7 +704,7 @@
 
                 if (isMobile) {
                     // Vista móvil: solo mostrar el poema actual
-                    this.updatePoemElement('current', currentPoem, this.currentIndex + 1);
+                    this.updateMobilePoem(currentPoem, this.currentIndex + 1);
                 } else {
                     // Vista escritorio: mostrar página actual, siguiente y vista previa
                     // Verificar que los elementos principales existen
@@ -784,6 +788,28 @@
                     .join('');
             }
 
+            updateMobilePoem(poem, pageNumber) {
+                const updateElement = (id, value, property = 'textContent') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (property === 'innerHTML') {
+                            element.innerHTML = value;
+                        } else {
+                            element.textContent = value;
+                        }
+                    }
+                };
+
+                updateElement('mobile-current-category-icon', poem.categoria_icono || '📝');
+                updateElement('mobile-current-category', poem.categoria_nombre);
+                updateElement('mobile-current-page-number', `Pág. ${pageNumber}`);
+                updateElement('mobile-current-title', poem.titulo);
+                updateElement('mobile-current-author', `por ${poem.autor_nombre}`);
+                updateElement('mobile-current-reading-time', poem.tiempo_lectura || '3');
+                updateElement('mobile-current-content', this.formatPoemContent(poem.contenido), 'innerHTML');
+                updateElement('mobile-current-date', new Date(poem.fecha_creacion).toLocaleDateString('es-ES'));
+            }
+
             updateNavigation() {
                 const totalPoems = this.filteredPoemas.length;
                 
@@ -824,10 +850,12 @@
 
             animatePageTurn() {
                 const bookPage = document.querySelector('.book-page');
-                bookPage.style.transform = 'rotateY(-15deg)';
-                setTimeout(() => {
-                    bookPage.style.transform = 'rotateY(0deg)';
-                }, 300);
+                if (bookPage) {
+                    bookPage.style.transform = 'rotateY(-15deg)';
+                    setTimeout(() => {
+                        bookPage.style.transform = 'rotateY(0deg)';
+                    }, 300);
+                }
             }
 
             searchPoems() {

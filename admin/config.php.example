@@ -6,7 +6,7 @@
 
 // Configuración de la base de datos MySQL
 define('DB_CONFIG', [
-    'host' => 'localhost',
+    'host' => '82.180.175.51',
     'dbname' => 'u575426443_poemas',
     'username' => 'u575426443_poemas',
     'password' => 'Ymvctr891220*',
