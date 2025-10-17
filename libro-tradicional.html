@@ -2,168 +2,552 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Ti, Mi Poesía - Vista Libro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vista Libro Tradicional - Sistema de Poemas</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        /* Estilos del libro mejorados */
+        .book-container {
+            perspective: 2500px;
+            perspective-origin: center center;
+        }
+        
         .book-page {
             transform-style: preserve-3d;
-            transition: transform 1s;
+            transition: transform 0.8s ease-in-out;
+            cursor: pointer;
         }
-        .book-container:hover .book-page-front {
-            transform: rotateY(-180deg);
+        
+        .book-page:hover {
+            transform: rotateY(-15deg);
         }
+        
         .book-page-front {
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             z-index: 2;
+            transform: rotateY(0deg);
         }
+        
         .book-page-back {
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             transform: rotateY(180deg);
             z-index: 1;
         }
+        
+        /* Mejoras responsive */
+        .book-page-content {
+            min-height: 600px;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .book-page-content {
+                min-height: 500px;
+            }
+            
+            .book-page:hover {
+                transform: none; /* Desactivar hover en móvil */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .book-page-content {
+                min-height: 400px;
+            }
+        }
+        
+        /* Elementos decorativos de fondo */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #FFB6C1, #FFC0CB, #FFE4E1);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 12s infinite linear;
+        }
+        
+        .particle:nth-child(1) { width: 3px; height: 3px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 4px; height: 4px; left: 30%; animation-delay: 3s; }
+        .particle:nth-child(3) { width: 2px; height: 2px; left: 50%; animation-delay: 6s; }
+        .particle:nth-child(4) { width: 3px; height: 3px; left: 70%; animation-delay: 9s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 90%; animation-delay: 12s; }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Corazones flotantes */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #FFB6C1;
+            font-size: 16px;
+            animation: floatHeart 8s infinite linear;
+            opacity: 0.4;
+        }
+        
+        .heart:nth-child(1) { left: 20%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 50%; animation-delay: 3s; }
+        .heart:nth-child(3) { left: 80%; animation-delay: 6s; }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* Efectos de luz románticos */
+        .romantic-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: romanticPulse 6s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        @keyframes romanticPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.4;
+            }
+        }
+        
+        /* Estados de carga */
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #636B2F;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Animaciones mejoradas */
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
     </style>
     <script>
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        primary: '#6B7A40', // Olive Green
-                        'primary-light': '#8A9A5B',
-                        'secondary': '#FADADD', // Pastel Pink
-                        'accent': '#FFFACD', // Pastel Yellow
-                        'background-light': '#F5F5DC', // Beige
-                        'background-dark': '#2C3531', // Dark Slate Gray
-                        'text-light': '#36454F', // Charcoal
-                        'text-dark': '#EAEAEA',
+                        'verde': {
+                            'oliva': '#636B2F',
+                            'salvia': '#8FBC8F',
+                            'bosque': '#556B2F',
+                            'muy-claro': '#F0F4E8',
+                        },
+                        'tierra': {
+                            'siena': '#A0522D',
+                            'claro': '#D2B48C',
+                            'oscuro': '#8B4513',
+                            'muy-claro': '#F5F5DC',
+                        },
+                        'dorado': {
+                            'antiguo': '#B8860B',
+                            'claro': '#DAA520',
+                            'oscuro': '#8B6914',
+                            'suave': '#F0E68C',
+                        },
+                        'gris': {
+                            'pizarra': '#708090',
+                            'claro': '#A9A9A9',
+                            'oscuro': '#2F4F4F',
+                        },
+                        'crema': {
+                            'natural': '#F5F5DC',
+                            'blanco': '#F8F8FF',
+                            'roto': '#F5F5F0',
+                        }
                     },
                     fontFamily: {
-                        display: ['Playfair Display', 'serif'],
-                        body: ['Lora', 'serif'],
+                        'dosis': ['Dosis', 'sans-serif'],
+                        'crimson': ['Crimson Text', 'serif'],
+                        'playfair': ['Playfair Display', 'serif'],
+                        'libre': ['Libre Baskerville', 'serif'],
                     },
-                    borderRadius: {
-                        DEFAULT: '1rem',
+                    animation: {
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
                     },
-                },
-            },
-        };
+                    keyframes: {
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-body text-text-light dark:text-text-dark transition-colors duration-500">
-    <div class="bg-background-light dark:bg-background-dark py-16">
-        <div class="container mx-auto px-6">
-            <header class="text-center mb-12">
-                <a class="text-primary dark:text-primary-light hover:underline mb-4 inline-block flex items-center justify-center gap-2" href="index.html">
+<body class="bg-gradient-to-br from-crema-blanco via-crema-natural to-verde-muy-claro font-libre relative">
+    <!-- Elementos decorativos de fondo -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="floating-hearts">
+        <div class="heart">💕</div>
+        <div class="heart">💖</div>
+        <div class="heart">💗</div>
+    </div>
+    
+    <div class="romantic-glow"></div>
+
+    <div class="py-8 md:py-16 relative z-10">
+        <div class="container mx-auto px-4 md:px-6">
+            <header class="text-center mb-8 md:mb-12">
+                <a class="text-verde-oliva hover:text-verde-bosque transition-colors mb-4 inline-block flex items-center justify-center gap-2 font-playfair" href="index.html">
                     <span class="material-icons">arrow_back</span> Volver al inicio
                 </a>
-                <h1 class="text-5xl font-display text-primary dark:text-primary-light">Lectura Inmersiva</h1>
-                <p class="text-lg text-text-light dark:text-text-dark/80 mt-2">Pasa la página y sumérgete en un mundo de versos.</p>
+                <h1 class="text-3xl md:text-5xl font-playfair font-bold text-verde-bosque">Vista Libro Tradicional</h1>
+                <p class="text-base md:text-lg text-gris-oscuro mt-2 font-crimson">Pasa la página y sumérgete en un mundo de versos</p>
     </header>
 
-            <div class="bg-white/70 dark:bg-gray-800/50 backdrop-blur-md p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <button class="flex items-center gap-2 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary-light transition-colors">
+            <!-- Barra de herramientas -->
+            <div class="bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg mb-6 md:mb-8">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <button id="filter-btn" class="flex items-center gap-2 text-verde-oliva hover:text-verde-bosque transition-colors font-medium">
                         <span class="material-icons">filter_list</span>
-                        Filtros
+                            <span class="hidden sm:inline">Filtros</span>
                     </button>
                     <div class="relative">
-                        <select class="appearance-none bg-accent/50 dark:bg-gray-700 border border-primary/20 dark:border-gray-600 rounded-full py-2 pl-4 pr-10 focus:ring-primary focus:border-primary text-text-light dark:text-text-dark">
-                            <option>Categoría: Amor</option>
-                            <option>Categoría: Naturaleza</option>
-                            <option>Categoría: Melancolía</option>
+                            <select id="category-filter" class="appearance-none bg-verde-muy-claro border border-verde-oliva/30 rounded-full py-2 pl-4 pr-10 focus:ring-verde-oliva focus:border-verde-oliva text-verde-bosque font-medium">
+                                <option value="">Todas las categorías</option>
+                                <option value="Amor">💕 Amor</option>
+                                <option value="Naturaleza">🌿 Naturaleza</option>
+                                <option value="Melancolía">😢 Melancolía</option>
+                                <option value="Esperanza">✨ Esperanza</option>
                         </select>
-                        <span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-primary/70 dark:text-primary-light/70 pointer-events-none">expand_more</span>
+                            <span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-verde-oliva/70 pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 md:gap-4">
+                        <span class="text-sm font-semibold text-gris-oscuro hidden sm:inline">Personalizar:</span>
+                        <button id="font-size-btn" class="p-2 rounded-full hover:bg-verde-muy-claro transition-colors" title="Tamaño de letra">
+                            <span class="material-icons text-verde-oliva">format_size</span>
+                        </button>
+                        <button id="font-family-btn" class="p-2 rounded-full hover:bg-verde-muy-claro transition-colors" title="Tipo de fuente">
+                            <span class="material-icons text-verde-oliva">text_format</span>
+                        </button>
+                        <button id="search-btn" class="p-2 rounded-full hover:bg-verde-muy-claro transition-colors" title="Buscar poemas">
+                            <span class="material-icons text-verde-oliva">search</span>
+                        </button>
             </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-sm font-semibold">Personalizar Lectura:</span>
-                    <button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Aumentar tamaño de letra">
-                        <span class="material-icons">format_size</span>
+                
+                <!-- Barra de búsqueda (oculta por defecto) -->
+                <div id="search-bar" class="mt-4 hidden">
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="search-input" placeholder="Buscar poemas, autores o palabras clave..." 
+                               class="flex-1 px-4 py-2 border border-verde-oliva/30 rounded-full focus:ring-verde-oliva focus:border-verde-oliva bg-white">
+                        <button id="search-close" class="p-2 text-verde-oliva hover:text-verde-bosque">
+                            <span class="material-icons">close</span>
                 </button>
-                    <button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Modo oscuro" onclick="toggleDarkMode()">
-                        <span class="material-icons">dark_mode</span>
-                    </button>
-                    <button class="p-2 rounded-full hover:bg-secondary/50 dark:hover:bg-pink-400/20 transition-colors" title="Cambiar fuente">
-                        <span class="material-icons">text_format</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estados de carga y error -->
+            <div id="loading-state" class="text-center py-12">
+                <div class="loading-spinner mx-auto mb-4"></div>
+                <p class="text-verde-oliva font-playfair">Cargando poemas...</p>
+            </div>
+
+            <div id="error-state" class="hidden text-center py-12">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 max-w-md mx-auto">
+                    <div class="text-4xl mb-4">📚</div>
+                    <h2 class="text-xl font-playfair font-bold text-verde-bosque mb-4">
+                        Error al cargar poemas
+                    </h2>
+                    <p class="text-gris-oscuro mb-6">
+                        No se pudieron cargar los poemas. Por favor, intenta nuevamente.
+                    </p>
+                    <button onclick="loadPoemas()" 
+                            class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                        Reintentar
                     </button>
                 </div>
                 </div>
 
-            <div class="relative book-container" style="perspective: 2500px;">
-                <div class="grid md:grid-cols-2 max-w-6xl mx-auto">
-                    <div class="relative book-page-container">
-                        <div class="relative w-full h-full book-page">
-                            <div class="absolute w-full h-full p-8 sm:p-12 bg-white dark:bg-gray-800 rounded-l-lg shadow-2xl book-page-front" style="box-shadow: -10px 0 30px -15px rgba(0,0,0,0.3);">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div class="flex items-center gap-2 text-secondary dark:text-pink-400">
-                                        <span class="material-icons text-lg">favorite</span>
-                                        <span class="font-bold text-sm">Amor</span>
-                                    </div>
-                                    <span class="text-sm text-gray-400 dark:text-gray-500">Pág. 1</span>
-                                </div>
-                                <h3 class="font-display text-3xl text-primary dark:text-primary-light mb-2">El Capitán</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por David García</p>
-                                <article class="space-y-4 text-text-light/90 dark:text-text-dark/80 font-body leading-loose text-lg">
-                                    <p>Soy el capitán de este barco llamado vida y he decidido surcar al mar de tu alma, cruzar el océano de tu belleza y explorar las aguas de tu alegría.</p>
-                                    <p>Y si he de naufragar, que sea en tus labios, que sea en tu mirada, que sea en tu vientre, porque no hay destino más noble que el de un capitán hundiéndose con su barco, que el de un amante sucumbiendo ante la belleza de su amada.</p>
-                                </article>
-                                <div class="absolute bottom-8 right-8 text-xs text-gray-400 dark:text-gray-500">
-                                    14/10/2023
-                                </div>
-                            </div>
-                            <div class="absolute w-full h-full p-8 sm:p-12 bg-white dark:bg-gray-800 rounded-l-lg shadow-2xl book-page-back">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div class="flex items-center gap-2 text-secondary dark:text-pink-400">
-                                        <span class="material-icons text-lg">favorite</span>
-                                        <span class="font-bold text-sm">Amor</span>
-                                    </div>
-                                    <span class="text-sm text-gray-400 dark:text-gray-500">Pág. 2</span>
-                                </div>
-                                <h3 class="font-display text-3xl text-primary dark:text-primary-light mb-2">Corazón de piedra</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por David García</p>
-                                <article class="space-y-4 text-text-light/90 dark:text-text-dark/80 font-body leading-loose text-lg">
-                                    <p>Yacía un corazón de piedra en mi pecho, los sentimientos eran parte de un pasado lejano que parecía más una historia de un libro en una vieja biblioteca.</p>
-                                    <p>Pero cuál fue mi sorpresa al descubrir, que este corazón aún latía, y con cada latido la coraza de piedra caía a pedazos... Pero ¿Por qué? ¿Cómo es que late? Me di cuenta que solo late en ciertas circunstancias, con una foto, una mirada, un mensaje, una caricia, un beso apasionado o un chiste malo.</p>
-                                </article>
-                                <div class="absolute bottom-8 left-8 text-xs text-gray-400 dark:text-gray-500">
-                                    14/10/2023
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-8 sm:p-12 bg-accent/30 dark:bg-gray-900/40 rounded-r-lg shadow-lg border-l border-gray-200 dark:border-gray-700">
+            <div id="empty-state" class="hidden text-center py-12">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 max-w-md mx-auto">
+                    <div class="text-4xl mb-4">📚</div>
+                    <h2 class="text-xl font-playfair font-bold text-verde-bosque mb-4">
+                        No hay poemas disponibles
+                    </h2>
+                    <p class="text-gris-oscuro">
+                        Agrega algunos poemas desde el panel de administración
+                    </p>
+                </div>
+            </div>
+
+            <!-- Contenedor principal del libro -->
+            <div id="book-container" class="hidden relative book-container">
+                <!-- Vista móvil (una sola página) -->
+                <div class="lg:hidden max-w-md mx-auto">
+                    <div class="bg-white rounded-2xl shadow-2xl p-6 mx-4">
                         <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-2 text-secondary dark:text-pink-400 opacity-50">
-                                <span class="material-icons text-lg">favorite</span>
-                                <span class="font-bold text-sm">Amor</span>
+                            <div class="flex items-center gap-2 text-verde-oliva">
+                                <span class="text-lg" id="mobile-current-category-icon">💕</span>
+                                <span class="font-bold text-sm bg-verde-muy-claro px-3 py-1 rounded-full" id="mobile-current-category">
+                                    Amor
+                                </span>
                             </div>
-                            <span class="text-sm text-gray-400 dark:text-gray-500">Pág. 3</span>
+                            <span class="text-sm text-gris-claro" id="mobile-current-page-number">Pág. 1</span>
                         </div>
-                        <h3 class="font-display text-3xl text-primary/70 dark:text-primary-light/70 mb-2">Un Nuevo Comienzo</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">por Ana Martínez</p>
-                        <article class="space-y-4 text-text-light/70 dark:text-text-dark/60 font-body leading-loose text-lg">
-                            <p>Cada amanecer a tu lado es una página en blanco, una oportunidad para escribir una nueva estrofa de nuestro amor. El sol se asoma tímido, celoso de tu brillo.</p>
-                            <p>Las aves cantan melodías que aprendieron de tu risa. El mundo se detiene un instante, solo para admirar la belleza que emana de tu alma. Eres mi poema favorito, el que nunca me canso de leer, el que siempre me hace soñar.</p>
+                        
+                        <h3 class="font-playfair text-2xl text-verde-bosque mb-2" id="mobile-current-title">
+                            Cargando...
+                        </h3>
+                        <p class="text-sm text-gris-claro mb-4" id="mobile-current-author">
+                            por Autor
+                        </p>
+                        
+                        <div class="mb-4">
+                            <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
+                                <span id="mobile-current-reading-time">3</span> min de lectura
+                            </span>
+                        </div>
+                        
+                        <article class="space-y-3 text-gris-oscuro font-crimson leading-relaxed text-base" id="mobile-current-content">
+                            <p>Cargando contenido...</p>
                         </article>
-                        <div class="absolute bottom-8 right-8 text-xs text-gray-400 dark:text-gray-500">
-                            15/10/2023
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-200">
+                            <div class="text-xs text-gris-claro text-right" id="mobile-current-date">
+                                14/10/2023
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 mt-8 text-sm text-text-light dark:text-text-dark/80">
-                    <button class="flex items-center gap-2 hover:text-primary dark:hover:text-primary-light transition-colors group">
-                        <span class="material-icons transition-transform group-hover:-translate-x-1">arrow_back</span> Anterior
+
+                <!-- Vista escritorio (dos páginas) -->
+                <div class="hidden lg:block">
+                    <div class="grid grid-cols-2 max-w-7xl mx-auto gap-0">
+                        <!-- Página izquierda (página actual) -->
+                    <div class="relative book-page-container">
+                        <div class="relative w-full h-full book-page">
+                                <div class="absolute w-full h-full p-8 lg:p-12 bg-white rounded-l-xl shadow-2xl book-page-front book-page-content" 
+                                     style="box-shadow: -10px 0 30px -15px rgba(0,0,0,0.2);">
+                                <div class="flex justify-between items-start mb-4">
+                                        <div class="flex items-center gap-2 text-verde-oliva">
+                                            <span class="text-lg" id="current-category-icon">💕</span>
+                                            <span class="font-bold text-sm bg-verde-muy-claro px-3 py-1 rounded-full" id="current-category">
+                                                Amor
+                                            </span>
+                                        </div>
+                                        <span class="text-sm text-gris-claro" id="current-page-number">Pág. 1</span>
+                                    </div>
+                                    
+                                    <h3 class="font-playfair text-3xl text-verde-bosque mb-2" id="current-title">
+                                        Cargando...
+                                    </h3>
+                                    <p class="text-sm text-gris-claro mb-4" id="current-author">
+                                        por Autor
+                                    </p>
+                                    
+                                    <div class="mb-4">
+                                        <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
+                                            <span id="current-reading-time">3</span> min de lectura
+                                        </span>
+                                </div>
+                                    
+                                    <article class="space-y-3 text-gris-oscuro font-crimson leading-relaxed text-lg" id="current-content">
+                                        <p>Cargando contenido...</p>
+                                </article>
+                                    
+                                    <div class="absolute bottom-6 right-6 text-xs text-gris-claro" id="current-date">
+                                    14/10/2023
+                                </div>
+                            </div>
+                                
+                                <!-- Página trasera (siguiente poema) -->
+                                <div class="absolute w-full h-full p-8 lg:p-12 bg-white rounded-l-xl shadow-2xl book-page-back book-page-content">
+                                <div class="flex justify-between items-start mb-4">
+                                        <div class="flex items-center gap-2 text-verde-oliva opacity-70">
+                                            <span class="text-lg" id="next-category-icon">💕</span>
+                                            <span class="font-bold text-sm bg-verde-muy-claro px-3 py-1 rounded-full" id="next-category">
+                                                Amor
+                                            </span>
+                                        </div>
+                                        <span class="text-sm text-gris-claro" id="next-page-number">Pág. 2</span>
+                                    </div>
+                                    
+                                    <h3 class="font-playfair text-3xl text-verde-bosque/70 mb-2" id="next-title">
+                                        Siguiente poema...
+                                    </h3>
+                                    <p class="text-sm text-gris-claro mb-4" id="next-author">
+                                        por Autor
+                                    </p>
+                                    
+                                    <div class="mb-4">
+                                        <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
+                                            <span id="next-reading-time">3</span> min de lectura
+                                        </span>
+                                </div>
+                                    
+                                    <article class="space-y-3 text-gris-oscuro/70 font-crimson leading-relaxed text-lg" id="next-content">
+                                        <p>Contenido del siguiente poema...</p>
+                                </article>
+                                    
+                                    <div class="absolute bottom-6 left-6 text-xs text-gris-claro" id="next-date">
+                                        15/10/2023
+                                    </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Página derecha (poema siguiente en vista completa) -->
+                        <div class="p-8 lg:p-12 bg-gradient-to-br from-verde-muy-claro/50 to-crema-natural/50 rounded-r-xl shadow-lg border-l border-verde-oliva/20 book-page-content">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-2 text-verde-oliva opacity-60">
+                                    <span class="text-lg" id="preview-category-icon">💕</span>
+                                    <span class="font-bold text-sm bg-white/50 px-3 py-1 rounded-full" id="preview-category">
+                                        Amor
+                                    </span>
+                    </div>
+                                <span class="text-sm text-gris-claro" id="preview-page-number">Pág. 3</span>
+                            </div>
+                            
+                            <h3 class="font-playfair text-3xl text-verde-bosque/60 mb-2" id="preview-title">
+                                Vista previa...
+                            </h3>
+                            <p class="text-sm text-gris-claro mb-4" id="preview-author">
+                                por Autor
+                            </p>
+                            
+                            <div class="mb-4">
+                                <span class="text-xs bg-dorado-suave text-dorado-oscuro px-2 py-1 rounded-full">
+                                    <span id="preview-reading-time">3</span> min de lectura
+                                </span>
+                        </div>
+                            
+                            <article class="space-y-3 text-gris-oscuro/60 font-crimson leading-relaxed text-lg" id="preview-content">
+                                <p>Vista previa del siguiente poema...</p>
+                        </article>
+                            
+                            <div class="absolute bottom-6 right-6 text-xs text-gris-claro" id="preview-date">
+                                16/10/2023
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navegación del libro -->
+                <div class="flex items-center justify-center gap-4 md:gap-6 mt-8 text-sm text-gris-oscuro">
+                    <button id="prev-poem" class="flex items-center gap-2 hover:text-verde-oliva transition-colors group disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <span class="material-icons transition-transform group-hover:-translate-x-1">arrow_back</span> 
+                        <span class="hidden sm:inline">Anterior</span>
                     </button>
-                    <span class="font-display text-lg">Página 1 de 25</span>
-                    <button class="flex items-center gap-2 hover:text-primary dark:hover:text-primary-light transition-colors group">
-                        Siguiente <span class="material-icons transition-transform group-hover:translate-x-1">arrow_forward</span>
+                    
+                    <div class="flex flex-col items-center text-center px-4">
+                        <span class="font-playfair text-lg" id="page-indicator">Página 1 de 25</span>
+                        <span class="text-xs text-gris-claro" id="poem-counter">Poema 1 de 25</span>
+                    </div>
+                    
+                    <button id="next-poem" class="flex items-center gap-2 hover:text-verde-oliva transition-colors group disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="hidden sm:inline">Siguiente</span> 
+                        <span class="material-icons transition-transform group-hover:translate-x-1">arrow_forward</span>
                     </button>
                 </div>
                 </div>
@@ -174,40 +558,420 @@
     <canvas id="three-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
     <script>
-        // Toggle dark mode
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
-        }
+        class TraditionalBookView {
+            constructor() {
+                this.poemas = [];
+                this.filteredPoemas = [];
+                this.currentIndex = 0;
+                this.isLoading = false;
+                this.searchTerm = '';
+                this.currentFontSize = 'base';
+                this.currentFontFamily = 'crimson';
+                
+                this.fontSizes = ['sm', 'base', 'lg', 'xl', '2xl'];
+                this.fontFamilies = [
+                    { name: 'Crimson Text', class: 'crimson' },
+                    { name: 'Libre Baskerville', class: 'libre' },
+                    { name: 'Playfair Display', class: 'playfair' },
+                    { name: 'Dosis', class: 'dosis' }
+                ];
+                
+                this.init();
+            }
 
-        // Cargar preferencia de modo oscuro
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.classList.add('dark');
-        }
+            async init() {
+                await this.loadPoemas();
+                this.setupEventListeners();
+                this.initThreeJS();
+                this.setupGSAPAnimations();
+            }
 
-        // Inicialización con GSAP
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animación de entrada
-            gsap.from("body", {
-                opacity: 0,
-                y: 20,
-                duration: 1,
-                ease: "power2.out"
-            });
-            
-            // Animación de elementos
-            gsap.from(".book-container", {
-                opacity: 0,
-                scale: 0.9,
-                duration: 1.5,
-                delay: 0.3,
-                ease: "power2.out"
-            });
-        });
+            async loadPoemas() {
+                try {
+                    this.showLoading();
+                    console.log('Iniciando carga de poemas...');
+                    
+                    const response = await fetch('api/v1/poemas.php');
+                    console.log('Respuesta de la API:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Datos recibidos:', result);
+                    
+                    if (result.success) {
+                        this.poemas = result.data;
+                        this.filteredPoemas = [...this.poemas];
+                        console.log(`Cargados ${this.poemas.length} poemas`);
+                        this.renderPoems();
+                        this.hideLoading();
+                    } else {
+                        throw new Error(result.message || 'Error al cargar poemas');
+                    }
+                } catch (error) {
+                    console.error('Error loading poems:', error);
+                    this.showError();
+                }
+            }
 
-        // Inicialización de Three.js para efectos de fondo
-        function initThreeJS() {
+            showLoading() {
+                document.getElementById('loading-state').classList.remove('hidden');
+                document.getElementById('book-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('book-container').classList.remove('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showError() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('book-container').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            showEmpty() {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('book-container').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.remove('hidden');
+            }
+
+            showNoSearchResults() {
+                const container = document.getElementById('book-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="text-center py-12">
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 max-w-md mx-auto">
+                                <div class="text-4xl mb-4">🔍</div>
+                                <h2 class="text-xl font-playfair font-bold text-verde-bosque mb-4">
+                                    No se encontraron resultados
+                                </h2>
+                                <p class="text-gris-oscuro mb-4">
+                                    No hay poemas que coincidan con "<span class="font-semibold text-verde-oliva">${this.searchTerm}</span>"
+                                </p>
+                                <button onclick="traditionalBookView.clearSearch()" 
+                                        class="bg-gradient-to-r from-verde-oliva to-verde-bosque text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all">
+                                    Limpiar búsqueda
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.classList.remove('hidden');
+                }
+                
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('error-state').classList.add('hidden');
+                document.getElementById('empty-state').classList.add('hidden');
+            }
+
+            clearSearch() {
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+                this.searchTerm = '';
+                this.filteredPoemas = [...this.poemas];
+                this.currentIndex = 0;
+                this.renderPoems();
+            }
+
+            renderPoems() {
+                if (this.filteredPoemas.length === 0) {
+                    if (this.searchTerm) {
+                        this.showNoSearchResults();
+                    } else {
+                        this.showEmpty();
+                    }
+                    return;
+                }
+
+                const isMobile = window.innerWidth < 1024;
+                const currentPoem = this.filteredPoemas[this.currentIndex];
+                const nextPoem = this.filteredPoemas[this.currentIndex + 1];
+                const previewPoem = this.filteredPoemas[this.currentIndex + 2];
+
+                if (isMobile) {
+                    // Vista móvil: solo mostrar el poema actual
+                    this.updatePoemElement('current', currentPoem, this.currentIndex + 1);
+                } else {
+                    // Vista escritorio: mostrar página actual, siguiente y vista previa
+                    // Verificar que los elementos principales existen
+                    const requiredElements = ['current-title', 'current-content', 'page-indicator'];
+                    const missingElements = requiredElements.filter(id => !document.getElementById(id));
+                    
+                    if (missingElements.length > 0) {
+                        console.error('Elementos requeridos no encontrados:', missingElements);
+                        this.showError();
+                        return;
+                    }
+
+                    // Actualizar página actual
+                    this.updatePoemElement('current', currentPoem, this.currentIndex + 1);
+                    
+                    // Actualizar página siguiente (trasera)
+                    if (nextPoem) {
+                        this.updatePoemElement('next', nextPoem, this.currentIndex + 2);
+                    }
+                    
+                    // Actualizar vista previa
+                    if (previewPoem) {
+                        this.updatePoemElement('preview', previewPoem, this.currentIndex + 3);
+                    }
+                }
+
+                this.updateNavigation();
+            }
+
+            updatePoemElement(prefix, poema, pageNumber) {
+                const isMobile = window.innerWidth < 1024; // lg breakpoint
+                const mobilePrefix = isMobile ? 'mobile-' : '';
+                const actualPrefix = isMobile ? 'mobile-current' : prefix;
+                
+                const elements = {
+                    categoryIcon: `${actualPrefix}-category-icon`,
+                    category: `${actualPrefix}-category`,
+                    pageNumber: `${actualPrefix}-page-number`,
+                    title: `${actualPrefix}-title`,
+                    author: `${actualPrefix}-author`,
+                    readingTime: `${actualPrefix}-reading-time`,
+                    content: `${actualPrefix}-content`,
+                    date: `${actualPrefix}-date`
+                };
+
+                if (poema) {
+                    // Verificar que el elemento existe antes de intentar modificarlo
+                    const updateElement = (id, value, property = 'textContent') => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            if (property === 'innerHTML') {
+                                element.innerHTML = value;
+                            } else {
+                                element.textContent = value;
+                            }
+                        } else {
+                            console.warn(`Elemento con ID '${id}' no encontrado`);
+                        }
+                    };
+
+                    updateElement(elements.categoryIcon, poema.categoria_icono || '📝');
+                    updateElement(elements.category, poema.categoria_nombre);
+                    updateElement(elements.pageNumber, `Pág. ${pageNumber}`);
+                    updateElement(elements.title, poema.titulo);
+                    updateElement(elements.author, `por ${poema.autor_nombre}`);
+                    updateElement(elements.readingTime, poema.tiempo_lectura || '3');
+                    updateElement(elements.content, this.formatPoemContent(poema.contenido), 'innerHTML');
+                    updateElement(elements.date, new Date(poema.fecha_creacion).toLocaleDateString('es-ES'));
+                }
+            }
+
+            formatPoemContent(content) {
+                return content
+                    .split('\n')
+                    .map(line => {
+                        if (line.trim() === '') {
+                            return '<div class="mb-4"></div>';
+                        }
+                        return `<p class="mb-3">${line}</p>`;
+                    })
+                    .join('');
+            }
+
+            updateNavigation() {
+                const totalPoems = this.filteredPoemas.length;
+                
+                const updateElement = (id, value, property = 'textContent') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (property === 'disabled') {
+                            element.disabled = value;
+                        } else {
+                            element.textContent = value;
+                        }
+                    }
+                };
+                
+                updateElement('page-indicator', `Página ${this.currentIndex + 1} de ${totalPoems}`);
+                updateElement('poem-counter', `Poema ${this.currentIndex + 1} de ${totalPoems}`);
+                
+                // Actualizar botones
+                updateElement('prev-poem', this.currentIndex === 0, 'disabled');
+                updateElement('next-poem', this.currentIndex >= totalPoems - 1, 'disabled');
+            }
+
+            nextPoem() {
+                if (this.currentIndex < this.filteredPoemas.length - 1) {
+                    this.currentIndex++;
+                    this.renderPoems();
+                    this.animatePageTurn();
+                }
+            }
+
+            prevPoem() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.renderPoems();
+                    this.animatePageTurn();
+                }
+            }
+
+            animatePageTurn() {
+                const bookPage = document.querySelector('.book-page');
+                bookPage.style.transform = 'rotateY(-15deg)';
+                setTimeout(() => {
+                    bookPage.style.transform = 'rotateY(0deg)';
+                }, 300);
+            }
+
+            searchPoems() {
+                const searchInput = document.getElementById('search-input');
+                this.searchTerm = searchInput.value.toLowerCase().trim();
+                
+                if (this.searchTerm === '') {
+                    this.filteredPoemas = [...this.poemas];
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.titulo.toLowerCase().includes(this.searchTerm) ||
+                        poema.autor_nombre.toLowerCase().includes(this.searchTerm) ||
+                        poema.contenido.toLowerCase().includes(this.searchTerm) ||
+                        poema.categoria_nombre.toLowerCase().includes(this.searchTerm) ||
+                        (poema.etiquetas && poema.etiquetas.some(etiqueta => 
+                            etiqueta.toLowerCase().includes(this.searchTerm)
+                        ))
+                    );
+                }
+                
+                this.currentIndex = 0;
+                this.renderPoems();
+            }
+
+            filterByCategory() {
+                const categoryFilter = document.getElementById('category-filter');
+                const selectedCategory = categoryFilter.value;
+                
+                if (selectedCategory === '') {
+                    this.filteredPoemas = [...this.poemas];
+                } else {
+                    this.filteredPoemas = this.poemas.filter(poema => 
+                        poema.categoria_nombre === selectedCategory
+                    );
+                }
+                
+                this.currentIndex = 0;
+                this.renderPoems();
+            }
+
+            changeFontSize() {
+                const currentIndex = this.fontSizes.indexOf(this.currentFontSize);
+                const nextIndex = (currentIndex + 1) % this.fontSizes.length;
+                this.currentFontSize = this.fontSizes[nextIndex];
+                
+                const updateContentClass = (id, opacity = '') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        const opacityClass = opacity ? `/${opacity}` : '';
+                        element.className = `space-y-3 text-gris-oscuro${opacityClass} font-${this.currentFontFamily} leading-relaxed text-${this.currentFontSize}`;
+                    }
+                };
+                
+                updateContentClass('current-content');
+                updateContentClass('next-content', '70');
+                updateContentClass('preview-content', '60');
+            }
+
+            changeFontFamily() {
+                const currentIndex = this.fontFamilies.findIndex(f => f.class === this.currentFontFamily);
+                const nextIndex = (currentIndex + 1) % this.fontFamilies.length;
+                this.currentFontFamily = this.fontFamilies[nextIndex].class;
+                
+                const updateContentClass = (id, opacity = '') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        const opacityClass = opacity ? `/${opacity}` : '';
+                        element.className = `space-y-3 text-gris-oscuro${opacityClass} font-${this.currentFontFamily} leading-relaxed text-${this.currentFontSize}`;
+                    }
+                };
+                
+                updateContentClass('current-content');
+                updateContentClass('next-content', '70');
+                updateContentClass('preview-content', '60');
+            }
+
+            setupEventListeners() {
+                // Navegación
+                document.getElementById('prev-poem').addEventListener('click', () => {
+                    this.prevPoem();
+                });
+                
+                document.getElementById('next-poem').addEventListener('click', () => {
+                    this.nextPoem();
+                });
+
+                // Búsqueda
+                document.getElementById('search-btn').addEventListener('click', () => {
+                    const searchBar = document.getElementById('search-bar');
+                    searchBar.classList.toggle('hidden');
+                    if (!searchBar.classList.contains('hidden')) {
+                        document.getElementById('search-input').focus();
+                    }
+                });
+
+                document.getElementById('search-close').addEventListener('click', () => {
+                    document.getElementById('search-bar').classList.add('hidden');
+                });
+
+                document.getElementById('search-input').addEventListener('input', () => {
+                    this.searchPoems();
+                });
+
+                // Filtros
+                const categoryFilter = document.getElementById('category-filter');
+                if (categoryFilter) {
+                    categoryFilter.addEventListener('change', () => {
+                        this.filterByCategory();
+                    });
+                }
+
+                // Personalización
+                document.getElementById('font-size-btn').addEventListener('click', () => {
+                    this.changeFontSize();
+                });
+
+                document.getElementById('font-family-btn').addEventListener('click', () => {
+                    this.changeFontFamily();
+                });
+
+                // Navegación con teclado
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevPoem();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextPoem();
+                    } else if (e.key === 'Escape') {
+                        const searchBar = document.getElementById('search-bar');
+                        if (searchBar) {
+                            searchBar.classList.add('hidden');
+                        }
+                    }
+                });
+
+                // Redimensionar ventana
+                window.addEventListener('resize', () => {
+                    this.renderPoems();
+                });
+            }
+
+            initThreeJS() {
             const canvas = document.getElementById('three-canvas');
+                if (!canvas) return;
+                
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
@@ -215,34 +979,34 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor(0x000000, 0);
             
-            // Crear partículas flotantes
+                // Crear partículas flotantes más sutiles
             const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 50;
+                const particlesCount = 30;
             const posArray = new Float32Array(particlesCount * 3);
             
             for (let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 10;
+                    posArray[i] = (Math.random() - 0.5) * 20;
             }
             
             particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
             
             const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.03,
-                color: 0x6B7A40,
+                    size: 0.02,
+                    color: 0x636B2F,
                 transparent: true,
-                opacity: 0.4
+                    opacity: 0.3
             });
             
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             scene.add(particlesMesh);
             
-            camera.position.z = 5;
+                camera.position.z = 8;
             
             function animate() {
                 requestAnimationFrame(animate);
                 
-                particlesMesh.rotation.y += 0.0005;
-                particlesMesh.rotation.x += 0.0002;
+                    particlesMesh.rotation.y += 0.0003;
+                    particlesMesh.rotation.x += 0.0001;
                 
                 renderer.render(scene, camera);
             }
@@ -257,8 +1021,37 @@
             });
         }
 
-        // Inicializar Three.js
-        initThreeJS();
+            setupGSAPAnimations() {
+                // Animación de entrada
+                gsap.from("body", {
+                    opacity: 0,
+                    y: 20,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+                
+                // Animación del contenedor del libro
+                gsap.from("#book-container", {
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 1.5,
+                    delay: 0.3,
+                    ease: "power2.out"
+                });
+            }
+        }
+
+        // Funciones globales
+        let traditionalBookView;
+
+        function loadPoemas() {
+            traditionalBookView = new TraditionalBookView();
+        }
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPoemas();
+        });
     </script>
 </body>
 </html>
